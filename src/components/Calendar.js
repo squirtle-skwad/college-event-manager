@@ -1,6 +1,7 @@
 import React from "react";
 
 import DayDialog from "./DayDialog";
+import AddEventDialog from "./AddEventDialog";
 
 import { If } from "react-extras";
 import BigCalendar from "react-big-calendar";
@@ -65,6 +66,9 @@ function Calendar() {
 
             <If condition={!!clickEvent}>
                 <DayDialog event={clickEvent} onClose={() => setClickEvent(null)} />
+            </If>
+            <If condition={!!slotEvent}>
+                <AddEventDialog event={slotEvent} onClose={() => setSlotEvent(null)} />
             </If>
         </div>
     );
