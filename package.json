@@ -3,7 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@material-ui/core": "^3.9.2",
+    "@material-ui/styles": "^3.0.0-alpha.10",
+    "axios": "^0.18.0",
+    "moment": "^2.24.0",
     "react": "^16.8.4",
+    "react-big-calendar": "^0.20.3",
     "react-dom": "^16.8.4",
     "react-scripts": "2.1.8"
   },
