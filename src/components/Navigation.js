@@ -46,7 +46,7 @@ function Navigation() {
   return (
     <div className={classes.root}>
       <AppBar
-        position="fixed"
+        position="relative"
         color="primary"
       >
         <Toolbar variant="regular">

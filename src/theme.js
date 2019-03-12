@@ -8,6 +8,9 @@ const theme = {
             contrastText: "#673AB7",
         },
     },
+    typography: {
+        useNextVariants: true,
+    },
 };
 
 export default createMuiTheme(theme);
