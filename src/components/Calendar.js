@@ -1,5 +1,8 @@
 import React from "react";
 
+import DayDialog from "./DayDialog";
+
+import { If } from "react-extras";
 import BigCalendar from "react-big-calendar";
 import moment from "moment";
 
@@ -9,6 +12,9 @@ import "./Calendar.css";
 const localizer = BigCalendar.momentLocalizer(moment);
 
 function Calendar() {
+    const [clickEvent, setClickEvent] = React.useState(null);
+    const [slotEvent, setSlotEvent] = React.useState(null);
+    const [selectedEvent, setSelectedEvent] = React.useState(null);
 
     const allowedViews = [BigCalendar.Views.MONTH, BigCalendar.Views.DAY, BigCalendar.Views.AGENDA];
 
@@ -19,9 +25,26 @@ function Calendar() {
         allDay: 1,
     }];
 
-    const onSelect = function (e) {
+    // -----
 
+    const onSelectEvent = (e) => setSelectedEvent(e);
+
+    const onSelectSlot = (e) => {
+        switch(e.action) {
+            case 'click':
+            case 'doubleClick':
+                setClickEvent(e);
+            break;
+
+            case 'select':
+                setSlotEvent(e);
+            break;
+
+            default: break;
+        }
     };
+
+    // -----
 
     return (
         <div className="calendar-container">
@@ -36,9 +59,13 @@ function Calendar() {
                 popup
                 selectable
 
-                onSelectEvent={a => alert(JSON.stringify(a))}
-                onSelectSlot={a => alert(JSON.stringify(a))}
+                onSelectEvent={onSelectSlot}
+                onSelectSlot={onSelectSlot}
             />
+
+            <If condition={!!clickEvent}>
+                <DayDialog event={clickEvent} onClose={() => setClickEvent(null)} />
+            </If>
         </div>
     );
 }

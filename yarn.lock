@@ -7275,6 +7275,12 @@ react-event-listener@^0.6.2:
     prop-types "^15.6.0"
     warning "^4.0.1"
 
+react-extras@^0.9.0:
+  version "0.9.0"
+  resolved "https://registry.yarnpkg.com/react-extras/-/react-extras-0.9.0.tgz#2f8199c05504ff7d5fa8e19cba62029eba554a28"
+  dependencies:
+    prop-types "^15.6.2"
+
 react-is@^16.3.2, react-is@^16.6.3, react-is@^16.7.0, react-is@^16.8.1:
   version "16.8.4"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.8.4.tgz#90f336a68c3a29a096a3d648ab80e87ec61482a2"

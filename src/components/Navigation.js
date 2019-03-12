@@ -14,7 +14,6 @@ import {
 } from "@material-ui/core";
 
 import { 
-  useTheme,
   makeStyles,
 } from "@material-ui/styles";
 
@@ -32,7 +31,6 @@ const useStyles = makeStyles({
     flexGrow: 1,
   },
   menuButton: {
-    marginLeft: -18,
     marginRight: 10,
   },
 });

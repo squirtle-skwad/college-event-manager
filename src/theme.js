@@ -7,6 +7,10 @@ const theme = {
             main: "#ffffff",
             contrastText: "#673AB7",
         },
+        secondary: {
+            main: "#673AB7",
+            contrastText: "#ffffff",
+        },
     },
     typography: {
         useNextVariants: true,
