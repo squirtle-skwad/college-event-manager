@@ -49,7 +49,7 @@ function Navigation() {
         position="relative"
         color="primary"
       >
-        <Toolbar variant="regular">
+        <Toolbar variant="dense">
           <IconButton
             color="inherit"
             aria-label="Open drawer"

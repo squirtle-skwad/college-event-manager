@@ -1,6 +1,89 @@
+
+/* VARIABLES */
+
+:root {
+    --theme: rgb(103, 58, 183);
+    --theme-second: rgba(103, 58, 183, 0.7);
+    --theme-last: rgba(103, 58, 183, 0.2);
+    --theme-orange: rgb(255, 112, 67, 0.3);
+    --theme-green: rgb(67,160,71);
+    --theme-dark-green: rgb(46,125,50);
+}
+
+/* CONTAINER */
+
 .calendar-container {
     height: inherit;
     width: inherit;
 
     padding: 16px;
+}
+
+/* TOOLBAR */
+
+.rbc-btn-group > button {
+    background: none;
+    border: 1.2px solid var(--theme);
+    color: #673AB7;
+    font-weight: bold;
+}
+
+.rbc-btn-group > button:hover {
+    background: none;
+    border: 1.2px solid var(--theme-second);
+    color: var(--theme-second);
+}
+
+.rbc-btn-group > button.rbc-active {
+    background: var(--theme);
+    border: none;
+    color: white;
+    
+}
+
+.rbc-btn-group > button.rbc-active:hover, 
+.rbc-btn-group > button.rbc-active:active,
+.rbc-btn-group > button.rbc-active:focus {
+    background: var(--theme-second);
+    border: none;
+    color: white;
+}
+
+.rbc-toolbar-label {
+    color: var(--theme);
+    font-weight: bolder;
+    font-size: 1.6rem;
+}
+
+/* TABLE */
+
+.rbc-header {
+    font-weight: normal;
+    color: rgba(0, 0, 0, 0.9);
+}
+
+.rbc-date-cell {
+    font-size: 1rem;
+}
+
+.rbc-off-range {
+    color: rgba(0, 0, 0, 0.6);
+}
+
+.rbc-off-range-bg {
+    background: var(--theme-last);
+}
+
+.rbc-today {
+    background: var(--theme-orange);
+}
+
+/* EVENTS */
+
+.rbc-event {
+    background: var(--theme-green);
+}
+
+.rbc-event.rbc-selected {
+    background: var(--theme-dark-green);
 }
