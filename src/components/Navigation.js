@@ -27,29 +27,38 @@ import classNames from "classnames";
 
 // -----
 
+const useStyles = makeStyles({
+  root: {
+    flexGrow: 1,
+  },
+  menuButton: {
+    marginLeft: -18,
+    marginRight: 10,
+  },
+});
+
 function Navigation() {
-  const theme = useTheme();
+  const classes = useStyles();
   const [open, setOpen] = React.useState(false);
 
-  const handleDrawerOpen = () => setOpen(true);
-  const handleDrawerClose = () => setOpen(false);
+  const handleMenuClick = () => setOpen(!open);
 
   return (
-    <div>
+    <div className={classes.root}>
       <AppBar
         position="fixed"
         color="primary"
       >
-        <Toolbar variant="dense">
+        <Toolbar variant="regular">
           <IconButton
             color="inherit"
             aria-label="Open drawer"
-            onClick={handleDrawerOpen}>
-            <CalendarIcon /> 
-            {/* MenuIcon here */}
+            className={classes.menuButton}
+            onClick={handleMenuClick}>
+            <MenuIcon />
           </IconButton>
 
-          <Typography variant="h6" color="inherit" noWrap>
+          <Typography variant="h6" color="inherit">
             College Events Management
           </Typography>
         </Toolbar>

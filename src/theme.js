@@ -3,7 +3,10 @@ import { teal } from '@material-ui/core/colors';
 
 const theme = {
     palette: {
-        primary: teal,
+        primary: {
+            main: "#ffffff",
+            contrastText: "#673AB7",
+        },
     },
 };
 
