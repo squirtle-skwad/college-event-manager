@@ -17,11 +17,12 @@ function Calendar() {
 
     const allowedViews = [BigCalendar.Views.MONTH, BigCalendar.Views.DAY, BigCalendar.Views.AGENDA];
 
+
     const events = [{
         title: "Test dfdfdfdfdfdfdfdfdfdfdfdfdfdfdfdfdfdfdfdfd",
         start: new Date(),
         end: new Date(),
-        allDay: 1,
+        allDay: true,
     }];
 
     // -----

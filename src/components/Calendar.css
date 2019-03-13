@@ -34,15 +34,15 @@
     color: var(--theme-second);
 }
 
-.rbc-btn-group > button.rbc-active {
+.rbc-btn-group > button.rbc-active,
+.rbc-btn-group > button.rbc-active:focus {
     background: var(--theme);
     border: none;
     color: white;
     
 }
 
-.rbc-btn-group > button.rbc-active:hover, 
-.rbc-btn-group > button.rbc-active:focus {
+.rbc-btn-group > button.rbc-active:hover {
     background: var(--theme-second);
     border: none;
     color: white;

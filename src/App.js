@@ -2,6 +2,8 @@ import React from "react";
 import "./App.css";
 
 import { CssBaseline } from "@material-ui/core";
+import { MuiPickersUtilsProvider } from 'material-ui-pickers';
+import MomentUtils from '@date-io/moment';
 import { MuiThemeProvider } from "@material-ui/core";
 import theme from "./theme";
 
@@ -23,8 +25,10 @@ function App() {
   return (
     <React.Fragment>
       <MuiThemeProvider theme={theme}>
-        <CssBaseline />
-        <AppContent />
+        <MuiPickersUtilsProvider utils={MomentUtils}>
+          <CssBaseline />
+          <AppContent />
+        </MuiPickersUtilsProvider>
       </MuiThemeProvider>
     </React.Fragment>
   );

@@ -58,7 +58,7 @@ function DayDialog(props) {
             TransitionComponent={Transition}
             open={!!props.event}>
 
-            <AppBar color='secondary' position="relative">
+            <AppBar color='primary' position="relative">
                 <Toolbar variant='dense'>
                     <IconButton onClick={props.onClose} color="inherit" className={classes.closeButton}>
                         <CloseIcon />
