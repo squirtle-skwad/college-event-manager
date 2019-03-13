@@ -59,7 +59,7 @@ function Calendar() {
                 onSelectSlot={onSelectSlot}
             />
 
-            <DayDialog event={clickEvent} onClose={() => setClickEvent(null)} />
+            <DayDialog event={clickEvent} onClose={() => setClickEvent(null)}  />
             <AddEventDialog event={slotEvent} onClose={() => setSlotEvent(null)} />
         </div>
     );

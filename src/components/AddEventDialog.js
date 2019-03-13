@@ -15,16 +15,16 @@ import {
 } from "@material-ui/styles";
 
 import {
-    Close as CloseIcon
+    Close as CloseIcon,
 } from "@material-ui/icons"
 
 // -----
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
     closeButton: {
       marginRight: 10,
     },
-});
+}));
 
 const Transition = (props) => <Slide direction="up" {...props} />;
 
@@ -55,7 +55,6 @@ function AddEventDialog(props) {
                 </Typography>
 
             </div>
-
         </Dialog>
     );
 }
