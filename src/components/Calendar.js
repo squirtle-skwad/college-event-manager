@@ -14,7 +14,6 @@ const localizer = BigCalendar.momentLocalizer(moment);
 function Calendar() {
     const [clickEvent, setClickEvent] = React.useState(null);
     const [slotEvent, setSlotEvent] = React.useState(null);
-    const [selectedEvent, setSelectedEvent] = React.useState(null);
 
     const allowedViews = [BigCalendar.Views.MONTH, BigCalendar.Views.DAY, BigCalendar.Views.AGENDA];
 
@@ -26,8 +25,6 @@ function Calendar() {
     }];
 
     // -----
-
-    const onSelectEvent = (e) => setSelectedEvent(e);
 
     const onSelectSlot = (e) => {
         switch(e.action) {
@@ -59,7 +56,6 @@ function Calendar() {
                 popup
                 selectable
 
-                onSelectEvent={onSelectSlot}
                 onSelectSlot={onSelectSlot}
             />
 

@@ -5,12 +5,6 @@ import {
   Toolbar,
   IconButton,
   Typography,
-  Drawer,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  Divider,
 } from "@material-ui/core";
 
 import { 
@@ -19,10 +13,7 @@ import {
 
 import { 
   Menu as MenuIcon,
-  CalendarToday as CalendarIcon
 } from "@material-ui/icons";
-
-import classNames from "classnames";
 
 // -----
 
