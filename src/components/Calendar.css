@@ -42,7 +42,6 @@
 }
 
 .rbc-btn-group > button.rbc-active:hover, 
-.rbc-btn-group > button.rbc-active:active,
 .rbc-btn-group > button.rbc-active:focus {
     background: var(--theme-second);
     border: none;

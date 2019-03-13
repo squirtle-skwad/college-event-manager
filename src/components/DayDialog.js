@@ -31,6 +31,11 @@ const Transition = (props) => <Slide direction="up" {...props} />;
 function DayDialog(props) {
     const classes = useStyles();
 
+    React.useEffect(() => {
+        if(props.event)
+            console.log("Get data for ", props.event.start.toDateString());
+    }, [props.event]);
+
     const heading = props.event ? props.event.start.toDateString() : "Date!"
 
     return (

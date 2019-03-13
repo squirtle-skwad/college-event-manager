@@ -36,21 +36,25 @@ function AddEventDialog(props) {
             TransitionComponent={Transition}
             open={!!props.event}>
 
-            <AppBar color='secondary' position="relative">
-                <Toolbar variant='dense'>
-                    <IconButton onClick={props.onClose} color="inherit" className={classes.closeButton}>
-                        <CloseIcon />
-                    </IconButton>
+            <div>
 
-                    <Typography variant="h6" color="inherit">
-                        New Event
-                    </Typography>
-                </Toolbar>
-            </AppBar>
+                <AppBar color='secondary' position="relative">
+                    <Toolbar variant='dense'>
+                        <IconButton onClick={props.onClose} color="inherit" className={classes.closeButton}>
+                            <CloseIcon />
+                        </IconButton>
 
-            <Typography>
-                { JSON.stringify(props.event) }
-            </Typography>
+                        <Typography variant="h6" color="inherit">
+                            New Event
+                        </Typography>
+                    </Toolbar>
+                </AppBar>
+
+                <Typography>
+                    { JSON.stringify(props.event) }
+                </Typography>
+
+            </div>
 
         </Dialog>
     );
