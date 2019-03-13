@@ -31,6 +31,8 @@ const Transition = (props) => <Slide direction="up" {...props} />;
 function DayDialog(props) {
     const classes = useStyles();
 
+    const heading = props.event ? props.event.start.toDateString() : "Date!"
+
     return (
         <Dialog
             fullScreen
@@ -44,7 +46,7 @@ function DayDialog(props) {
                     </IconButton>
 
                     <Typography variant="h6" color="inherit">
-                        { props.event.start.toDateString() }
+                        { heading }
                     </Typography>
                 </Toolbar>
             </AppBar>
