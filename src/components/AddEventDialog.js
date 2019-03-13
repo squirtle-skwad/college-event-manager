@@ -5,9 +5,11 @@ import {
   Toolbar,
   IconButton,
   Typography,
+
   Dialog,
   Slide,
-  TextField
+  TextField,
+  Button,
 } from "@material-ui/core";
 
 import { makeStyles } from "@material-ui/styles";
@@ -21,13 +23,22 @@ import useInput from "../util/hooks";
 // -----
 
 const useStyles = makeStyles(theme => ({
-  closeButton: {
-    marginRight: 10
-  },
   eventForm: {
     padding: "1rem",
     paddingTop: "0.5rem"
-  }
+  },
+
+  submitContainer: {
+    padding: "16px",
+    display: "flex",
+    justifyContent: "flex-end",
+  },
+
+  submitButton: {
+    position: 'absolute',
+    right: '1rem',
+    bottom: '0',
+}
 }));
 
 const Transition = props => <Slide direction="up" {...props} />;
@@ -52,11 +63,10 @@ function AddEventDialog(props) {
     <Dialog TransitionComponent={Transition} open={!!props.event}>
       <div>
         <AppBar color="primary" position="relative">
-          <Toolbar variant="dense">
+          <Toolbar variant="dense" disableGutters>
             <IconButton
               onClick={props.onClose}
               color="inherit"
-              className={classes.closeButton}
             >
               <CloseIcon />
             </IconButton>
@@ -90,7 +100,11 @@ function AddEventDialog(props) {
            fullWidth
           />
         </form>
-        
+          
+        <div className={classes.submitContainer}>
+          <Button color="primary"  variant="contained"> Submit </Button>
+        </div>
+
       </div>
     </Dialog>
   );

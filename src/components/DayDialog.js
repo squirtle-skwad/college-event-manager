@@ -24,13 +24,13 @@ import {
 
 const useStyles = makeStyles({
     closeButton: {
-      marginRight: 10,
+      marginRight: 8,
     },
 
     fab: {
         position: 'absolute',
         bottom: '1rem',
-        right:  '1rem',
+        right: '1rem',
     },
 });
 
@@ -59,7 +59,7 @@ function DayDialog(props) {
             open={!!props.event}>
 
             <AppBar color='primary' position="relative">
-                <Toolbar variant='dense'>
+                <Toolbar variant='dense' disableGutters>
                     <IconButton onClick={props.onClose} color="inherit" className={classes.closeButton}>
                         <CloseIcon />
                     </IconButton>

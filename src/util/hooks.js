@@ -6,7 +6,7 @@ function useInput(defvalue) {
     const onChange = (e) => setValue(e.target.value);
 
     return {
-        value, onChange, setValue,
+        value, onChange,
     };
 }
 
