@@ -6,6 +6,7 @@ import { MuiPickersUtilsProvider } from 'material-ui-pickers';
 import MomentUtils from '@date-io/moment';
 import { MuiThemeProvider } from "@material-ui/core";
 import theme from "./theme";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 
 import Navigation from "./components/Navigation";
 import Calendar from "./components/Calendar";
@@ -15,7 +16,7 @@ function AppContent() {
     <div className="App">
       <Navigation />
       <main className="App-content">
-        <Calendar />
+        <Route path='/' exact component={Calendar} />
       </main>
     </div>
   );
@@ -23,14 +24,14 @@ function AppContent() {
 
 function App() {
   return (
-    <React.Fragment>
+    <Router>
       <MuiThemeProvider theme={theme}>
         <MuiPickersUtilsProvider utils={MomentUtils}>
           <CssBaseline />
           <AppContent />
         </MuiPickersUtilsProvider>
       </MuiThemeProvider>
-    </React.Fragment>
+    </Router>
   );
 }
 
