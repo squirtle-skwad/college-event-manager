@@ -2,9 +2,10 @@
 /* VARIABLES */
 
 :root {
-    --theme: rgb(103, 58, 183);
-    --theme-second: rgba(103, 58, 183, 0.7);
-    --theme-last: rgba(103, 58, 183, 0.2);
+    --theme-purple: rgb(103, 58, 183);
+    --theme-purple-light: rgba(103, 58, 183, 0.7);
+    --theme-purple-lighter: rgba(103, 58, 183, 0.5);
+    --theme-purple-lightest: rgba(103, 58, 183, 0.2);
     --theme-orange: rgb(255, 112, 67, 0.3);
     --theme-green: rgb(67,160,71);
     --theme-dark-green: rgb(46,125,50);
@@ -23,33 +24,33 @@
 
 .rbc-btn-group > button {
     background: none;
-    border: 1.2px solid var(--theme);
+    border: 1.2px solid var(--theme-purple);
     color: #673AB7;
     font-weight: bold;
 }
 
 .rbc-btn-group > button:hover {
     background: none;
-    border: 1.2px solid var(--theme-second);
-    color: var(--theme-second);
+    border: 1.2px solid var(--theme-purple-light);
+    color: var(--theme-purple-light);
 }
 
 .rbc-btn-group > button.rbc-active,
 .rbc-btn-group > button.rbc-active:focus {
-    background: var(--theme);
+    background: var(--theme-purple);
     border: none;
     color: white;
     
 }
 
 .rbc-btn-group > button.rbc-active:hover {
-    background: var(--theme-second);
+    background: var(--theme-purple-light);
     border: none;
     color: white;
 }
 
 .rbc-toolbar-label {
-    color: var(--theme);
+    color: var(--theme-purple);
     font-weight: bolder;
     font-size: 1.6rem;
 }
@@ -70,7 +71,10 @@
 }
 
 .rbc-off-range-bg {
-    background: var(--theme-last);
+    background: var(--theme-purple-lightest);
+}
+.rbc-off-range-bg.rbc-selected-cell {
+    background: var(--theme-purple-lighter);
 }
 
 .rbc-today {

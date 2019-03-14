@@ -10,4 +10,6 @@ function useInput(defvalue) {
     };
 }
 
-export default useInput;
+export {
+    useInput,
+};

@@ -18,7 +18,7 @@ import { Close as CloseIcon } from "@material-ui/icons";
 
 import DatePicker from "./DatePicker";
 
-import useInput from "../util/hooks";
+import { useInput } from "../util/hooks";
 
 // -----
 
