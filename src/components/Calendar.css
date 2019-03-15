@@ -35,12 +35,17 @@
     color: var(--theme-purple-light);
 }
 
+.rbc-btn-group > button:focus {
+    background: var(--theme-purple);
+    border: none;
+    color: white;
+}
+
 .rbc-btn-group > button.rbc-active,
 .rbc-btn-group > button.rbc-active:focus {
     background: var(--theme-purple);
     border: none;
     color: white;
-    
 }
 
 .rbc-btn-group > button.rbc-active:hover {
