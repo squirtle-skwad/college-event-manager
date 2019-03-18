@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 function useInput(defvalue) {
     const [value, setValue] = React.useState(defvalue);
@@ -6,10 +6,9 @@ function useInput(defvalue) {
     const onChange = (e) => setValue(e.target.value);
 
     return {
-        value, onChange,
+        value,
+        onChange,
     };
 }
 
-export {
-    useInput,
-};
+export { useInput };
