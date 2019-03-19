@@ -60,7 +60,7 @@ function Calendar() {
                 onSelectEvent={(event) => setFocusedEvent(event)}
             />
 
-            <DayDialog day={clickEvent} onClose={() => setClickEvent(null)} />
+            <DayDialog day={clickEvent} onClose={() => setClickEvent(null)} list={events} />
             <AddEventDialog
                 event={slotEvent}
                 onClose={() => setSlotEvent(null)}

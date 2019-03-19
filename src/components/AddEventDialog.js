@@ -9,6 +9,7 @@ import {
     Slide,
     TextField,
     Button,
+    MenuItem
 } from "@material-ui/core";
 
 import { makeStyles } from "@material-ui/styles";
@@ -18,6 +19,7 @@ import { Close as CloseIcon } from "@material-ui/icons";
 import DatePicker from "./DatePicker";
 
 import { useInput } from "../util/hooks";
+import { DEPARTMENTS } from "../util/constants";
 
 // -----
 
@@ -42,9 +44,23 @@ const useStyles = makeStyles((theme) => ({
 
 const Transition = (props) => <Slide direction='up' {...props} />;
 
+// name = models.CharField(max_length=128)
+// start_date = models.DateField()
+// end_date = models.DateField()
+// department = models.CharField(
+//     max_length=6, choices=choices.DEPARTMENT, default="COMPS"
+// )
+// expert_name = models.CharField(max_length=256)
+// description = models.TextField()
+// organizer = models.TextField()
+
 function AddEventDialog(props) {
     const classes = useStyles();
     const nameInput = useInput();
+    const descInput = useInput();
+    const organizerInput = useInput();
+    const deptInput = useInput();
+    const expertInput = useInput();
     const [startDate, setStartDate] = React.useState(null);
     const [endDate, setEndDate] = React.useState(null);
 
@@ -72,6 +88,23 @@ function AddEventDialog(props) {
         return () => document.addEventListener("keydown", escListener, false);
     });
 
+    // -----
+
+    const handleSubmit = (e) => {
+        const formData = {
+            title: nameInput.value,
+            start: startDate,
+            end: endDate,
+            organizer: organizerInput.value,
+            department: deptInput.value,
+            description: descInput.value,
+            expert_name: expertInput.value,
+        };
+        alert(JSON.stringify(formData));
+    };
+
+    // -----
+
     return (
         <Dialog TransitionComponent={Transition} open={!!props.event}>
             <div>
@@ -81,7 +114,7 @@ function AddEventDialog(props) {
                             <CloseIcon />
                         </IconButton>
 
-                        <Typography variant='h6' color='inherit'>
+                        <Typography variant='subtitle1' color='inherit'>
                             New Event
                         </Typography>
                     </Toolbar>
@@ -89,6 +122,7 @@ function AddEventDialog(props) {
 
                 <form autoComplete='off' className={classes.eventForm}>
                     <TextField
+                        required
                         label='Event Name'
                         InputLabelProps={{
                             shrink: true,
@@ -98,23 +132,73 @@ function AddEventDialog(props) {
                         margin='normal'
                     />
                     <DatePicker
+                        required
+                        label='Start Date & Time'
                         value={startDate}
                         onChange={setStartDate}
-                        label='Start Date & Time'
                         fullWidth
                     />
                     <DatePicker
+                        required
                         value={endDate}
                         onChange={setEndDate}
                         label='End Date & Time'
                         fullWidth
                     />
+                    <TextField
+                        required
+                        select
+                        label="Department"
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        {...deptInput}
+                        helperText="Choose 'Other' if not organized by a specific department"
+                        margin="normal"
+                    >
+                      {DEPARTMENTS.map(option => (
+                        <MenuItem key={option.value} value={option.value}>
+                          {option.label}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                    <TextField
+                        required
+                        label="Description"
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        rowsMax="4"
+                        multiline
+                        {...descInput}
+                        fullWidth
+                        margin="normal"
+                    />
+                    <TextField
+                        required
+                        label='Organizer'
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        {...organizerInput}
+                        fullWidth
+                        margin='normal'
+                    />
+                    <TextField
+                        required
+                        label='Expert Name'
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        {...expertInput}
+                        fullWidth
+                        margin='normal'
+                    />
                 </form>
 
                 <div className={classes.submitContainer}>
-                    <Button color='primary' variant='contained'>
-                        {" "}
-                        Submit{" "}
+                    <Button color='primary' variant='contained' type='submit' onClick={handleSubmit}>
+                        Submit
                     </Button>
                 </div>
             </div>

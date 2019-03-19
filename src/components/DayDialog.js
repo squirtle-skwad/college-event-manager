@@ -21,6 +21,8 @@ import {
     ExpandMore as ExpandMoreIcon,
 } from "@material-ui/icons";
 
+import EventDetailsPanel from "./EventDetailsPanel";
+
 // -----
 
 const useStyles = makeStyles({
@@ -63,6 +65,7 @@ function DayDialog(props) {
     // ---
 
     const heading = props.day ? props.day.start.toDateString() : "Date!";
+    const events = props.events || [{}];
 
     return (
         <Dialog fullScreen TransitionComponent={Transition} open={!!props.day}>
@@ -116,6 +119,9 @@ function DayDialog(props) {
                         Disabled Expansion Panel
                     </Typography>
                 </ExpansionPanelSummary>
+                <ExpansionPanelDetails>
+                    <EventDetailsPanel event={events[0]} />
+                </ExpansionPanelDetails>
             </ExpansionPanel>
 
             <AddFab
