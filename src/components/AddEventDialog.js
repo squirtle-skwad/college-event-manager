@@ -13,13 +13,12 @@ import {
 } from "@material-ui/core";
 
 import { makeStyles } from "@material-ui/styles";
-
 import { Close as CloseIcon } from "@material-ui/icons";
 
+import axios from 'axios';
 import DatePicker from "./DatePicker";
-
 import { useInput } from "../util/hooks";
-import { DEPARTMENTS } from "../util/constants";
+import { DEPARTMENTS, ENDPOINT } from "../util/constants";
 
 // -----
 
@@ -44,23 +43,13 @@ const useStyles = makeStyles((theme) => ({
 
 const Transition = (props) => <Slide direction='up' {...props} />;
 
-// name = models.CharField(max_length=128)
-// start_date = models.DateField()
-// end_date = models.DateField()
-// department = models.CharField(
-//     max_length=6, choices=choices.DEPARTMENT, default="COMPS"
-// )
-// expert_name = models.CharField(max_length=256)
-// description = models.TextField()
-// organizer = models.TextField()
-
 function AddEventDialog(props) {
     const classes = useStyles();
-    const nameInput = useInput();
-    const descInput = useInput();
-    const organizerInput = useInput();
-    const deptInput = useInput();
-    const expertInput = useInput();
+    const nameInput = useInput('');
+    const expertInput = useInput('');
+    const descInput = useInput('');
+    const organizerInput = useInput('');
+    const deptInput = useInput("OTHER");
     const [startDate, setStartDate] = React.useState(null);
     const [endDate, setEndDate] = React.useState(null);
 
@@ -75,11 +64,6 @@ function AddEventDialog(props) {
     }, [props.event]);
 
     React.useEffect(() => {
-        if (props.day)
-            console.log("Get data for ", props.day.start.toDateString());
-    }, [props.day]);
-
-    React.useEffect(() => {
         const escListener = (event) => {
             if (event.keyCode === 27) props.onClose();
         };
@@ -92,7 +76,7 @@ function AddEventDialog(props) {
 
     const handleSubmit = (e) => {
         const formData = {
-            title: nameInput.value,
+            name: nameInput.value,
             start: startDate,
             end: endDate,
             organizer: organizerInput.value,
@@ -100,7 +84,10 @@ function AddEventDialog(props) {
             description: descInput.value,
             expert_name: expertInput.value,
         };
-        alert(JSON.stringify(formData));
+
+        axios.post(ENDPOINT + '/event_custom/', formData)
+        .then(props.onClose)
+        .catch(console.error);
     };
 
     // -----
@@ -122,7 +109,6 @@ function AddEventDialog(props) {
 
                 <form autoComplete='off' className={classes.eventForm}>
                     <TextField
-                        required
                         label='Event Name'
                         InputLabelProps={{
                             shrink: true,
@@ -132,21 +118,18 @@ function AddEventDialog(props) {
                         margin='normal'
                     />
                     <DatePicker
-                        required
                         label='Start Date & Time'
                         value={startDate}
                         onChange={setStartDate}
                         fullWidth
                     />
                     <DatePicker
-                        required
                         value={endDate}
                         onChange={setEndDate}
                         label='End Date & Time'
                         fullWidth
                     />
                     <TextField
-                        required
                         select
                         label="Department"
                         InputLabelProps={{
@@ -163,7 +146,6 @@ function AddEventDialog(props) {
                       ))}
                     </TextField>
                     <TextField
-                        required
                         label="Description"
                         InputLabelProps={{
                             shrink: true,
@@ -175,7 +157,6 @@ function AddEventDialog(props) {
                         margin="normal"
                     />
                     <TextField
-                        required
                         label='Organizer'
                         InputLabelProps={{
                             shrink: true,
@@ -185,7 +166,6 @@ function AddEventDialog(props) {
                         margin='normal'
                     />
                     <TextField
-                        required
                         label='Expert Name'
                         InputLabelProps={{
                             shrink: true,
