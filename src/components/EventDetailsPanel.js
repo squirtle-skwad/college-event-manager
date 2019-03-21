@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
 
 const toTime = (d) => `${d.getHours()}:${d.getMinutes()}`;
 
-function EventDetails({ event }) {
+function EventDetails({ event, onReport }) {
     const classes = useStyles();
 
     return (
@@ -88,7 +88,7 @@ function EventDetails({ event }) {
                 />
 
                 <div className={classes.submitContainer}>
-                    <Button color='primary' variant='contained' type='submit'>
+                    <Button color='primary' variant='contained' type='submit' onClick={event.report ? null : () => onReport(event)}>
                         {event.report ? "Download Report PDF" : "Fill Report"}
                     </Button>
                 </div>

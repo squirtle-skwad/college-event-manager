@@ -89,14 +89,10 @@ function AddEventDialog(props) {
             expert_name: expertInput.value,
         };
 
-        alert(JSON.stringify(formData));
-
         axios
             .post(ENDPOINT + "/event/", formData)
             .then(props.onClose)
-            .catch(e => {
-                console.error(e);
-            });
+            .catch(console.error);
     };
 
     // -----

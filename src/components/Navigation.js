@@ -4,7 +4,7 @@ import { AppBar, Toolbar, IconButton, Typography } from "@material-ui/core";
 
 import { makeStyles } from "@material-ui/styles";
 
-import { Menu, CalendarToday as MenuIcon } from "@material-ui/icons";
+import { CalendarToday as MenuIcon } from "@material-ui/icons";
 
 // -----
 

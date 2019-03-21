@@ -2,6 +2,7 @@ import React from "react";
 
 import DayDialog from "./DayDialog";
 import AddEventDialog from "./AddEventDialog";
+import AddReportDialog from "./AddReportDialog";
 import { useCalendarEvents } from "../util/hooks";
 
 import BigCalendar from "react-big-calendar";
@@ -15,6 +16,7 @@ const localizer = BigCalendar.momentLocalizer(moment);
 function Calendar() {
     const [clickEvent, setClickEvent] = React.useState(null);
     const [slotEvent, setSlotEvent] = React.useState(null);
+    const [reportEvent, setReportEvent] = React.useState(null);
     // const [focusedEvent, setFocusedEvent] = React.useState(null);
 
     const events = useCalendarEvents();
@@ -70,6 +72,7 @@ function Calendar() {
                         end: clickEvent.start,
                     });
                 }}
+                onReport={(event) => setReportEvent(event)}
                 list={events.list}
             />
             <AddEventDialog
@@ -77,6 +80,13 @@ function Calendar() {
                 onClose={() => {
                     setSlotEvent(null);
                     events.fetchEvents();
+                }}
+            />
+            <AddReportDialog
+                event={reportEvent}
+                onClose={() => {
+                    setReportEvent(null);
+                    setSlotEvent(null);
                 }}
             />
         </div>

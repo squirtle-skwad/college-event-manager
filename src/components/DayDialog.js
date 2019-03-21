@@ -57,7 +57,7 @@ function DayDialog(props) {
     const heading = props.day ? props.day.start.toDateString() : "Date!";
 
     const eventPanels = events.list.map((e, i) => (
-        <EventDetailsPanel key={i} event={e} />
+        <EventDetailsPanel key={i} onReport={props.onReport} event={e} />
     ));
 
     return (
