@@ -88,7 +88,7 @@ function EventDetails({ event }) {
 
                 <div className={classes.submitContainer}>
                     <Button color='primary' variant='contained' type='submit'>
-                        Submit
+                        Fill Report
                     </Button>
                 </div>
             </ExpansionPanelDetails>

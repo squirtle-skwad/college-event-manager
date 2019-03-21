@@ -92,7 +92,7 @@ function AddEventDialog(props) {
         alert(JSON.stringify(formData));
 
         axios
-            .post(ENDPOINT + "/event_custom/", formData)
+            .post(ENDPOINT + "/event/", formData)
             .then(props.onClose)
             .catch(console.error);
     };

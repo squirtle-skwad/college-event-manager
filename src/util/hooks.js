@@ -19,7 +19,7 @@ function useCalendarEvents() {
 
     const fetchEvents = () => {
         axios
-            .get(ENDPOINT + "/event_custom/")
+            .get(ENDPOINT + "/event/")
             .then((res) => {
                 let er = res.data;
                 console.log("Received cal events ", er);

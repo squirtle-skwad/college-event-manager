@@ -2,11 +2,11 @@
 /* VARIABLES */
 
 :root {
-    --theme-purple: rgb(103, 58, 183);
-    --theme-purple-light: rgba(103, 58, 183, 0.7);
-    --theme-purple-lighter: rgba(103, 58, 183, 0.5);
-    --theme-purple-lightest: rgba(103, 58, 183, 0.2);
-    --theme-orange: rgb(255, 112, 67, 0.3);
+    --theme-purple: rgb(0, 49, 113);
+    --theme-purple-light: rgba(0, 49, 113, 0.7);
+    --theme-purple-lighter: rgba(0, 49, 113, 0.5);
+    --theme-purple-lightest: rgba(0, 49, 113, 0.2);
+    --theme-orange: rgba(245, 90, 42, 0.3);
     --theme-green: rgb(67,160,71);
     --theme-dark-green: rgb(46,125,50);
 }
@@ -35,7 +35,7 @@
 .rbc-btn-group > button {
     background: none;
     border: 1.2px solid var(--theme-purple);
-    color: #673AB7;
+    color: var(--theme-purple);
     font-weight: bold;
 }
 
