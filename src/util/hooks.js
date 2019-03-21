@@ -21,12 +21,14 @@ function useCalendarEvents() {
         axios.get(ENDPOINT + '/event_custom/')
         .then(res => {
             let er = res.data;
+            console.log('Received cal events ', er);
             er = er.map(e => ({ 
                 ...e, 
                 title: e.name, 
                 start: new Date(e.start.slice(0, 19)),
                 end:  new Date(e.end.slice(0, 19)),
             }));
+            console.log('Converted cal events ', er);
             setEvents(er);
         })
         .catch(console.error);
@@ -60,6 +62,7 @@ function useDayEvents(date) {
                 start: new Date(e.start.slice(0, 19)),
                 end:  new Date(e.end.slice(0, 19)),
             }));
+            console.log('Converted day events ', er);
             setEvents(er);
         })
         .catch(console.error);

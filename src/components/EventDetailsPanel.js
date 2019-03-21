@@ -1,24 +1,15 @@
 import React from 'react';
 
-import { Typography, ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails } from "@material-ui/core";
+import { TextField, Typography, ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails } from "@material-ui/core";
 
 import {
     ExpandMore as ExpandMoreIcon,
 } from "@material-ui/icons";
 
-// name = models.CharField(max_length=128)
-// start_date = models.DateField()
-// end_date = models.DateField()
-// time = models.TimeField()
-// department = models.CharField(
-//     max_length=6, choices=choices.DEPARTMENT, default="COMPS"
-// )
-// expert_name = models.CharField(max_length=256)
-// description = models.TextField()
-// organizer = models.TextField()
-
+const toTime = (d) => `${d.getHours()}:${d.getMinutes()}`;
 
 function EventDetails({ event }) {
+
     return (
         <ExpansionPanel>
             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
@@ -26,8 +17,47 @@ function EventDetails({ event }) {
                     { event.title }
                 </Typography>
             </ExpansionPanelSummary>
-            <ExpansionPanelDetails>
-                Hi
+            <ExpansionPanelDetails style={{ flexDirection: "column" }} >
+                <TextField
+                    label='Start Time'
+                    value={toTime(event.start)}
+                    disabled
+                    margin="normal"
+                    variant="outlined"
+                    fullWidth
+                />
+                <TextField
+                    label='End Time'
+                    value={toTime(event.end)}
+                    disabled
+                    margin="normal"
+                    variant="outlined"
+                    fullWidth
+                />
+                <TextField
+                    label='Description'
+                    value={event.description}
+                    disabled
+                    margin="normal"
+                    variant="outlined"
+                    fullWidth
+                />
+                <TextField
+                    label='Department'
+                    value={event.department}
+                    disabled
+                    margin="normal"
+                    variant="outlined"
+                    fullWidth
+                />
+                <TextField
+                    label='Organizer'
+                    value={event.organizer}
+                    disabled
+                    margin="normal"
+                    variant="outlined"
+                    fullWidth
+                />
             </ExpansionPanelDetails>
         </ExpansionPanel>
     );
