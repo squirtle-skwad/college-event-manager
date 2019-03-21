@@ -1,31 +1,24 @@
 import React from "react";
 
-import {
-  AppBar,
-  Toolbar,
-  IconButton,
-  Typography,
-} from "@material-ui/core";
+import { AppBar, Toolbar, IconButton, Typography } from "@material-ui/core";
 
-import { 
-  makeStyles,
-} from "@material-ui/styles";
+import { makeStyles } from "@material-ui/styles";
 
-import { 
-  Menu as MenuIcon,
-} from "@material-ui/icons";
+import { Menu as MenuIcon } from "@material-ui/icons";
 
+import Login from "./Login";
+import SignUp from "./SignUp";
 // -----
 
 const useStyles = makeStyles({
   root: {
-    flexGrow: 1,
+    flexGrow: 1
   },
   menuButton: {
-    marginRight: 10,
+    marginRight: 10
   },
   AppBar: {
-    boxShadow: "0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)",
+    boxShadow: "0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)"
   }
 });
 
@@ -37,23 +30,22 @@ function Navigation() {
 
   return (
     <div className={classes.root}>
-      <AppBar
-        position="relative"
-        color="secondary"
-        className={classes.AppBar}
-      >
+      <AppBar position="relative" color="secondary" className={classes.AppBar}>
         <Toolbar variant="dense">
           <IconButton
             color="inherit"
             aria-label="Open drawer"
             className={classes.menuButton}
-            onClick={handleMenuClick}>
+            onClick={handleMenuClick}
+          >
             <MenuIcon />
           </IconButton>
 
           <Typography variant="h6" color="inherit">
             College Events Management
           </Typography>
+          {/* <Login />
+          <SignUp /> */}
         </Toolbar>
       </AppBar>
     </div>
