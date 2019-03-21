@@ -30,7 +30,8 @@ export default class SignUp extends React.Component {
     obj = this.state;
     // this.setState({ open: false });
     axios.post("http://127.0.0.1:8000/signup/", obj).then(res => {
-      this.setState({redirect: true})
+      console.log(res.data);  
+      this.setState({redirect: true});
     });
     console.log(obj);
   };
@@ -124,14 +125,14 @@ export default class SignUp extends React.Component {
               displayEmpty
               name="department"
             >
-              <MenuItem value="EXTC">EXTC</MenuItem>
-              <MenuItem value="MECH">MECH</MenuItem>
-              <MenuItem value="COMPS">COMPS</MenuItem>
+              <MenuItem value="Electronics & Communication">Electronics & Communication</MenuItem>
+              <MenuItem value="Mechanical">Mechanical</MenuItem>
+              <MenuItem value="COMPS">Computers</MenuItem>
               <MenuItem value="IT">IT</MenuItem>
-              <MenuItem value="ETRX">ETRX</MenuItem>
-              <MenuItem value="CHEM">CHEM</MenuItem>
-              <MenuItem value="BIO-MED">BIO-MED</MenuItem>
-              <MenuItem value="PROD">PROD</MenuItem>
+              <MenuItem value="Electronics">Electronics</MenuItem>
+              <MenuItem value="Chemical">Chemical</MenuItem>
+              <MenuItem value="Bio-medical">Bio-medical</MenuItem>
+              <MenuItem value="Production">Production</MenuItem>
             </Select>
           </DialogContent>
           <DialogActions>

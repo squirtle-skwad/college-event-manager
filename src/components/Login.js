@@ -29,11 +29,12 @@ export default class Login extends React.Component {
     let obj = {};
     obj = this.state;
     // this.setState({ open: false });
-    axios.post("http://127.0.0.1:8000/login/", obj).then(res => {
-      //localStorage.setItem()
+    axios.post("http://127.0.0.1:8000/auth/token/login", obj).then(res => {
+      localStorage.setItem("auth_token", `${res.data.auth_token}` )
+      console.log(res.data.auth_token)
       this.setState({redirect: true})
     });
-    console.log(obj);
+    //console.log(obj);
   };
 
   render() {
