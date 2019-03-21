@@ -12,10 +12,7 @@ import {
 
 import { makeStyles } from "@material-ui/styles";
 
-import {
-    Add as AddIcon,
-    Close as CloseIcon,
-} from "@material-ui/icons";
+import { Add as AddIcon, Close as CloseIcon } from "@material-ui/icons";
 
 import EventDetailsPanel from "./EventDetailsPanel";
 import { useDayEvents } from "../util/hooks";
@@ -59,7 +56,9 @@ function DayDialog(props) {
 
     const heading = props.day ? props.day.start.toDateString() : "Date!";
 
-    const eventPanels = events.list.map((e, i) => <EventDetailsPanel key={i} event={e} />);
+    const eventPanels = events.list.map((e, i) => (
+        <EventDetailsPanel key={i} event={e} />
+    ));
 
     return (
         <Dialog fullScreen TransitionComponent={Transition} open={!!props.day}>
@@ -79,12 +78,12 @@ function DayDialog(props) {
                 </Toolbar>
             </AppBar>
 
-            { eventPanels }
+            {eventPanels}
 
             <AddFab
                 className={classes.fab}
                 color='secondary'
-                onClick={() => alert("Hello")}
+                onClick={props.onAddClick}
             />
         </Dialog>
     );

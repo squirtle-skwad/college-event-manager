@@ -9,13 +9,13 @@ import {
     Slide,
     TextField,
     Button,
-    MenuItem,
+    MenuItem
 } from "@material-ui/core";
 
 import { makeStyles } from "@material-ui/styles";
 import { Close as CloseIcon } from "@material-ui/icons";
 
-import axios from "axios";
+import axios from 'axios';
 import DatePicker from "./DatePicker";
 import { useInput } from "../util/hooks";
 import { DEPARTMENTS, ENDPOINT } from "../util/constants";
@@ -23,7 +23,7 @@ import { DEPARTMENTS, ENDPOINT } from "../util/constants";
 // -----
 
 const useStyles = makeStyles((theme) => ({
-    eventForm: {
+    reportForm: {
         padding: "1rem",
         paddingTop: "0.5rem",
     },
@@ -45,16 +45,17 @@ const Transition = (props) => <Slide direction='up' {...props} />;
 
 function AddEventDialog(props) {
     const classes = useStyles();
-    const nameInput = useInput("");
-    const expertInput = useInput("");
-    const descInput = useInput("");
-    const organizerInput = useInput("");
+    const nameInput = useInput('');
+    const expertInput = useInput('');
+    const descInput = useInput('');
+    const organizerInput = useInput('');
     const deptInput = useInput("OTHER");
     const [startDate, setStartDate] = React.useState(null);
     const [endDate, setEndDate] = React.useState(null);
 
     React.useEffect(() => {
-        if (startDate) console.log(startDate.toISOString());
+        if(startDate)
+        console.log(startDate.toISOString());
     }, [startDate]);
 
     React.useEffect(() => {
@@ -89,12 +90,11 @@ function AddEventDialog(props) {
             expert_name: expertInput.value,
         };
 
-        alert(JSON.stringify(formData));
+        alert(formData);
 
-        axios
-            .post(ENDPOINT + "/event_custom/", formData)
-            .then(props.onClose)
-            .catch(console.error);
+        axios.post(ENDPOINT + '/event_custom/', formData)
+        .then(props.onClose)
+        .catch(console.error);
     };
 
     // -----
@@ -102,7 +102,7 @@ function AddEventDialog(props) {
     return (
         <Dialog TransitionComponent={Transition} open={!!props.event}>
             <div>
-                <AppBar color='secondary' position='sticky'>
+                <AppBar color='primary' position='sticky'>
                     <Toolbar variant='dense' disableGutters>
                         <IconButton onClick={props.onClose} color='inherit'>
                             <CloseIcon />
@@ -114,7 +114,7 @@ function AddEventDialog(props) {
                     </Toolbar>
                 </AppBar>
 
-                <form autoComplete='off' className={classes.eventForm}>
+                <form autoComplete='off' className={classes.reportForm}>
                     <TextField
                         label='Event Name'
                         InputLabelProps={{
@@ -138,30 +138,30 @@ function AddEventDialog(props) {
                     />
                     <TextField
                         select
-                        label='Department'
+                        label="Department"
                         InputLabelProps={{
                             shrink: true,
                         }}
                         {...deptInput}
                         helperText="Choose 'Other' if not organized by a specific department"
-                        margin='normal'
+                        margin="normal"
                     >
-                        {DEPARTMENTS.map((option) => (
-                            <MenuItem key={option.value} value={option.value}>
-                                {option.label}
-                            </MenuItem>
-                        ))}
+                      {DEPARTMENTS.map(option => (
+                        <MenuItem key={option.value} value={option.value}>
+                          {option.label}
+                        </MenuItem>
+                      ))}
                     </TextField>
                     <TextField
-                        label='Description'
+                        label="Description"
                         InputLabelProps={{
                             shrink: true,
                         }}
-                        rowsMax='4'
+                        rowsMax="4"
                         multiline
                         {...descInput}
                         fullWidth
-                        margin='normal'
+                        margin="normal"
                     />
                     <TextField
                         label='Organizer'
@@ -184,12 +184,7 @@ function AddEventDialog(props) {
                 </form>
 
                 <div className={classes.submitContainer}>
-                    <Button
-                        color='primary'
-                        variant='contained'
-                        type='submit'
-                        onClick={handleSubmit}
-                    >
+                    <Button color='primary' variant='contained' type='submit' onClick={handleSubmit}>
                         Submit
                     </Button>
                 </div>

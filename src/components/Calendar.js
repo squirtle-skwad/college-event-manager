@@ -21,7 +21,11 @@ function Calendar() {
 
     // -----
 
-    const allowedViews = [BigCalendar.Views.DAY, BigCalendar.Views.MONTH, BigCalendar.Views.WEEK];
+    const allowedViews = [
+        BigCalendar.Views.DAY,
+        BigCalendar.Views.MONTH,
+        BigCalendar.Views.WEEK,
+    ];
 
     const onSelectSlot = (e) => {
         switch (e.action) {
@@ -57,7 +61,17 @@ function Calendar() {
                 // onSelectEvent={(event) => setFocusedEvent(event)}
             />
 
-            <DayDialog day={clickEvent} onClose={() => setClickEvent(null)} list={events.list} />
+            <DayDialog
+                day={clickEvent}
+                onClose={() => setClickEvent(null)}
+                onAddClick={() => {
+                    setSlotEvent({
+                        start: clickEvent.start,
+                        end: clickEvent.start,
+                    });
+                }}
+                list={events.list}
+            />
             <AddEventDialog
                 event={slotEvent}
                 onClose={() => {
