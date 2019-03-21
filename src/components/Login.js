@@ -6,10 +6,11 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
-
+import axios from "axios";
+import {Redirect} from "react-router-dom"
 export default class Login extends React.Component {
   state = {
-    open: true
+    redirect: false
   };
 
   handleChange = event => {
@@ -28,11 +29,18 @@ export default class Login extends React.Component {
     let obj = {};
     obj = this.state;
     // this.setState({ open: false });
-    //axios.post("http://127.0.0.1:8000/signup/", obj);
+    axios.post("http://127.0.0.1:8000/login/", obj).then(res => {
+      //localStorage.setItem()
+      this.setState({redirect: true})
+    });
     console.log(obj);
   };
 
   render() {
+    const {redirect} = this.state
+    if (redirect) {
+      return <Redirect to='/'/>;
+    }
     return (
       <div>
         <Button
@@ -44,7 +52,7 @@ export default class Login extends React.Component {
           LOGIN
         </Button>
         <Dialog
-          open={this.state.open}
+          open="true"
           onClose={this.handleClose}
           aria-labelledby="form-dialog-title"
         >

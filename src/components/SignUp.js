@@ -10,10 +10,11 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
+import {Redirect} from "react-router-dom"
 
 export default class SignUp extends React.Component {
   state = {
-    open: true
+    redirect: false
   };
 
   handleChange = event => {
@@ -28,11 +29,18 @@ export default class SignUp extends React.Component {
     let obj = {};
     obj = this.state;
     // this.setState({ open: false });
-    axios.post("http://127.0.0.1:8000/signup/", obj);
+    axios.post("http://127.0.0.1:8000/signup/", obj).then(res => {
+      this.setState({redirect: true})
+    });
     console.log(obj);
   };
 
   render() {
+    const { redirect } = this.state;
+
+     if (redirect) {
+       return <Redirect to='/verify'/>;
+     }
     return (
       <div>
         <Button
@@ -44,7 +52,7 @@ export default class SignUp extends React.Component {
           SIGN UP
         </Button>
         <Dialog
-          open={this.state.open}
+          open="true"
           onClose={this.handleClose}
           aria-labelledby="form-dialog-title"
         >
@@ -53,8 +61,8 @@ export default class SignUp extends React.Component {
             <TextField
               autoFocus
               margin="dense"
-              name="fname"
-              value={this.state.name}
+              name="first_name"
+              value={this.state.first_name}
               onChange={this.handleChange}
               id="firstName"
               label="First Name"
@@ -64,8 +72,8 @@ export default class SignUp extends React.Component {
             <TextField
               autoFocus
               margin="dense"
-              name="lname"
-              value={this.state.lname}
+              name="last_name"
+              value={this.state.last_name}
               onChange={this.handleChange}
               id="lastName"
               label="Last Name"
@@ -76,11 +84,22 @@ export default class SignUp extends React.Component {
             <TextField
               autoFocus
               margin="dense"
-              id="sap"
-              name="sap"
-              value={this.state.sap}
+              id="email"
+              name="email"
+              value={this.state.email}
               onChange={this.handleChange}
-              label="SAP ID"
+              label="Email"
+              type="email"
+              fullWidth
+            />
+            <TextField
+              autoFocus
+              margin="dense"
+              name="username"
+              value={this.state.username}
+              onChange={this.handleChange}
+              id="username"
+              label="Username"
               type="text"
               fullWidth
             />
@@ -95,17 +114,6 @@ export default class SignUp extends React.Component {
               type="password"
               fullWidth
             />
-            <TextField
-              autoFocus
-              margin="dense"
-              name="username"
-              value={this.state.username}
-              onChange={this.handleChange}
-              id="username"
-              label="Username"
-              type="text"
-              fullWidth
-            />
             <InputLabel htmlFor="department" style={{ marginRight: "3px" }}>
               Department:{" "}
             </InputLabel>
@@ -116,14 +124,14 @@ export default class SignUp extends React.Component {
               displayEmpty
               name="department"
             >
-              <MenuItem value="Computer">Computer</MenuItem>
-              <MenuItem value="IT">IT</MenuItem>
-              <MenuItem value="Mechanical">Mechanical</MenuItem>
               <MenuItem value="EXTC">EXTC</MenuItem>
-              <MenuItem value="Electronics">Electronics</MenuItem>
-              <MenuItem value="Biochemical">Biomedical</MenuItem>
-              <MenuItem value="Chemical">Chemical</MenuItem>
-              <MenuItem value="Production">Production</MenuItem>
+              <MenuItem value="MECH">MECH</MenuItem>
+              <MenuItem value="COMPS">COMPS</MenuItem>
+              <MenuItem value="IT">IT</MenuItem>
+              <MenuItem value="ETRX">ETRX</MenuItem>
+              <MenuItem value="CHEM">CHEM</MenuItem>
+              <MenuItem value="BIO-MED">BIO-MED</MenuItem>
+              <MenuItem value="PROD">PROD</MenuItem>
             </Select>
           </DialogContent>
           <DialogActions>
