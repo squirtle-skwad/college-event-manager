@@ -94,7 +94,9 @@ function AddEventDialog(props) {
         axios
             .post(ENDPOINT + "/event/", formData)
             .then(props.onClose)
-            .catch(console.error);
+            .catch(e => {
+                console.error(e);
+            });
     };
 
     // -----

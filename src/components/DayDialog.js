@@ -25,7 +25,7 @@ const useStyles = makeStyles({
     },
 
     fab: {
-        position: "absolute",
+        position: "fixed",
         bottom: "1rem",
         right: "1rem",
     },
@@ -62,7 +62,7 @@ function DayDialog(props) {
 
     return (
         <Dialog fullScreen TransitionComponent={Transition} open={!!props.day}>
-            <AppBar color='primary' position='relative'>
+            <AppBar color='primary' position='sticky'>
                 <Toolbar variant='dense' disableGutters>
                     <IconButton
                         onClick={props.onClose}

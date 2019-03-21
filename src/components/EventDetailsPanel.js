@@ -13,6 +13,7 @@ import { ExpandMore as ExpandMoreIcon } from "@material-ui/icons";
 
 import { makeStyles } from "@material-ui/styles";
 
+
 // -----
 
 const useStyles = makeStyles((theme) => ({
@@ -40,7 +41,7 @@ function EventDetails({ event }) {
     const classes = useStyles();
 
     return (
-        <ExpansionPanel>
+        <ExpansionPanel defaultExpanded>
             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
                 <Typography>{event.title}</Typography>
             </ExpansionPanelSummary>
@@ -88,7 +89,7 @@ function EventDetails({ event }) {
 
                 <div className={classes.submitContainer}>
                     <Button color='primary' variant='contained' type='submit'>
-                        Fill Report
+                        {event.report ? "Download Report PDF" : "Fill Report"}
                     </Button>
                 </div>
             </ExpansionPanelDetails>
