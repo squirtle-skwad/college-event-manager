@@ -2,7 +2,7 @@ import React from "react";
 
 import DayDialog from "./DayDialog";
 import AddEventDialog from "./AddEventDialog";
-import { useEvents } from "../util/hooks";
+import { useCalendarEvents } from "../util/hooks";
 
 import BigCalendar from "react-big-calendar";
 import moment from "moment";
@@ -17,7 +17,7 @@ function Calendar() {
     const [slotEvent, setSlotEvent] = React.useState(null);
     // const [focusedEvent, setFocusedEvent] = React.useState(null);
 
-    const events = useEvents();
+    const events = useCalendarEvents();
 
     // -----
 

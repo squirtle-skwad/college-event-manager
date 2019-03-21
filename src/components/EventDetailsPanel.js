@@ -1,6 +1,10 @@
 import React from 'react';
 
-import { Typography, } from "@material-ui/core";
+import { Typography, ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails } from "@material-ui/core";
+
+import {
+    ExpandMore as ExpandMoreIcon,
+} from "@material-ui/icons";
 
 // name = models.CharField(max_length=128)
 // start_date = models.DateField()
@@ -15,20 +19,17 @@ import { Typography, } from "@material-ui/core";
 
 
 function EventDetails({ event }) {
-    console.log(event);
-
     return (
-        <div style={{
-            height: "inherit",
-            width: "inherit"
-        }}>
-            <Typography variant="h5">
-                Title
-            </Typography>
-            <Typography variant="h5">
-                { event.title } 
-            </Typography>
-        </div>
+        <ExpansionPanel>
+            <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                <Typography>
+                    { event.title }
+                </Typography>
+            </ExpansionPanelSummary>
+            <ExpansionPanelDetails>
+                Hi
+            </ExpansionPanelDetails>
+        </ExpansionPanel>
     );
 }
 

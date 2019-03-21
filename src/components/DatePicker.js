@@ -6,7 +6,7 @@ const InlineDateTimePickerDemo = (props) => (
         keyboard
         ampm={false}
         onError={console.error}
-        format='YYYY/MM/DD hh:mm'
+        format='YYYY/MM/DD HH:mm'
         mask={[
             /\d/,
             /\d/,

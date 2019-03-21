@@ -54,6 +54,11 @@ function AddEventDialog(props) {
     const [endDate, setEndDate] = React.useState(null);
 
     React.useEffect(() => {
+        if(startDate)
+        console.log(startDate.toISOString());
+    }, [startDate]);
+
+    React.useEffect(() => {
         if (!!props.event) {
             setStartDate(props.event.start);
             setEndDate(props.event.end);
@@ -95,7 +100,7 @@ function AddEventDialog(props) {
     return (
         <Dialog TransitionComponent={Transition} open={!!props.event}>
             <div>
-                <AppBar color='primary' position='relative'>
+                <AppBar color='primary' position='sticky'>
                     <Toolbar variant='dense' disableGutters>
                         <IconButton onClick={props.onClose} color='inherit'>
                             <CloseIcon />
