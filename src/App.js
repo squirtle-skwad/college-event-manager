@@ -23,19 +23,27 @@ function AppContent() {
       </main>
     </div>
   );
+    // return (
+    //     <div className='App'>
+    //         <Navigation />
+    //         <main className='App-content'>
+    //             <Route path='/' exact component={Calendar} />
+    //         </main>
+    //     </div>
+    // );
 }
 
 function App() {
-  return (
-    <Router>
-      <MuiThemeProvider theme={theme}>
-        <MuiPickersUtilsProvider utils={MomentUtils}>
-          <CssBaseline />
-          <AppContent />
-        </MuiPickersUtilsProvider>
-      </MuiThemeProvider>
-    </Router>
-  );
+    return (
+        <Router>
+            <MuiThemeProvider theme={theme}>
+                <MuiPickersUtilsProvider utils={MomentUtils}>
+                    <CssBaseline />
+                    <AppContent />
+                </MuiPickersUtilsProvider>
+            </MuiThemeProvider>
+        </Router>
+    );
 }
 
 export default App;

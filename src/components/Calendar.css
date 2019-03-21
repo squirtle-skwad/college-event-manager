@@ -22,6 +22,16 @@
 
 /* TOOLBAR */
 
+.rbc-row.rbc-time-header-cell {
+    height: 3rem;
+}
+
+@media (min-width: 320px) and (max-width: 480px) {
+    .rbc-toolbar {
+        flex-direction: column;
+    }    
+}
+
 .rbc-btn-group > button {
     background: none;
     border: 1.2px solid var(--theme-purple);

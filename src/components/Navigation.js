@@ -11,45 +11,47 @@ import SignUp from "./SignUp";
 // -----
 
 const useStyles = makeStyles({
-  root: {
-    flexGrow: 1
-  },
-  menuButton: {
-    marginRight: 10
-  },
-  AppBar: {
-    boxShadow: "0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)"
-  }
+    root: {
+        flexGrow: 1,
+    },
+    menuButton: {
+        marginRight: 10,
+    },
+    AppBar: {
+        boxShadow: "0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)",
+    },
 });
 
 function Navigation() {
-  const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
+    const classes = useStyles();
+    const [open, setOpen] = React.useState(false);
 
-  const handleMenuClick = () => setOpen(!open);
+    const handleMenuClick = () => setOpen(!open);
 
-  return (
-    <div className={classes.root}>
-      <AppBar position="relative" color="secondary" className={classes.AppBar}>
-        <Toolbar variant="dense">
-          <IconButton
-            color="inherit"
-            aria-label="Open drawer"
-            className={classes.menuButton}
-            onClick={handleMenuClick}
-          >
-            <MenuIcon />
-          </IconButton>
+    return (
+        <div className={classes.root}>
+            <AppBar
+                position='relative'
+                color='secondary'
+                className={classes.AppBar}
+            >
+                <Toolbar variant='dense'>
+                    <IconButton
+                        color='inherit'
+                        aria-label='Open drawer'
+                        className={classes.menuButton}
+                        onClick={handleMenuClick}
+                    >
+                        <MenuIcon />
+                    </IconButton>
 
-          <Typography variant="h6" color="inherit">
-            College Events Management
-          </Typography>
-          {/* <Login />
-          <SignUp /> */}
-        </Toolbar>
-      </AppBar>
-    </div>
-  );
+                    <Typography variant='h6' color='inherit'>
+                        College Events Management
+                    </Typography>
+                </Toolbar>
+            </AppBar>
+        </div>
+    );
 }
 
 export default Navigation;
