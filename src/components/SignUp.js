@@ -125,14 +125,15 @@ export default class SignUp extends React.Component {
               displayEmpty
               name="department"
             >
-              <MenuItem value="Electronics & Communication">Electronics & Communication</MenuItem>
-              <MenuItem value="Mechanical">Mechanical</MenuItem>
+              <MenuItem value="EXTC">Electronics & Communication</MenuItem>
+              <MenuItem value="MECH">Mechanical</MenuItem>
               <MenuItem value="COMPS">Computers</MenuItem>
               <MenuItem value="IT">IT</MenuItem>
-              <MenuItem value="Electronics">Electronics</MenuItem>
-              <MenuItem value="Chemical">Chemical</MenuItem>
-              <MenuItem value="Bio-medical">Bio-medical</MenuItem>
-              <MenuItem value="Production">Production</MenuItem>
+              <MenuItem value="ETRX">Electronics</MenuItem>
+              <MenuItem value="CHEM">Chemical</MenuItem>
+              <MenuItem value="BIOMED">Bio-medical</MenuItem>
+              <MenuItem value="PROD">Production</MenuItem>
+              <MenuItem value="OTHER">Other/ No department</MenuItem>
             </Select>
           </DialogContent>
           <DialogActions>
