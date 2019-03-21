@@ -33,8 +33,10 @@ const DEPARTMENTS = [
     },
     {
         value: "OTHER",
-        label: "Other",
+        label: "Other/ No department",
     },
 ];
 
-export { DEPARTMENTS };
+const ENDPOINT = "http://127.0.0.1:8000";
+
+export { DEPARTMENTS, ENDPOINT };

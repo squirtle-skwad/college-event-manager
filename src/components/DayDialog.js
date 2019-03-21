@@ -8,9 +8,6 @@ import {
     Fab,
     Dialog,
     Slide,
-    ExpansionPanel,
-    ExpansionPanelDetails,
-    ExpansionPanelSummary,
 } from "@material-ui/core";
 
 import { makeStyles } from "@material-ui/styles";
@@ -18,10 +15,10 @@ import { makeStyles } from "@material-ui/styles";
 import {
     Add as AddIcon,
     Close as CloseIcon,
-    ExpandMore as ExpandMoreIcon,
 } from "@material-ui/icons";
 
 import EventDetailsPanel from "./EventDetailsPanel";
+import { useDayEvents } from "../util/hooks";
 
 // -----
 
@@ -47,11 +44,7 @@ const AddFab = (props) => (
 
 function DayDialog(props) {
     const classes = useStyles();
-
-    React.useEffect(() => {
-        if (props.day)
-            console.log("Get data for ", props.day.start.toDateString());
-    }, [props.day]);
+    const events = useDayEvents(props.day);
 
     React.useEffect(() => {
         const escListener = (event) => {
@@ -65,7 +58,8 @@ function DayDialog(props) {
     // ---
 
     const heading = props.day ? props.day.start.toDateString() : "Date!";
-    const events = props.events || [{}];
+
+    const eventPanels = events.list.map((e, i) => <EventDetailsPanel key={i} event={e} />);
 
     return (
         <Dialog fullScreen TransitionComponent={Transition} open={!!props.day}>
@@ -85,44 +79,7 @@ function DayDialog(props) {
                 </Toolbar>
             </AppBar>
 
-            <ExpansionPanel>
-                <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                    <Typography className={classes.heading}>
-                        Expansion Panel 1
-                    </Typography>
-                </ExpansionPanelSummary>
-                <ExpansionPanelDetails>
-                    <Typography>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Suspendisse malesuada lacus ex, sit amet blandit leo
-                        lobortis eget.
-                    </Typography>
-                </ExpansionPanelDetails>
-            </ExpansionPanel>
-            <ExpansionPanel>
-                <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                    <Typography className={classes.heading}>
-                        Expansion Panel 2
-                    </Typography>
-                </ExpansionPanelSummary>
-                <ExpansionPanelDetails>
-                    <Typography>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Suspendisse malesuada lacus ex, sit amet blandit leo
-                        lobortis eget.
-                    </Typography>
-                </ExpansionPanelDetails>
-            </ExpansionPanel>
-            <ExpansionPanel>
-                <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                    <Typography className={classes.heading}>
-                        Disabled Expansion Panel
-                    </Typography>
-                </ExpansionPanelSummary>
-                <ExpansionPanelDetails>
-                    <EventDetailsPanel event={events[0]} />
-                </ExpansionPanelDetails>
-            </ExpansionPanel>
+            { eventPanels }
 
             <AddFab
                 className={classes.fab}
