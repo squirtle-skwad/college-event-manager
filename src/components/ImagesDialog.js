@@ -105,7 +105,7 @@ function ImagesDialog(props) {
                     variant='contained'
                     type='submit'
                     component='a'
-                    href={`http://127.0.0.1:8000/send_pdf/${props.report.id}`}
+                    href={props.report ? `http://127.0.0.1:8000/send_pdf/${props.report.id}` : '#'}
                     >
                     <EmailIcon /> Email to Faculty
                 </Button>
