@@ -9,10 +9,13 @@ import {
     ExpansionPanelDetails,
 } from "@material-ui/core";
 
-import { ExpandMore as ExpandMoreIcon, Email as EmailIcon } from "@material-ui/icons";
+import { ExpandMore as ExpandMoreIcon, Email as EmailIcon, Delete as DeleteIcon } from "@material-ui/icons";
 
 import { makeStyles } from "@material-ui/styles";
 
+import { ENDPOINT } from "../util/constants";
+
+import axios from 'axios';
 
 // -----
 
@@ -37,8 +40,13 @@ const useStyles = makeStyles((theme) => ({
 
 const toTime = (d) => `${d.getHours()}:${d.getMinutes()}`;
 
-function EventDetails({ event, onReport }) {
+function EventDetails({ event, onReport, onClose }) {
     const classes = useStyles();
+
+    const handleDelete = () => {
+        axios.delete(`${ENDPOINT}/report/${event.report}`)
+        .then(onClose);
+    };
 
     return (
         <ExpansionPanel defaultExpanded>
@@ -91,6 +99,17 @@ function EventDetails({ event, onReport }) {
                     { event.report 
                     ? 
                     <span>
+                        <Button
+                            color='secondary'
+                            variant='contained'
+                            type='submit'
+                            onClick={handleDelete}
+                            style={{
+                                marginRight: '1rem'
+                            }}
+                        >
+                            <DeleteIcon /> Delete Report
+                        </Button>
                         <Button
                             color='secondary'
                             variant='contained'

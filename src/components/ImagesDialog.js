@@ -53,9 +53,9 @@ function ImagesDialog(props) {
         props.onClose();
     };
 
-    const handleEmail = () => {
-        props.onClose();
-    };
+    // const handleEmail = () => {
+    //     props.onClose();
+    // };
 
     const onDrop = (files) => {
         files.forEach(f => {
