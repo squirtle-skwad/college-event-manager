@@ -88,9 +88,16 @@ function EventDetails({ event, onReport }) {
                 />
 
                 <div className={classes.submitContainer}>
-                    <Button color='primary' variant='contained' type='submit' onClick={event.report ? null : () => onReport(event)}>
-                        {event.report ? "Download Report PDF" : "Fill Report"}
+                    { event.report 
+                    ? 
+                    <Button color='secondary' variant='contained' type='submit' component='a' href={`http://127.0.0.1:8000/report_pdf/${event.report}`}>
+                        Download Report PDF
                     </Button>
+                    :
+                    <Button color='primary' variant='contained' type='submit' onClick={() => onReport(event)}>
+                        Fill Report
+                    </Button>
+                    }
                 </div>
             </ExpansionPanelDetails>
         </ExpansionPanel>
