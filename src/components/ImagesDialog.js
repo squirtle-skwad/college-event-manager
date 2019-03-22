@@ -92,7 +92,11 @@ function ImagesDialog(props) {
 
             <Dropzone onDrop={onDrop}>
             {({getRootProps, getInputProps}) => (
-                <div {...getRootProps()} width='200px' height='200px' border='1px solid black'>
+                <div {...getRootProps()} style={{
+                    height: '100px',
+                    width: '100px',
+                    
+                }}>
                     <input {...getInputProps()} />
                     <p>Drag 'n' drop some files here, or click to select files</p>
                 </div>

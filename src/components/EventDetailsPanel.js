@@ -9,7 +9,7 @@ import {
     ExpansionPanelDetails,
 } from "@material-ui/core";
 
-import { ExpandMore as ExpandMoreIcon } from "@material-ui/icons";
+import { ExpandMore as ExpandMoreIcon, Email as EmailIcon } from "@material-ui/icons";
 
 import { makeStyles } from "@material-ui/styles";
 
@@ -90,9 +90,23 @@ function EventDetails({ event, onReport }) {
                 <div className={classes.submitContainer}>
                     { event.report 
                     ? 
-                    <Button color='secondary' variant='contained' type='submit' component='a' href={`http://127.0.0.1:8000/report_pdf/${event.report}`}>
-                        Download Report PDF
-                    </Button>
+                    <span>
+                        <Button
+                            color='secondary'
+                            variant='contained'
+                            type='submit'
+                            component='a'
+                            href={event.report ? `http://127.0.0.1:8000/send_pdf/${event.report.id}` : '#'}
+                            style={{
+                                marginRight: '1rem'
+                            }}
+                        >
+                            <EmailIcon /> Email to Faculty
+                        </Button>
+                        <Button color='secondary' variant='contained' type='submit' component='a' href={`http://127.0.0.1:8000/report_pdf/${event.report}`}>
+                            Download Report PDF
+                        </Button>
+                    </span>
                     :
                     <Button color='primary' variant='contained' type='submit' onClick={() => onReport(event)}>
                         Fill Report
