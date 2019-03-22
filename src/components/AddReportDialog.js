@@ -75,10 +75,6 @@ function AddReportDialog(props) {
             attendanceRef.current.files[0].name
         );
 
-        let x = {};
-        form.forEach((v, k) => (x[k] = v));
-        alert(JSON.stringify(x));
-
         axios
             .post(ENDPOINT + "/report/", form, {
                 headers: {

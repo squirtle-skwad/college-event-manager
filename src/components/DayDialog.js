@@ -27,7 +27,8 @@ const useStyles = makeStyles({
     fab: {
         position: "fixed",
         bottom: "1rem",
-        right: "1rem",
+        right: "auto",
+        right: "auto",
     },
 });
 
