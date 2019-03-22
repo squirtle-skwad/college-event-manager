@@ -96,7 +96,7 @@ function EventDetails({ event, onReport }) {
                             variant='contained'
                             type='submit'
                             component='a'
-                            href={event.report ? `http://127.0.0.1:8000/send_pdf/${event.report.id}` : '#'}
+                            href={event.report ? `http://127.0.0.1:8000/send_pdf/${event.report}` : '#'}
                             style={{
                                 marginRight: '1rem'
                             }}
