@@ -8,7 +8,7 @@ import { MuiThemeProvider } from "@material-ui/core";
 import theme from "./theme";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 
-import Navigation from "./components/Navigationtion";
+import Navigation from "./components/Navigation";
 
 import Calendar from "./routes/Calendar";
 import Verify from "./routes/Verify";

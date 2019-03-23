@@ -16,12 +16,11 @@ import {
     CloudUpload as UploadIcon,
 } from "@material-ui/icons";
 
-import axios from "axios";
+import client from "../util/client";
 import { useDispatch, useMappedState } from "redux-react-hook";
 import { act } from "../store";
 import ImagesDialog from "./ImagesDialog";
 import { useInput } from "../util/hooks";
-import { ENDPOINT } from "../util/constants";
 
 // -----
 
@@ -87,13 +86,7 @@ function AddReportDialog() {
             attendanceRef.current.files[0].name
         );
 
-        axios
-            .post(ENDPOINT + "/report/", form, {
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                },
-            })
-            .then((res) => res.data)
+        client.addReport(form)
             .then(setReport)
             .catch(console.error);
     };

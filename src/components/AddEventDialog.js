@@ -14,10 +14,10 @@ import {
 import { makeStyles } from "@material-ui/styles";
 import { Close as CloseIcon } from "@material-ui/icons";
 
-import axios from "axios";
+import client from "../util/client";
 import DatePicker from "./DatePicker";
 import { useInput } from "../util/hooks";
-import { DEPARTMENTS, ENDPOINT } from "../util/constants";
+import { DEPARTMENTS } from "../util/constants";
 import { useDispatch, useMappedState } from "redux-react-hook";
 import { act } from "../store";
 
@@ -102,8 +102,7 @@ function AddEventDialog() {
             expert_name: expertInput.value,
         };
 
-        axios
-            .post(ENDPOINT + "/event/", formData)
+        client.addEvent(formData)
             .then(closeDialog)
             .catch(console.error);
     };

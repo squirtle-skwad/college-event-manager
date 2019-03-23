@@ -7,7 +7,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 
-import axios from "axios";
+import client from "../util/client";
 import { Redirect, Link } from "react-router-dom";
 
 export default class Login extends React.Component {
@@ -19,24 +19,16 @@ export default class Login extends React.Component {
         this.setState({ [event.target.name]: event.target.value });
     };
 
-    // handleClickOpen = () => {
-    //   this.setState({ open: true });
-    // };
-
-    // handleClose = () => {
-    //   this.setState({ open: false });
-    // };
-
     handleLogin = () => {
         let obj = {};
         obj = this.state;
-        axios
-            .post("http://127.0.0.1:8000/auth/token/login", obj)
-            .then((res) => {
-                localStorage.setItem("auth_token", `${res.data.auth_token}`);
-                console.log(res.data.auth_token);
-                this.setState({ redirect: true });
-            });
+        client.login(obj)
+        .then(data => {
+            localStorage.setItem("auth_token", `${data.auth_token}`);
+            console.log(data.auth_token);
+            this.setState({ redirect: true });
+        })
+        .catch(alert);
     };
 
     render() {

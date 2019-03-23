@@ -1,7 +1,6 @@
 import React from "react";
 
-import axios from "axios";
-import { ENDPOINT } from "./constants";
+import client from "../util/client";
 
 function useInput(defvalue) {
     const [value, setValue] = React.useState(defvalue);
@@ -23,10 +22,9 @@ function useCalendarEvents() {
     const [events, setEvents] = React.useState([]);
 
     const fetchEvents = () => {
-        axios
-            .get(ENDPOINT + "/event/")
+        client.getAllEvents()
             .then((res) => {
-                let er = res.data;
+                let er = res;
                 console.log("Received cal events ", er);
                 er = er.map((e) => ({
                     ...e,
@@ -58,10 +56,9 @@ function useDayEvents(date) {
         const month = date.start.getMonth() + 1;
         const day = date.start.getDate();
 
-        axios
-            .get(`${ENDPOINT}/event/${year}-${month}-${day}`)
+        client.getAllEvents(year, month, day)
             .then((res) => {
-                let er = res.data;
+                let er = res;
                 console.log("Received day events ", er);
                 er = er.map((e) => ({
                     ...e,

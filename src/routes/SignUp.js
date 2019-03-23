@@ -10,7 +10,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
 
-import axios from "axios";
+import client from "../util/client";
 import { Redirect, Link } from "react-router-dom";
 import { DEPARTMENTS } from "../util/constants";
 
@@ -39,8 +39,8 @@ export default class SignUp extends React.Component {
             return;
         }
 
-        axios.post("http://127.0.0.1:8000/signup/", obj).then((res) => {
-            console.log(res.data);
+        client.signup(obj).then((data) => {
+            console.log(data);
             this.setState({ redirect: true });
         });
     };

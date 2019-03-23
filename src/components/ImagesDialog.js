@@ -17,9 +17,9 @@ import {
     Email as EmailIcon,
 } from "@material-ui/icons";
 
-import axios from "axios";
-import Dropzone from "react-dropzone";
+import client from "../util/client";
 import { ENDPOINT } from "../util/constants";
+import Dropzone from "react-dropzone";
 import { useDispatch } from "redux-react-hook";
 import { act } from "../store";
 
@@ -60,13 +60,7 @@ function ImagesDialog(props) {
             form.append("report", props.report.id);
             form.append("image", f, f.name);
 
-            axios
-                .post(ENDPOINT + "/image/", form, {
-                    headers: {
-                        "Content-Type": "multipart/form-data",
-                    },
-                })
-                .catch(console.error);
+            client.addImage(form).catch(console.error);
         });
     };
 

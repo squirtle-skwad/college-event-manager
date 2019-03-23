@@ -15,11 +15,10 @@ import {
 } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/styles";
 
+import client from "../util/client";
 import { ENDPOINT } from "../util/constants";
 import { act } from "../store";
 import { useDispatch } from "redux-react-hook";
-
-import axios from "axios";
 
 // -----
 
@@ -49,9 +48,7 @@ function EventDetails({ event }) {
     const dispatch = useDispatch();
 
     const handleDelete = () => {
-        axios
-            .delete(`${ENDPOINT}/report/${event.report}`)
-            .then(() => dispatch(act.CLOSE_DAY_DIALOG()));
+        client.deleteReport(event.report).then(() => dispatch(act.CLOSE_DAY_DIALOG()));
     };
 
     return (
