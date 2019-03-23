@@ -10,6 +10,9 @@ import { CalendarToday as CalendarIcon } from "@material-ui/icons";
 import BigCalendar from "react-big-calendar";
 import moment from "moment";
 
+import { useDispatch } from "redux-react-hook";
+import { useGlobalState, a } from "../store";
+
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "./Calendar.css";
 
@@ -38,12 +41,9 @@ const MonthlyReportFab = (props) => {
 };
 
 function Calendar() {
-    const [clickEvent, setClickEvent] = React.useState(null);
-    const [slotEvent, setSlotEvent] = React.useState(null);
-    const [reportEvent, setReportEvent] = React.useState(null);
-    // const [focusedEvent, setFocusedEvent] = React.useState(null);
-
-    const [currentDate, setCurrent] = React.useState(new Date());
+    const dispatch = useDispatch();
+    const gs = useGlobalState();
+    
     const [currentView, setView] = React.useState('month');
 
     const events = useCalendarEvents();
@@ -60,11 +60,11 @@ function Calendar() {
         switch (e.action) {
             case "click":
             case "doubleClick":
-                setClickEvent(e);
+                dispatch(a.CLICK_EVENT(e));
                 break;
 
             case "select":
-                setSlotEvent(e);
+                dispatch(a.SLOT_EVENT(e));
                 break;
 
             default:
@@ -88,36 +88,35 @@ function Calendar() {
                 selectable
                 onSelectSlot={onSelectSlot}
                 // onSelectEvent={(event) => setFocusedEvent(event)}
-                onNavigate={setCurrent}
+                onNavigate={d => dispatch(a.SET_CURRENT_DATE(d))}
                 onView={setView}
             />
 
-            {currentView === 'month' ? <MonthlyReportFab date={currentDate} /> : <span hidden />}
+            {currentView === 'month' ? <MonthlyReportFab date={gs.currentDate} /> : <span hidden />}
 
             <DayDialog
-                day={clickEvent}
-                onClose={() => setClickEvent(null)}
-                onAddClick={() => {
-                    setSlotEvent({
-                        start: clickEvent.start,
-                        end: clickEvent.start,
-                    });
-                }}
-                onReport={(event) => setReportEvent(event)}
+                day={gs.clickEvent}
+                onClose={() => dispatch(a.CLICK_EVENT(null))}
+                onAddClick={() =>
+                    dispatch(a.SLOT_EVENT({
+                        start: gs.clickEvent.start,
+                        end: gs.clickEvent.start,
+                    }))}
+                onReport={(event) => dispatch(a.REPORT_EVENT(event))}
                 list={events.list}
             />
             <AddEventDialog
-                event={slotEvent}
+                event={gs.slotEvent}
                 onClose={() => {
-                    setSlotEvent(null);
+                    dispatch(a.SLOT_EVENT(null));
                     events.fetchEvents();
                 }}
             />
             <AddReportDialog
-                event={reportEvent}
+                event={gs.reportEvent}
                 onClose={() => {
-                    setReportEvent(null);
-                    setSlotEvent(null);
+                    dispatch(a.REPORT_EVENT(null));
+                    dispatch(a.SLOT_EVENT(null));
                 }}
             />
         </div>
