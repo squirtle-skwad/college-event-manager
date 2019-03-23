@@ -85,8 +85,7 @@ function DayDialog(props) {
                     <IconButton
                         onClick={closeDialogCallback}
                         color='inherit'
-                        className={classes.closeButton}
-                    >
+                        className={classes.closeButton}>
                         <CloseIcon />
                     </IconButton>
 

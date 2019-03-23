@@ -172,8 +172,7 @@ function AddReportDialog() {
                     color='primary'
                     variant='contained'
                     type='submit'
-                    onClick={handleSubmit}
-                >
+                    onClick={handleSubmit}>
                     Submit Report
                 </Button>
             </div>

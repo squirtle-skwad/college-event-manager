@@ -33,15 +33,13 @@ function Navigation() {
             <AppBar
                 position='relative'
                 color='secondary'
-                className={classes.AppBar}
-            >
+                className={classes.AppBar}>
                 <Toolbar variant='dense'>
                     <IconButton
                         color='inherit'
                         aria-label='Open drawer'
                         className={classes.menuButton}
-                        onClick={handleMenuClick}
-                    >
+                        onClick={handleMenuClick}>
                         <MenuIcon />
                     </IconButton>
 

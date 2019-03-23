@@ -155,8 +155,7 @@ function AddEventDialog() {
                         }}
                         {...deptInput}
                         helperText="Choose 'Other' if not organized by a specific department"
-                        margin='normal'
-                    >
+                        margin='normal'>
                         {DEPARTMENTS.map((option) => (
                             <MenuItem key={option.value} value={option.value}>
                                 {option.label}
@@ -199,8 +198,7 @@ function AddEventDialog() {
                         color='primary'
                         variant='contained'
                         type='submit'
-                        onClick={handleSubmit}
-                    >
+                        onClick={handleSubmit}>
                         Submit
                     </Button>
                 </div>

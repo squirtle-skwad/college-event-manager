@@ -111,8 +111,7 @@ function EventDetails({ event }) {
                                 onClick={handleDelete}
                                 style={{
                                     marginRight: "1rem",
-                                }}
-                            >
+                                }}>
                                 <DeleteIcon /> Delete Report
                             </Button>
                             <Button
@@ -127,8 +126,7 @@ function EventDetails({ event }) {
                                 }
                                 style={{
                                     marginRight: "1rem",
-                                }}
-                            >
+                                }}>
                                 <EmailIcon /> Email to Faculty
                             </Button>
                             <Button
@@ -136,8 +134,7 @@ function EventDetails({ event }) {
                                 variant='contained'
                                 type='submit'
                                 component='a'
-                                href={`${ENDPOINT}/report_pdf/${event.report}`}
-                            >
+                                href={`${ENDPOINT}/report_pdf/${event.report}`}>
                                 Download Report PDF
                             </Button>
                         </span>
@@ -148,8 +145,7 @@ function EventDetails({ event }) {
                             type='submit'
                             onClick={() =>
                                 dispatch(act.SET_REPORT_EVENT(event))
-                            }
-                        >
+                            }>
                             Fill Report
                         </Button>
                     )}

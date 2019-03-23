@@ -97,8 +97,7 @@ function ImagesDialog(props) {
                             height: "inherit",
                             width: "inherit",
                             border: "1px dotted black",
-                        }}
-                    >
+                        }}>
                         <input {...getInputProps()} />
                         <p>
                             Drag 'n' drop some files here, or click to select
@@ -118,16 +117,14 @@ function ImagesDialog(props) {
                         props.report
                             ? `${ENDPOINT}/send_pdf/${props.report.id}`
                             : "#"
-                    }
-                >
+                    }>
                     <EmailIcon /> Email to Faculty
                 </Button>
                 <Button
                     color='primary'
                     variant='contained'
                     type='submit'
-                    onClick={handleSubmit}
-                >
+                    onClick={handleSubmit}>
                     <DoneIcon /> Done
                 </Button>
             </div>
