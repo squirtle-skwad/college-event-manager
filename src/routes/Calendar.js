@@ -31,8 +31,8 @@ const MonthlyReportFab = (props) => {
             style={{
                 position: "relative",
                 bottom: "1rem",
-                right: "auto",
                 left: "auto",
+                right: "auto",
             }}
             component='a'
             href={`${ENDPOINT}/month/${month}/${year}`}>
@@ -79,33 +79,35 @@ function Calendar() {
     // -----
 
     return (
-        <div className='calendar-container'>
-            <BigCalendar
-                style={{
-                    height: "inherit",
-                    width: "inherit",
-                }}
-                views={allowedViews}
-                localizer={localizer}
-                events={events.list}
-                popup
-                selectable
-                onSelectSlot={onSelectSlot}
-                // onSelectEvent={(event) => setFocusedEvent(event)}
-                onNavigate={(d) => dispatch(act.SET_CURRENT_DATE(d))}
-                onView={setView}
-            />
+        <React.Fragment>
+            <div className='calendar-container'>
+                <BigCalendar
+                    style={{
+                        height: "inherit",
+                        width: "inherit",
+                    }}
+                    views={allowedViews}
+                    localizer={localizer}
+                    events={events.list}
+                    popup
+                    selectable
+                    onSelectSlot={onSelectSlot}
+                    // onSelectEvent={(event) => setFocusedEvent(event)}
+                    onNavigate={(d) => dispatch(act.SET_CURRENT_DATE(d))}
+                    onView={setView}
+                />
+
+                <DayDialog list={events.list} />
+                <AddEventDialog />
+                <AddReportDialog />
+            </div>
 
             {currentView === "month" ? (
                 <MonthlyReportFab date={currentDate} />
             ) : (
                 <span hidden />
             )}
-
-            <DayDialog list={events.list} />
-            <AddEventDialog />
-            <AddReportDialog />
-        </div>
+        </React.Fragment>
     );
 }
 

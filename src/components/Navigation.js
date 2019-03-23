@@ -32,7 +32,7 @@ function Navigation() {
     return (
         <div className={classes.root}>
             <AppBar
-                position='relative'
+                position='sticky'
                 color='secondary'
                 className={classes.AppBar}>
                 <Toolbar variant='dense'>

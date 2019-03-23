@@ -30,6 +30,8 @@ function reducer(state = initialState, action) {
             };
             return { ...state, slotEvent };
 
+        case "@@INIT": return state;
+
         default:
             console.error("Unknown type: ", action.type);
             return state;
