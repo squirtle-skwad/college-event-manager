@@ -1,39 +1,48 @@
 import React from "react";
-import axios from "axios";
+
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
-import { Redirect } from "react-router-dom";
+
+import axios from "axios";
+import { Redirect, Link } from "react-router-dom";
+import { DEPARTMENTS } from "../util/constants";
+
+// -----
 
 export default class SignUp extends React.Component {
     state = {
         redirect: false,
+        first_name: "",
+        last_name: "",
+        email: "",
+        username: "",
+        password: "",
+        department: "",
     };
 
     handleChange = (event) => {
         this.setState({ [event.target.name]: event.target.value });
     };
 
-    // handleClickOpen = () => {
-    //   this.setState({ open: true });
-    // };
-
     handleSignUp = () => {
-        let obj = {};
-        obj = this.state;
-        // this.setState({ open: false });
+        let obj = this.state;
+
+        if(!obj.email.endsWith("@djsce.ac.in")) {
+            alert('Email should be @djsce.ac.in!');
+            return;
+        }
+
         axios.post("http://127.0.0.1:8000/signup/", obj).then((res) => {
             console.log(res.data);
             this.setState({ redirect: true });
         });
-        console.log(obj);
     };
 
     render() {
@@ -125,27 +134,21 @@ export default class SignUp extends React.Component {
                             value={this.state.department}
                             onChange={this.handleChange}
                             displayEmpty
-                            name='department'>
-                            <MenuItem value='EXTC'>
-                                Electronics & Communication
-                            </MenuItem>
-                            <MenuItem value='MECH'>Mechanical</MenuItem>
-                            <MenuItem value='COMPS'>Computers</MenuItem>
-                            <MenuItem value='IT'>IT</MenuItem>
-                            <MenuItem value='ETRX'>Electronics</MenuItem>
-                            <MenuItem value='CHEM'>Chemical</MenuItem>
-                            <MenuItem value='BIOMED'>Bio-medical</MenuItem>
-                            <MenuItem value='PROD'>Production</MenuItem>
-                            <MenuItem value='OTHER'>
-                                Other/ No department
-                            </MenuItem>
+                            fullWidth
+                            name='department'
+                            defaultValue="OTHER">
+                            {DEPARTMENTS.map((option) => (
+                                <MenuItem key={option.value} value={option.value}>
+                                    {option.label}
+                                </MenuItem>
+                            ))}
                         </Select>
                     </DialogContent>
                     <DialogActions>
-                        {/* <Button onClick={this.handleClose} color="primary">
-              Cancel
-            </Button> */}
-                        <Button onClick={this.handleSignUp} color='primary'>
+                        <Button color='primary' component={Link} to='/login'>
+                            Log In
+                        </Button>
+                        <Button onClick={this.handleSignUp} color='primary' variant="contained">
                             Sign Up
                         </Button>
                     </DialogActions>

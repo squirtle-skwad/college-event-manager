@@ -1,16 +1,18 @@
 import React from "react";
+
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
+
 import axios from "axios";
-import { Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
+
 export default class Login extends React.Component {
     state = {
-        redirect: false,
+        redirect: !!localStorage.getItem("auth_token"),
     };
 
     handleChange = (event) => {
@@ -28,7 +30,6 @@ export default class Login extends React.Component {
     handleLogin = () => {
         let obj = {};
         obj = this.state;
-        // this.setState({ open: false });
         axios
             .post("http://127.0.0.1:8000/auth/token/login", obj)
             .then((res) => {
@@ -36,7 +37,6 @@ export default class Login extends React.Component {
                 console.log(res.data.auth_token);
                 this.setState({ redirect: true });
             });
-        //console.log(obj);
     };
 
     render() {
@@ -85,11 +85,11 @@ export default class Login extends React.Component {
                         />
                     </DialogContent>
                     <DialogActions>
-                        {/* <Button onClick={this.handleClose} color="primary">
-              Cancel
-            </Button> */}
-                        <Button onClick={this.handleLogin} color='primary'>
-                            Login
+                        <Button color='primary' component={Link} to='/signup'>
+                            Sign Up
+                        </Button>
+                        <Button onClick={this.handleLogin} color='primary' variant="contained">
+                            Log In
                         </Button>
                     </DialogActions>
                 </Dialog>

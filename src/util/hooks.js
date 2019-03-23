@@ -14,6 +14,11 @@ function useInput(defvalue) {
     };
 }
 
+function useAuthToken() {
+    const token = localStorage.getItem('auth_token');
+    return token;
+}
+
 function useCalendarEvents() {
     const [events, setEvents] = React.useState([]);
 
@@ -79,4 +84,4 @@ function useDayEvents(date) {
     };
 }
 
-export { useInput, useCalendarEvents, useDayEvents };
+export { useInput, useCalendarEvents, useDayEvents, useAuthToken };

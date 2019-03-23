@@ -6,8 +6,9 @@ import { makeStyles } from "@material-ui/styles";
 
 import { CalendarToday as MenuIcon } from "@material-ui/icons";
 
-import Login from "./Login";
-import SignUp from "./SignUp";
+// import Login from "./Login";
+// import SignUp from "./SignUp";
+
 // -----
 
 const useStyles = makeStyles({
