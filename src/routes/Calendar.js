@@ -1,8 +1,8 @@
 import React, { useCallback } from "react";
 
-import DayDialog from "./DayDialog";
-import AddEventDialog from "./AddEventDialog";
-import AddReportDialog from "./AddReportDialog";
+import DayDialog from "../components/DayDialog";
+import AddEventDialog from "../components/AddEventDialog";
+import AddReportDialog from "../components/AddReportDialog";
 import { useCalendarEvents } from "../util/hooks";
 
 import { Fab } from "@material-ui/core";

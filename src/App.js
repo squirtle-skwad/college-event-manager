@@ -1,16 +1,19 @@
 import React from "react";
 import "./App.css";
-import Login from "../src/components/Login";
-import SignUp from "../src/components/SignUp";
+
 import { CssBaseline } from "@material-ui/core";
 import { MuiPickersUtilsProvider } from "material-ui-pickers";
 import MomentUtils from "@date-io/moment";
 import { MuiThemeProvider } from "@material-ui/core";
 import theme from "./theme";
 import { BrowserRouter as Router, Route } from "react-router-dom";
-import Verify from "../src/components/Verify";
-import Navigation from "./components/Navigation";
-import Calendar from "./components/Calendar";
+
+import Navigation from "./components/Navigationtion";
+
+import Calendar from "./routes/Calendar";
+import Verify from "./routes/Verify";
+import Login from "./routes/Login";
+import SignUp from "./routes/SignUp";
 
 function AppContent() {
     return (
@@ -24,14 +27,6 @@ function AppContent() {
             </main>
         </div>
     );
-    // return (
-    //     <div className='App'>
-    //         <Navigation />
-    //         <main className='App-content'>
-    //             <Route path='/' exact component={Calendar} />
-    //         </main>
-    //     </div>
-    // );
 }
 
 function App() {

@@ -6,7 +6,7 @@ export class Verify extends Component {
             <div>
                 <h1>Verify Your Email Address</h1>
                 <h3>
-                    YOu can verify your email address by clicking{" "}
+                    You can verify your email address by clicking{" "}
                     <a href='https://www.gmail.com'>Here</a>
                 </h3>
             </div>
