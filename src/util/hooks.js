@@ -56,7 +56,7 @@ function useDayEvents(date) {
         const month = date.start.getMonth() + 1;
         const day = date.start.getDate();
 
-        client.getAllEvents(year, month, day)
+        client.getDayEvents(year, month, day)
             .then((res) => {
                 let er = res;
                 console.log("Received day events ", er);
