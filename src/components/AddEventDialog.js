@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState, useCallback } from "react";
 
 import {
     AppBar,
@@ -11,7 +11,6 @@ import {
     Button,
     MenuItem,
 } from "@material-ui/core";
-
 import { makeStyles } from "@material-ui/styles";
 import { Close as CloseIcon } from "@material-ui/icons";
 
@@ -19,6 +18,8 @@ import axios from "axios";
 import DatePicker from "./DatePicker";
 import { useInput } from "../util/hooks";
 import { DEPARTMENTS, ENDPOINT } from "../util/constants";
+import { useDispatch, useMappedState } from "redux-react-hook";
+import { act } from "../store";
 
 // -----
 
@@ -43,40 +44,52 @@ const useStyles = makeStyles((theme) => ({
 
 const Transition = (props) => <Slide direction='up' {...props} />;
 
-function AddEventDialog(props) {
+// -----
+
+function AddEventDialog() {
     const classes = useStyles();
+    const dispatch = useDispatch();
+    const slotEvent = useMappedState(
+        useCallback((state) => state.slotEvent, [])
+    );
+
     const nameInput = useInput("");
     const expertInput = useInput("");
     const descInput = useInput("");
     const organizerInput = useInput("");
     const deptInput = useInput("OTHER");
-    const [startDate, setStartDate] = React.useState(null);
-    const [endDate, setEndDate] = React.useState(null);
+    const [startDate, setStartDate] = useState(null);
+    const [endDate, setEndDate] = useState(null);
 
-    React.useEffect(() => {
+    // -----
+
+    useEffect(() => {
         if (startDate) console.log(startDate.toISOString());
     }, [startDate]);
 
-    React.useEffect(() => {
-        if (!!props.event) {
-            setStartDate(props.event.start);
-            setEndDate(props.event.end);
+    useEffect(() => {
+        if (!!slotEvent) {
+            setStartDate(slotEvent.start);
+            setEndDate(slotEvent.end);
         } else {
             setStartDate(null);
             setEndDate(null);
         }
-    }, [props.event]);
+    }, [slotEvent]);
 
-    React.useEffect(() => {
-        const escListener = (event) => {
-            if (event.keyCode === 27) props.onClose();
-        };
-
+    useEffect(() => {
         document.addEventListener("keydown", escListener, false);
         return () => document.addEventListener("keydown", escListener, false);
     });
 
     // -----
+
+    const closeDialog = useCallback(() =>
+        dispatch(act.CLOSE_ADD_EVENT_DIALOG())
+    );
+    const escListener = useCallback((event) => {
+        if (event.keyCode === 27) closeDialog();
+    }, []);
 
     const handleSubmit = (e) => {
         const formData = {
@@ -91,18 +104,18 @@ function AddEventDialog(props) {
 
         axios
             .post(ENDPOINT + "/event/", formData)
-            .then(props.onClose)
+            .then(closeDialog)
             .catch(console.error);
     };
 
     // -----
 
     return (
-        <Dialog TransitionComponent={Transition} open={!!props.event}>
+        <Dialog TransitionComponent={Transition} open={!!slotEvent}>
             <div>
                 <AppBar color='secondary' position='sticky'>
                     <Toolbar variant='dense' disableGutters>
-                        <IconButton onClick={props.onClose} color='inherit'>
+                        <IconButton onClick={closeDialog} color='inherit'>
                             <CloseIcon />
                         </IconButton>
 

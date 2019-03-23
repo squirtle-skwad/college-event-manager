@@ -1,8 +1,8 @@
-import reducer from './reducer';
-import actions from './actions';
+import reducer from "./reducer";
+import actions from "./actions";
 
-import { useCallback } from 'react';
-import { createStore } from 'redux';
+import { useCallback } from "react";
+import { createStore } from "redux";
 import { useMappedState } from "redux-react-hook";
 
 const appStore = createStore(
@@ -11,14 +11,9 @@ const appStore = createStore(
 );
 
 function useGlobalState() {
-    const map = useCallback(state => state, [])
+    const map = useCallback((state) => state, []);
     const gs = useMappedState(map);
     return gs;
 }
 
-export {
-    appStore,
-    useGlobalState,
-    actions as a,
-    reducer,
-};
+export { appStore, useGlobalState, actions as act, reducer };

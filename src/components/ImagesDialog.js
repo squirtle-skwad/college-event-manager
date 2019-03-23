@@ -18,8 +18,10 @@ import {
 } from "@material-ui/icons";
 
 import axios from "axios";
-import Dropzone from 'react-dropzone';
+import Dropzone from "react-dropzone";
 import { ENDPOINT } from "../util/constants";
+import { useDispatch } from "redux-react-hook";
+import { act } from "../store";
 
 // -----
 
@@ -46,23 +48,18 @@ const Transition = (props) => <Slide direction='up' {...props} />;
 
 function ImagesDialog(props) {
     const classes = useStyles();
+    const dispatch = useDispatch();
 
     // -----
 
-    const handleSubmit = (e) => {
-        props.onClose();
-    };
-
-    // const handleEmail = () => {
-    //     props.onClose();
-    // };
+    const handleSubmit = (e) => dispatch(act.CLOSE_IMAGE_DIALOG());
 
     const onDrop = (files) => {
-        files.forEach(f => {
+        files.forEach((f) => {
             const form = new FormData();
-            form.append('report', props.report.id);
-            form.append('image', f, f.name);
-    
+            form.append("report", props.report.id);
+            form.append("image", f, f.name);
+
             axios
                 .post(ENDPOINT + "/image/", form, {
                     headers: {
@@ -75,7 +72,7 @@ function ImagesDialog(props) {
 
     // -----
 
-    return ( 
+    return (
         <Dialog TransitionComponent={Transition} open={!!props.report}>
             <AppBar color='primary' position='sticky'>
                 <Toolbar variant='dense' disableGutters>
@@ -91,16 +88,24 @@ function ImagesDialog(props) {
             </AppBar>
 
             <Dropzone onDrop={onDrop}>
-            {({getRootProps, getInputProps}) => (
-                <div {...getRootProps()} style={{
-                    height: '100px',
-                    width: '100px',
-                    
-                }}>
-                    <input {...getInputProps()} />
-                    <p>Drag 'n' drop some files here, or click to select files</p>
-                </div>
-            )}
+                {({ getRootProps, getInputProps }) => (
+                    <div
+                        {...getRootProps()}
+                        style={{
+                            minHeight: "200px",
+                            minWidth: "200px",
+                            height: "inherit",
+                            width: "inherit",
+                            border: "1px dotted black",
+                        }}
+                    >
+                        <input {...getInputProps()} />
+                        <p>
+                            Drag 'n' drop some files here, or click to select
+                            files
+                        </p>
+                    </div>
+                )}
             </Dropzone>
 
             <div className={classes.submitContainer}>
@@ -109,19 +114,24 @@ function ImagesDialog(props) {
                     variant='contained'
                     type='submit'
                     component='a'
-                    href={props.report ? `http://127.0.0.1:8000/send_pdf/${props.report.id}` : '#'}
-                    >
+                    href={
+                        props.report
+                            ? `${ENDPOINT}/send_pdf/${props.report.id}`
+                            : "#"
+                    }
+                >
                     <EmailIcon /> Email to Faculty
                 </Button>
                 <Button
                     color='primary'
                     variant='contained'
                     type='submit'
-                    onClick={handleSubmit}>
+                    onClick={handleSubmit}
+                >
                     <DoneIcon /> Done
                 </Button>
             </div>
-        </Dialog> 
+        </Dialog>
     );
 }
 

@@ -8,14 +8,18 @@ import {
     ExpansionPanelSummary,
     ExpansionPanelDetails,
 } from "@material-ui/core";
-
-import { ExpandMore as ExpandMoreIcon, Email as EmailIcon, Delete as DeleteIcon } from "@material-ui/icons";
-
+import {
+    ExpandMore as ExpandMoreIcon,
+    Email as EmailIcon,
+    Delete as DeleteIcon,
+} from "@material-ui/icons";
 import { makeStyles } from "@material-ui/styles";
 
 import { ENDPOINT } from "../util/constants";
+import { act } from "../store";
+import { useDispatch } from "redux-react-hook";
 
-import axios from 'axios';
+import axios from "axios";
 
 // -----
 
@@ -40,12 +44,14 @@ const useStyles = makeStyles((theme) => ({
 
 const toTime = (d) => `${d.getHours()}:${d.getMinutes()}`;
 
-function EventDetails({ event, onReport, onClose }) {
+function EventDetails({ event }) {
     const classes = useStyles();
+    const dispatch = useDispatch();
 
     const handleDelete = () => {
-        axios.delete(`${ENDPOINT}/report/${event.report}`)
-        .then(onClose);
+        axios
+            .delete(`${ENDPOINT}/report/${event.report}`)
+            .then(() => dispatch(act.CLOSE_DAY_DIALOG()));
     };
 
     return (
@@ -96,41 +102,57 @@ function EventDetails({ event, onReport, onClose }) {
                 />
 
                 <div className={classes.submitContainer}>
-                    { event.report 
-                    ? 
-                    <span>
+                    {event.report ? (
+                        <span>
+                            <Button
+                                color='secondary'
+                                variant='contained'
+                                type='submit'
+                                onClick={handleDelete}
+                                style={{
+                                    marginRight: "1rem",
+                                }}
+                            >
+                                <DeleteIcon /> Delete Report
+                            </Button>
+                            <Button
+                                color='secondary'
+                                variant='contained'
+                                type='submit'
+                                component='a'
+                                href={
+                                    event.report
+                                        ? `${ENDPOINT}/send_pdf/${event.report}`
+                                        : "#"
+                                }
+                                style={{
+                                    marginRight: "1rem",
+                                }}
+                            >
+                                <EmailIcon /> Email to Faculty
+                            </Button>
+                            <Button
+                                color='secondary'
+                                variant='contained'
+                                type='submit'
+                                component='a'
+                                href={`${ENDPOINT}/report_pdf/${event.report}`}
+                            >
+                                Download Report PDF
+                            </Button>
+                        </span>
+                    ) : (
                         <Button
-                            color='secondary'
+                            color='primary'
                             variant='contained'
                             type='submit'
-                            onClick={handleDelete}
-                            style={{
-                                marginRight: '1rem'
-                            }}
+                            onClick={() =>
+                                dispatch(act.SET_REPORT_EVENT(event))
+                            }
                         >
-                            <DeleteIcon /> Delete Report
+                            Fill Report
                         </Button>
-                        <Button
-                            color='secondary'
-                            variant='contained'
-                            type='submit'
-                            component='a'
-                            href={event.report ? `http://127.0.0.1:8000/send_pdf/${event.report}` : '#'}
-                            style={{
-                                marginRight: '1rem'
-                            }}
-                        >
-                            <EmailIcon /> Email to Faculty
-                        </Button>
-                        <Button color='secondary' variant='contained' type='submit' component='a' href={`http://127.0.0.1:8000/report_pdf/${event.report}`}>
-                            Download Report PDF
-                        </Button>
-                    </span>
-                    :
-                    <Button color='primary' variant='contained' type='submit' onClick={() => onReport(event)}>
-                        Fill Report
-                    </Button>
-                    }
+                    )}
                 </div>
             </ExpansionPanelDetails>
         </ExpansionPanel>
