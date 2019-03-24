@@ -16,10 +16,8 @@ import { Close as CloseIcon } from "@material-ui/icons";
 
 import client from "../util/client";
 import DatePicker from "./DatePicker";
-import { useInput } from "../util/hooks";
 import { DEPARTMENTS } from "../util/constants";
-import { useDispatch, useMappedState } from "redux-react-hook";
-import { act } from "../store";
+import { act, useDispatch, useMappedState } from "../store";
 import { useFormState } from 'react-use-form-state';
 
 // -----

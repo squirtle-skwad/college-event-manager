@@ -20,8 +20,7 @@ import {
 import client from "../util/client";
 import { ENDPOINT } from "../util/constants";
 import Dropzone from "react-dropzone";
-import { useDispatch } from "redux-react-hook";
-import { act } from "../store";
+import { act, useDispatch } from "../store";
 
 // -----
 

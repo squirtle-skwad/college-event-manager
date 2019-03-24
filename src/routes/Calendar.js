@@ -10,8 +10,7 @@ import { CalendarToday as CalendarIcon } from "@material-ui/icons";
 import BigCalendar from "react-big-calendar";
 import moment from "moment";
 
-import { useDispatch, useMappedState } from "redux-react-hook";
-import { act } from "../store";
+import { act, useDispatch, useMappedState } from "../store";
 import { ENDPOINT } from "../util/constants";
 
 import "react-big-calendar/lib/css/react-big-calendar.css";

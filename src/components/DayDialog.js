@@ -14,8 +14,7 @@ import { Add as AddIcon, Close as CloseIcon } from "@material-ui/icons";
 
 import EventDetailsPanel from "./EventDetailsPanel";
 import { useDayEvents } from "../util/hooks";
-import { useDispatch, useMappedState } from "redux-react-hook";
-import { act } from "../store";
+import { act, useDispatch, useMappedState } from "../store";
 
 // -----
 

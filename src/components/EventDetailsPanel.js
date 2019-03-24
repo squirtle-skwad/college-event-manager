@@ -17,8 +17,7 @@ import { makeStyles } from "@material-ui/styles";
 
 import client from "../util/client";
 import { ENDPOINT } from "../util/constants";
-import { act } from "../store";
-import { useDispatch } from "redux-react-hook";
+import { act, useDispatch } from "../store";
 
 // -----
 

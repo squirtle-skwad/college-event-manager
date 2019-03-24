@@ -3,7 +3,7 @@ import actions from "./actions";
 
 import { useCallback } from "react";
 import { createStore } from "redux";
-import { useMappedState } from "redux-react-hook";
+import { useDispatch, useMappedState } from "redux-react-hook";
 
 const appStore = createStore(
     reducer,
@@ -16,4 +16,4 @@ function useGlobalState() {
     return gs;
 }
 
-export { appStore, useGlobalState, actions as act, reducer };
+export { appStore, useGlobalState, actions as act, reducer, useDispatch, useMappedState };

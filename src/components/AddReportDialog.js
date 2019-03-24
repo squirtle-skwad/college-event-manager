@@ -17,8 +17,7 @@ import {
 } from "@material-ui/icons";
 
 import client from "../util/client";
-import { useDispatch, useMappedState } from "redux-react-hook";
-import { act } from "../store";
+import { act, useDispatch, useMappedState } from "../store";
 import ImagesDialog from "./ImagesDialog";
 import { useInput } from "../util/hooks";
 
