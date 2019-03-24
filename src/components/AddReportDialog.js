@@ -19,7 +19,8 @@ import {
 import client from "../util/client";
 import { act, useDispatch, useMappedState } from "../store";
 import ImagesDialog from "./ImagesDialog";
-import { useInput } from "../util/hooks";
+import { useFormState } from "react-use-form-state";
+import _ from "lodash";
 
 // -----
 
@@ -53,10 +54,11 @@ function AddReportDialog() {
         useCallback((state) => state.reportEvent, [])
     );
 
-    const venueInput = useInput("");
-    const participantsInput = useInput("");
+    const [formState, { text }] = useFormState({
+        department: "OTHER",
+    });
+
     const attendanceRef = useRef();
-    const descInput = useInput("");
 
     const [report, setReport] = useState(null);
 
@@ -76,16 +78,15 @@ function AddReportDialog() {
 
     const handleSubmit = (e) => {
         const form = new FormData();
-        form.append("event", reportEvent.id);
-        form.append("venue", venueInput.value);
-        form.append("number_of_participants", participantsInput.value);
+        _.forIn(formState.values, (value, key) => form.append(key, value));
         form.append(
             "attendance",
             attendanceRef.current.files[0],
             attendanceRef.current.files[0].name
         );
 
-        client.addReport(form)
+        client
+            .addReport(form)
             .then(setReport)
             .catch(console.error);
     };
@@ -119,31 +120,31 @@ function AddReportDialog() {
                     margin='normal'
                 />
                 <TextField
+                    {...text("number_of_participants")}
                     label='Number of Participants'
                     InputLabelProps={{
                         shrink: true,
                     }}
-                    {...participantsInput}
                     type='number'
                     margin='normal'
                 />
                 <TextField
+                    {...text("venue")}
                     label='Venue'
                     InputLabelProps={{
                         shrink: true,
                     }}
-                    {...venueInput}
                     fullWidth
                     margin='normal'
                 />
                 <TextField
+                    {...text("after_event_description")}
                     label='After Event Description'
                     InputLabelProps={{
                         shrink: true,
                     }}
                     multiline
                     rows='4'
-                    {...descInput}
                     fullWidth
                     margin='normal'
                 />

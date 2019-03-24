@@ -16,4 +16,11 @@ function useGlobalState() {
     return gs;
 }
 
-export { appStore, useGlobalState, actions as act, reducer, useDispatch, useMappedState };
+export {
+    appStore,
+    useGlobalState,
+    actions as act,
+    reducer,
+    useDispatch,
+    useMappedState,
+};

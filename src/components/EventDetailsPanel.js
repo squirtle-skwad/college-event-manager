@@ -40,14 +40,16 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const toTime = (d) => `${d.getHours()}:${d.getMinutes()}`;
+const toTime = (d) => `${d.getUTCHours()}:${d.getUTCMinutes()}`;
 
 function EventDetails({ event }) {
     const classes = useStyles();
     const dispatch = useDispatch();
 
     const handleDelete = () => {
-        client.deleteReport(event.report).then(() => dispatch(act.CLOSE_DAY_DIALOG()));
+        client
+            .deleteReport(event.report)
+            .then(() => dispatch(act.CLOSE_DAY_DIALOG()));
     };
 
     return (

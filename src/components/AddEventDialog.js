@@ -18,7 +18,7 @@ import client from "../util/client";
 import DatePicker from "./DatePicker";
 import { DEPARTMENTS } from "../util/constants";
 import { act, useDispatch, useMappedState } from "../store";
-import { useFormState } from 'react-use-form-state';
+import { useFormState } from "react-use-form-state";
 
 // -----
 
@@ -53,17 +53,13 @@ function AddEventDialog() {
     );
 
     const [formState, { text }] = useFormState({
-        department: 'OTHER',
+        department: "OTHER",
     });
 
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
 
     // -----
-
-    useEffect(() => {
-        if (startDate) console.log(startDate.toISOString());
-    }, [startDate]);
 
     useEffect(() => {
         if (!!slotEvent) {
@@ -96,9 +92,8 @@ function AddEventDialog() {
             end: endDate,
         };
 
-        alert(JSON.stringify(formData));
-
-        client.addEvent(formData)
+        client
+            .addEvent(formData)
             .then(closeDialog)
             .catch(console.error);
     };
@@ -122,7 +117,7 @@ function AddEventDialog() {
 
                 <form autoComplete='off' className={classes.eventForm}>
                     <TextField
-                        {...text('name')}
+                        {...text("name")}
                         label='Event Name'
                         InputLabelProps={{
                             shrink: true,
@@ -143,9 +138,10 @@ function AddEventDialog() {
                         fullWidth
                     />
                     <TextField
-                        {...text('department')}
+                        {...text("department")}
                         label='Department'
                         select
+                        fullWidth
                         InputLabelProps={{
                             shrink: true,
                         }}
@@ -158,7 +154,7 @@ function AddEventDialog() {
                         ))}
                     </TextField>
                     <TextField
-                        {...text('description')}
+                        {...text("description")}
                         label='Description'
                         InputLabelProps={{
                             shrink: true,
@@ -169,7 +165,7 @@ function AddEventDialog() {
                         margin='normal'
                     />
                     <TextField
-                        {...text('organizer')}
+                        {...text("organizer")}
                         label='Organizer'
                         InputLabelProps={{
                             shrink: true,
@@ -178,7 +174,7 @@ function AddEventDialog() {
                         margin='normal'
                     />
                     <TextField
-                        {...text('expert_name')}
+                        {...text("expert_name")}
                         label='Expert Name'
                         InputLabelProps={{
                             shrink: true,

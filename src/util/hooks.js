@@ -14,37 +14,33 @@ function useInput(defvalue) {
 }
 
 function useAuthToken() {
-    const token = localStorage.getItem('auth_token');
+    const token = localStorage.getItem("auth_token");
     return token;
 }
 
 function useCalendarEvents() {
     const [events, setEvents] = React.useState([]);
 
-    const fetchEvents = () => client.getAllEvents()
+    const fetchEvents = () =>
+        client
+            .getAllEvents()
             .then((res) => {
                 let er = res;
-                console.log("Received cal events ", er);
                 er = er.map((e) => {
                     let start = new Date(e.start);
-                    start.setMilliseconds(start.getTimezoneOffset());
                     let end = new Date(e.end);
-                    end.setMilliseconds(end.getTimezoneOffset());
 
-                    return ({
+                    return {
                         ...e,
                         title: e.name,
                         start,
                         end,
-                    });
+                    };
                 });
 
-                console.log("Converted cal events ", er);
                 setEvents(er);
             })
             .catch(console.error);
-    ;
-
     useEffect(() => {
         fetchEvents();
     }, []);
@@ -65,10 +61,10 @@ function useDayEvents(date) {
         const month = date.start.getMonth() + 1;
         const day = date.start.getDate();
 
-        client.getDayEvents(year, month, day)
+        client
+            .getDayEvents(year, month, day)
             .then((res) => {
                 let er = res;
-                console.log("Received day events ", er);
                 er = er.map((e) => ({
                     ...e,
                     title: e.name,
@@ -76,7 +72,6 @@ function useDayEvents(date) {
                     end: new Date(e.end.slice(0, 19)),
                     allDay: false,
                 }));
-                console.log("Converted day events ", er);
                 setEvents(er);
             })
             .catch(console.error);

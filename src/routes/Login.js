@@ -22,13 +22,14 @@ export default class Login extends React.Component {
     handleLogin = () => {
         let obj = {};
         obj = this.state;
-        client.login(obj)
-        .then(data => {
-            localStorage.setItem("auth_token", `${data.auth_token}`);
-            console.log(data.auth_token);
-            this.setState({ redirect: true });
-        })
-        .catch(alert);
+        client
+            .login(obj)
+            .then((data) => {
+                localStorage.setItem("auth_token", `${data.auth_token}`);
+                console.log(data.auth_token);
+                this.setState({ redirect: true });
+            })
+            .catch(alert);
     };
 
     render() {
@@ -80,7 +81,10 @@ export default class Login extends React.Component {
                         <Button color='primary' component={Link} to='/signup'>
                             Sign Up
                         </Button>
-                        <Button onClick={this.handleLogin} color='primary' variant="contained">
+                        <Button
+                            onClick={this.handleLogin}
+                            color='primary'
+                            variant='contained'>
                             Log In
                         </Button>
                     </DialogActions>

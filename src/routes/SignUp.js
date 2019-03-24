@@ -34,8 +34,8 @@ export default class SignUp extends React.Component {
     handleSignUp = () => {
         let obj = this.state;
 
-        if(!obj.email.endsWith("@djsce.ac.in")) {
-            alert('Email should be @djsce.ac.in!');
+        if (!obj.email.endsWith("@djsce.ac.in")) {
+            alert("Email should be @djsce.ac.in!");
             return;
         }
 
@@ -136,9 +136,11 @@ export default class SignUp extends React.Component {
                             displayEmpty
                             fullWidth
                             name='department'
-                            defaultValue="OTHER">
+                            defaultValue='OTHER'>
                             {DEPARTMENTS.map((option) => (
-                                <MenuItem key={option.value} value={option.value}>
+                                <MenuItem
+                                    key={option.value}
+                                    value={option.value}>
                                     {option.label}
                                 </MenuItem>
                             ))}
@@ -148,7 +150,10 @@ export default class SignUp extends React.Component {
                         <Button color='primary' component={Link} to='/login'>
                             Log In
                         </Button>
-                        <Button onClick={this.handleSignUp} color='primary' variant="contained">
+                        <Button
+                            onClick={this.handleSignUp}
+                            color='primary'
+                            variant='contained'>
                             Sign Up
                         </Button>
                     </DialogActions>

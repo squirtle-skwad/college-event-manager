@@ -44,10 +44,13 @@ const MonthlyReportFab = (props) => {
 function Calendar() {
     const dispatch = useDispatch();
     const { currentDate, fetchEvents } = useMappedState(
-        useCallback((state) => ({
-            currentDate: state.currentDate,
-            fetchEvents: state.fetchEvents,
-        }), [])
+        useCallback(
+            (state) => ({
+                currentDate: state.currentDate,
+                fetchEvents: state.fetchEvents,
+            }),
+            []
+        )
     );
 
     const [currentView, setView] = useState("month");
@@ -71,9 +74,8 @@ function Calendar() {
     }, []);
 
     useEffect(() => {
-        if(fetchEvents) {
-            events.fetchEvents()
-            .then(() => dispatch(act.STOP_FETCH_EVENTS()));
+        if (fetchEvents) {
+            events.fetchEvents().then(() => dispatch(act.STOP_FETCH_EVENTS()));
         }
     }, [fetchEvents]);
 
