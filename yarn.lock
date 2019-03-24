@@ -7440,6 +7440,10 @@ react-transition-group@^2.2.0, react-transition-group@^2.2.1, react-transition-g
     prop-types "^15.6.2"
     react-lifecycles-compat "^3.0.4"
 
+react-use-form-state@^0.8.0:
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/react-use-form-state/-/react-use-form-state-0.8.0.tgz#5c0900e9312e07415deae7b32c8195f3019f70bc"
+
 react@^16.8.4:
   version "16.8.4"
   resolved "https://registry.yarnpkg.com/react/-/react-16.8.4.tgz#fdf7bd9ae53f03a9c4cd1a371432c206be1c4768"

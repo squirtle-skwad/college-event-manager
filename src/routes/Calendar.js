@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import DayDialog from "../components/DayDialog";
 import AddEventDialog from "../components/AddEventDialog";
@@ -44,11 +44,14 @@ const MonthlyReportFab = (props) => {
 
 function Calendar() {
     const dispatch = useDispatch();
-    const currentDate = useMappedState(
-        useCallback((state) => state.currentDate, [])
+    const { currentDate, fetchEvents } = useMappedState(
+        useCallback((state) => ({
+            currentDate: state.currentDate,
+            fetchEvents: state.fetchEvents,
+        }), [])
     );
 
-    const [currentView, setView] = React.useState("month");
+    const [currentView, setView] = useState("month");
 
     const events = useCalendarEvents();
 
@@ -67,6 +70,13 @@ function Calendar() {
                 break;
         }
     }, []);
+
+    useEffect(() => {
+        if(fetchEvents) {
+            events.fetchEvents()
+            .then(() => dispatch(act.STOP_FETCH_EVENTS()));
+        }
+    }, [fetchEvents]);
 
     // -----
 

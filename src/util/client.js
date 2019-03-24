@@ -18,8 +18,8 @@ export default {
         },
     }).then(r => r.data),
 
-    getAllEvents: () => axios.get(ENDPOINT + "/event/").then(r => r.data),
-    getMonthEvents: (month) => undefined,
+    getAllEvents: () => axios.get(`${ENDPOINT}/event/`).then(r => r.data),
+    getMonthEvents: (year, month) => axios.get(`${ENDPOINT}/${year}/${month}/`).then(r => r.data),
     getDayEvents: (year, month, day) => axios.get(`${ENDPOINT}/event/${year}-${month}-${day}`).then(r => r.data),
 
     deleteReport: (id) => axios.delete(`${ENDPOINT}/report/${id}`).then(r => r.data),

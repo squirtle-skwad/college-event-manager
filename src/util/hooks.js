@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import client from "../util/client";
 
@@ -21,24 +21,33 @@ function useAuthToken() {
 function useCalendarEvents() {
     const [events, setEvents] = React.useState([]);
 
-    const fetchEvents = () => {
-        client.getAllEvents()
+    const fetchEvents = () => client.getAllEvents()
             .then((res) => {
                 let er = res;
                 console.log("Received cal events ", er);
-                er = er.map((e) => ({
-                    ...e,
-                    title: e.name,
-                    start: new Date(e.start.slice(0, 19)),
-                    end: new Date(e.end.slice(0, 19)),
-                }));
+                er = er.map((e) => {
+                    let start = new Date(e.start);
+                    start.setMilliseconds(start.getTimezoneOffset());
+                    let end = new Date(e.end);
+                    end.setMilliseconds(end.getTimezoneOffset());
+
+                    return ({
+                        ...e,
+                        title: e.name,
+                        start,
+                        end,
+                    });
+                });
+
                 console.log("Converted cal events ", er);
                 setEvents(er);
             })
             .catch(console.error);
-    };
+    ;
 
-    React.useEffect(fetchEvents, []);
+    useEffect(() => {
+        fetchEvents();
+    }, []);
 
     return {
         list: events,

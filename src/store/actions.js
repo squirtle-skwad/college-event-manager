@@ -5,21 +5,18 @@ const ACTIONS = {
             clickEvent: event,
         },
     }),
-
     SET_SLOT_EVENT: (event) => ({
         type: "SET_SLOT_EVENT",
         payload: {
             slotEvent: event,
         },
     }),
-
     SET_REPORT_EVENT: (event) => ({
         type: "SET_REPORT_EVENT",
         payload: {
             reportEvent: event,
         },
     }),
-
     SET_CURRENT_DATE: (date) => ({
         type: "SET_CURRENT_DATE",
         payload: {
@@ -42,6 +39,12 @@ const ACTIONS = {
 
     ADD_EVENT_FROM_DAY_DIALOG: () => ({
         type: "ADD_EVENT_FROM_DAY_DIALOG",
+    }),
+    FETCH_EVENTS: () => ({
+        type: "FETCH_EVENTS",
+    }),
+    STOP_FETCH_EVENTS: () => ({
+        type: "STOP_FETCH_EVENTS",
     }),
 };
 

@@ -20,6 +20,7 @@ import { useInput } from "../util/hooks";
 import { DEPARTMENTS } from "../util/constants";
 import { useDispatch, useMappedState } from "redux-react-hook";
 import { act } from "../store";
+import { useFormState } from 'react-use-form-state';
 
 // -----
 
@@ -53,11 +54,10 @@ function AddEventDialog() {
         useCallback((state) => state.slotEvent, [])
     );
 
-    const nameInput = useInput("");
-    const expertInput = useInput("");
-    const descInput = useInput("");
-    const organizerInput = useInput("");
-    const deptInput = useInput("OTHER");
+    const [formState, { text }] = useFormState({
+        department: 'OTHER',
+    });
+
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
 
@@ -93,14 +93,12 @@ function AddEventDialog() {
 
     const handleSubmit = (e) => {
         const formData = {
-            name: nameInput.value,
+            ...formState.values,
             start: startDate,
             end: endDate,
-            organizer: organizerInput.value,
-            department: deptInput.value,
-            description: descInput.value,
-            expert_name: expertInput.value,
         };
+
+        alert(JSON.stringify(formData));
 
         client.addEvent(formData)
             .then(closeDialog)
@@ -126,11 +124,11 @@ function AddEventDialog() {
 
                 <form autoComplete='off' className={classes.eventForm}>
                     <TextField
+                        {...text('name')}
                         label='Event Name'
                         InputLabelProps={{
                             shrink: true,
                         }}
-                        {...nameInput}
                         fullWidth
                         margin='normal'
                     />
@@ -147,12 +145,12 @@ function AddEventDialog() {
                         fullWidth
                     />
                     <TextField
-                        select
+                        {...text('department')}
                         label='Department'
+                        select
                         InputLabelProps={{
                             shrink: true,
                         }}
-                        {...deptInput}
                         helperText="Choose 'Other' if not organized by a specific department"
                         margin='normal'>
                         {DEPARTMENTS.map((option) => (
@@ -162,31 +160,31 @@ function AddEventDialog() {
                         ))}
                     </TextField>
                     <TextField
+                        {...text('description')}
                         label='Description'
                         InputLabelProps={{
                             shrink: true,
                         }}
                         rowsMax='4'
                         multiline
-                        {...descInput}
                         fullWidth
                         margin='normal'
                     />
                     <TextField
+                        {...text('organizer')}
                         label='Organizer'
                         InputLabelProps={{
                             shrink: true,
                         }}
-                        {...organizerInput}
                         fullWidth
                         margin='normal'
                     />
                     <TextField
+                        {...text('expert_name')}
                         label='Expert Name'
                         InputLabelProps={{
                             shrink: true,
                         }}
-                        {...expertInput}
                         fullWidth
                         margin='normal'
                     />
