@@ -86,6 +86,8 @@ function AddEventDialog() {
     }, []);
 
     const handleSubmit = (e) => {
+        e.preventDefault();
+
         const formData = {
             ...formState.values,
             start: startDate,
@@ -115,7 +117,7 @@ function AddEventDialog() {
                     </Toolbar>
                 </AppBar>
 
-                <form autoComplete='off' className={classes.eventForm}>
+                <form autoComplete='off' className={classes.eventForm} onSubmit={handleSubmit}>
                     <TextField
                         {...text("name")}
                         label='Event Name'
@@ -182,17 +184,16 @@ function AddEventDialog() {
                         fullWidth
                         margin='normal'
                     />
-                </form>
 
-                <div className={classes.submitContainer}>
-                    <Button
-                        color='primary'
-                        variant='contained'
-                        type='submit'
-                        onClick={handleSubmit}>
-                        Submit
-                    </Button>
-                </div>
+                    <div className={classes.submitContainer}>
+                        <Button
+                            color='primary'
+                            variant='contained'
+                            type='submit'>
+                            Submit
+                        </Button>
+                    </div>
+                </form>
             </div>
         </Dialog>
     );

@@ -77,6 +77,8 @@ function AddReportDialog() {
     }, []);
 
     const handleSubmit = (e) => {
+        e.preventDefault();
+        
         const form = new FormData();
         _.forIn(formState.values, (value, key) => form.append(key, value));
         form.append(
@@ -108,7 +110,7 @@ function AddReportDialog() {
                 </Toolbar>
             </AppBar>
 
-            <form autoComplete='off' className={classes.reportForm}>
+            <form autoComplete='off' className={classes.reportForm} onSubmit={handleSubmit}>
                 <TextField
                     label='Event Name'
                     readOnly
@@ -158,17 +160,16 @@ function AddReportDialog() {
                         style={{ display: "none" }}
                     />
                 </Button>
-            </form>
 
-            <div className={classes.submitContainer}>
-                <Button
-                    color='primary'
-                    variant='contained'
-                    type='submit'
-                    onClick={handleSubmit}>
-                    Submit Report
-                </Button>
-            </div>
+                <div className={classes.submitContainer}>
+                    <Button
+                        color='primary'
+                        variant='contained'
+                        type='submit'>
+                        Submit Report
+                    </Button>
+                </div>
+            </form>
 
             <ImagesDialog report={report} />
         </Dialog>

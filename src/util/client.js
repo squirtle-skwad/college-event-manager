@@ -7,33 +7,37 @@ export default {
     signup: (form) =>
         axios.post(`${ENDPOINT}/signup/`, form).then((r) => r.data),
 
-    addEvent: (form) =>
-        axios.post(`${ENDPOINT}/event/`, form).then((r) => r.data),
+    // Event
+
+    addEvent: (form) => axios.post(`${ENDPOINT}/events/`, form).then((r) => r.data),
+    getAllEvents: () => axios.get(`${ENDPOINT}/events/`).then((r) => r.data),
+
+    // Report
+
     addReport: (form) =>
         axios
-            .post(`${ENDPOINT}/report/`, form, {
+            .post(`${ENDPOINT}/reports/`, form, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                 },
             })
             .then((r) => r.data),
-    addImage: (form) =>
-        axios
-            .post(`${ENDPOINT}/image/`, form, {
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                },
-            })
-            .then((r) => r.data),
-
-    getAllEvents: () => axios.get(`${ENDPOINT}/event/`).then((r) => r.data),
-    getMonthEvents: (year, month) =>
-        axios.get(`${ENDPOINT}/${year}/${month}/`).then((r) => r.data),
-    getDayEvents: (year, month, day) =>
-        axios
-            .get(`${ENDPOINT}/event/${year}-${month}-${day}`)
-            .then((r) => r.data),
-
     deleteReport: (id) =>
         axios.delete(`${ENDPOINT}/report/${id}`).then((r) => r.data),
+
+    addImage: (form) =>
+        axios
+            .post(`${ENDPOINT}/images/`, form, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            })
+            .then((r) => r.data),
+
+    getMonthEvents: (year, month) =>
+        axios.get(`${ENDPOINT}/event-calendar/${year}/${month}/`).then((r) => r.data),
+    getDayEvents: (year, month, day) =>
+        axios
+            .get(`${ENDPOINT}/event-calendar/${year}-${month}-${day}`)
+            .then((r) => r.data),
 };
