@@ -55,11 +55,13 @@ function ImagesDialog(props) {
 
     const onDrop = (files) => {
         files.forEach((f) => {
-            const form = new FormData();
-            form.append("report", props.report.id);
-            form.append("image", f, f.name);
+            const formData = new FormData();
+            formData.append("report", props.report.id);
+            formData.append("image", f, f.name);
 
-            client.addImage(form).catch(console.error);
+            client.images
+                .post(formData)
+                .catch(console.error);
         });
     };
 

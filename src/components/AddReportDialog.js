@@ -79,16 +79,16 @@ function AddReportDialog() {
     const handleSubmit = (e) => {
         e.preventDefault();
         
-        const form = new FormData();
-        _.forIn(formState.values, (value, key) => form.append(key, value));
-        form.append(
+        const formData = new FormData();
+        _.forIn(formState.values, (value, key) => formData.append(key, value));
+        formData.append(
             "attendance",
             attendanceRef.current.files[0],
             attendanceRef.current.files[0].name
         );
 
-        client
-            .addReport(form)
+        client.reports
+            .post(formData)
             .then(setReport)
             .catch(console.error);
     };

@@ -22,11 +22,11 @@ function useCalendarEvents() {
     const [events, setEvents] = React.useState([]);
 
     const fetchEvents = () =>
-        client
-            .getAllEvents()
+        client.events
+            .getAll()
             .then((res) => {
-                let er = res;
-                er = er.map((e) => {
+                let er = res.body();
+                er = er.map(e => e.data()).map((e) => {
                     let start = new Date(e.start);
                     let end = new Date(e.end);
 

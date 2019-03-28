@@ -94,8 +94,8 @@ function AddEventDialog() {
             end: endDate,
         };
 
-        client
-            .addEvent(formData)
+        client.events
+            .post(formData)
             .then(closeDialog)
             .catch(console.error);
     };

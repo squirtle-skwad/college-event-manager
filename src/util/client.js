@@ -1,43 +1,28 @@
 import axios from "axios";
+import restful from 'restful.js';
 import { ENDPOINT } from "./constants";
+
+const api = restful(ENDPOINT, restful.fetchBackend(fetch));
+
+const eventsCollection = api.all('events');
+const reportsCollection = api.all('reports');
+const imagesCollection = api.all('images');
+
+reportsCollection.header("Content-Type", "multipart/form-data");
+imagesCollection.header("Content-Type", "multipart/form-data");
 
 export default {
     login: (form) =>
         axios.post(`${ENDPOINT}/auth/token/login`, form).then((r) => r.data),
     signup: (form) =>
         axios.post(`${ENDPOINT}/signup/`, form).then((r) => r.data),
-
-    // Event
-
-    addEvent: (form) => axios.post(`${ENDPOINT}/events/`, form).then((r) => r.data),
-    getAllEvents: () => axios.get(`${ENDPOINT}/events/`).then((r) => r.data),
-
-    // Report
-
-    addReport: (form) =>
-        axios
-            .post(`${ENDPOINT}/reports/`, form, {
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                },
-            })
-            .then((r) => r.data),
-    deleteReport: (id) =>
-        axios.delete(`${ENDPOINT}/report/${id}`).then((r) => r.data),
-
-    addImage: (form) =>
-        axios
-            .post(`${ENDPOINT}/images/`, form, {
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                },
-            })
-            .then((r) => r.data),
-
     getMonthEvents: (year, month) =>
         axios.get(`${ENDPOINT}/event-calendar/${year}/${month}/`).then((r) => r.data),
     getDayEvents: (year, month, day) =>
-        axios
-            .get(`${ENDPOINT}/event-calendar/${year}-${month}-${day}`)
-            .then((r) => r.data),
+        axios.get(`${ENDPOINT}/event-calendar/${year}-${month}-${day}`).then((r) => r.data),
+
+    api: api,
+    events: eventsCollection,
+    reports: reportsCollection,
+    images: imagesCollection,
 };
