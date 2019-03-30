@@ -96,7 +96,6 @@ function AddEventDialog() {
 
         client.events
             .post(formData)
-            .then(res => res.body().data())
             .then(closeDialog)
             .catch(console.error);
     };

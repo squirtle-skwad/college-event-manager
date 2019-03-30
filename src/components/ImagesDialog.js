@@ -60,7 +60,11 @@ function ImagesDialog(props) {
             formData.append("image", f, f.name);
 
             client.images
-                .post(formData)
+                .post(formData, {		
+                    headers: {		
+                        "Content-Type": "multipart/form-data",		
+                    },		
+                })
                 .catch(console.error);
         });
     };

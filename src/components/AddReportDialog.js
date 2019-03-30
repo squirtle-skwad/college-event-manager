@@ -87,7 +87,11 @@ function AddReportDialog() {
         );
 
         client.reports
-            .post(formData)
+            .post(formData, {		
+                headers: {		
+                    "Content-Type": "multipart/form-data",		
+                },		
+            })
             .then(setReport)
             .catch(console.error);
     };

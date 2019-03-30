@@ -22,7 +22,6 @@
     "react-use-form-state": "^0.8.0",
     "redux": "^4.0.1",
     "redux-react-hook": "^3.2.1",
-    "restful.js": "^0.9.6"
   },
   "scripts": {
     "start": "react-scripts start",

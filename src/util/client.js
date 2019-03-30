@@ -1,8 +1,5 @@
 import axios from "axios";
-import restful, { fetchBackend } from 'restful.js';
-import { ENDPOINT } from "./constants";
-
-const api = restful(ENDPOINT, fetchBackend(fetch));
+import api, { ENDPOINT } from "./api";
 
 const eventsCollection = api.all('events');
 const reportsCollection = api.all('reports');

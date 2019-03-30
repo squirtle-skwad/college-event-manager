@@ -47,9 +47,8 @@ function EventDetails({ event }) {
     const dispatch = useDispatch();
 
     const handleDelete = () => {
-        client.api
-            .one('reports', event.report)
-            .delete()
+        client.reports
+            .delete(event.report)
             .then(() => dispatch(act.CLOSE_DAY_DIALOG()));
     };
 
