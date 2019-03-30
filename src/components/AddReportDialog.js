@@ -59,7 +59,6 @@ function AddReportDialog() {
     });
 
     const attendanceRef = useRef();
-
     const [report, setReport] = useState(null);
 
     // -----

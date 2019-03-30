@@ -12,7 +12,7 @@ import {
     MenuItem,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
-import { Close as CloseIcon } from "@material-ui/icons";
+import { Done as DoneIcon } from "@material-ui/icons";
 
 import client from "../util/client";
 import DatePicker from "./DatePicker";
@@ -71,19 +71,9 @@ function AddEventDialog() {
         }
     }, [slotEvent]);
 
-    useEffect(() => {
-        document.addEventListener("keydown", escListener, false);
-        return () => document.addEventListener("keydown", escListener, false);
-    });
-
     // -----
 
-    const closeDialog = useCallback((event) =>
-        dispatch(act.CLOSE_ADD_EVENT_DIALOG(event))
-    , []);
-    const escListener = useCallback((event) => {
-        if (event.keyCode === 27) closeDialog();
-    }, []);
+    const nextDialog = () => dispatch(act.CLOSE_DATES_DIALOG());
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -96,8 +86,7 @@ function AddEventDialog() {
 
         client.events
             .post(formData)
-            .then(res => res.body().data())
-            .then(closeDialog)
+            .then(nextDialog)
             .catch(console.error);
     };
 
@@ -108,10 +97,6 @@ function AddEventDialog() {
             <div>
                 <AppBar color='secondary' position='sticky'>
                     <Toolbar variant='dense' disableGutters>
-                        <IconButton onClick={closeDialog} color='inherit'>
-                            <CloseIcon />
-                        </IconButton>
-
                         <Typography variant='subtitle1' color='inherit'>
                             New Event
                         </Typography>
@@ -191,6 +176,7 @@ function AddEventDialog() {
                             color='primary'
                             variant='contained'
                             type='submit'>
+                            <DoneIcon />
                             Submit
                         </Button>
                     </div>

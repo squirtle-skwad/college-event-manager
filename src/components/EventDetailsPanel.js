@@ -143,7 +143,7 @@ function EventDetails({ event }) {
                             variant='contained'
                             type='submit'
                             onClick={() =>
-                                dispatch(act.SET_REPORT_EVENT(event))
+                                dispatch(act.START_ADD_REPORT(event))
                             }>
                             Fill Report
                         </Button>

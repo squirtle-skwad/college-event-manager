@@ -11,8 +11,8 @@ const ACTIONS = {
             slotEvent: event,
         },
     }),
-    SET_REPORT_EVENT: (event) => ({
-        type: "SET_REPORT_EVENT",
+    START_ADD_REPORT: (event) => ({
+        type: "START_ADD_REPORT",
         payload: {
             reportEvent: event,
         },
@@ -32,6 +32,9 @@ const ACTIONS = {
     }),
     CLOSE_ADD_EVENT_DIALOG: () => ({
         type: "CLOSE_ADD_EVENT_DIALOG",
+    }),
+    CLOSE_DATES_DIALOG: () => ({
+        type: "CLOSE_DATES_DIALOG",
     }),
     CLOSE_IMAGE_DIALOG: () => ({
         type: "CLOSE_IMAGE_DIALOG",

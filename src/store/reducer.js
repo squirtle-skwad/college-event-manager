@@ -7,6 +7,8 @@ const initialState = {
 
     currentDate: new Date(),
     fetchEvents: true,
+
+    newEvent: null,
 };
 
 /** Convert time to match college hours. */
@@ -20,7 +22,7 @@ function normaliseTime(mObj, hours = 7, minutes = 0) {
 function reducer(state = initialState, action) {
     switch (action.type) {
         case "SET_CLICK_EVENT":
-        case "SET_REPORT_EVENT":
+        case "START_ADD_REPORT":
         case "SET_CURRENT_DATE":
             return { ...state, ...action.payload };
 
@@ -45,7 +47,9 @@ function reducer(state = initialState, action) {
         case "CLOSE_REPORT_DIALOG":
             return { ...state, reportEvent: null, fetchEvents: true };
         case "CLOSE_ADD_EVENT_DIALOG":
-            return { ...state, slotEvent: null, fetchEvents: true };
+            return { ...state, slotEvent: null, fetchEvents: true, newEvent: action.payload.event };
+        case "CLOSE_DATES_DIALOG":
+            return { ...state, newEvent: null };
         case "CLOSE_IMAGE_DIALOG":
             return {
                 ...state,
