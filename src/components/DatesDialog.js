@@ -1,6 +1,6 @@
 /* eslint no-use-before-define: 0 */
 
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useCallback } from "react";
 
 import {
     AppBar,
@@ -8,15 +8,18 @@ import {
     Typography,
     Dialog,
     Slide,
-    TextField,
+    List,
+    ListItem,
+    ListItemText,
+    ListItemSecondaryAction,
+    IconButton,
     Button,
-    MenuItem,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
+import { Add as AddIcon, Delete as DeleteIcon } from "@material-ui/icons";
 
 import DatePicker from "./DatePicker";
 import client from "../util/client";
-import { DEPARTMENTS } from "../util/constants";
 import { useDatesManager } from "../util/hooks";
 import { act, useDispatch, useMappedState } from "../store";
 
@@ -45,6 +48,19 @@ const Transition = (props) => <Slide direction='up' {...props} />;
 
 // -----
 
+const DateItem = ({ date, index, onDelete }) => (
+    <ListItem>
+        <ListItemText
+            primary={`${date.start.toDateString()} to ${date.end.toDateString()}`}
+        />
+        <ListItemSecondaryAction>
+            <IconButton aria-label="Delete" onClick={onDelete}>
+                <DeleteIcon />
+            </IconButton>
+        </ListItemSecondaryAction>
+    </ListItem>
+);
+
 function DatesDialog({ event }) {
     const classes = useStyles();
     const dispatch = useDispatch();
@@ -52,19 +68,13 @@ function DatesDialog({ event }) {
         useCallback((state) => state.slotEvent, [])
     );
 
-    const [start, setStartDate] = useState(null);
-    const [end, setEndDate] = useState(null);
+    const { dates, addDateRange, datesWithEvent, deleteDate } = useDatesManager();
 
     // -----
 
     useEffect(() => {
-        if (!!slotEvent) {
-            setStartDate(slotEvent.start);
-            setEndDate(slotEvent.end);
-        } else {
-            setStartDate(null);
-            setEndDate(null);
-        }
+        if (!!slotEvent)
+            addDateRange(new Date(slotEvent.start), new Date(slotEvent.end));
     }, [slotEvent]);
 
     // -----
@@ -85,19 +95,29 @@ function DatesDialog({ event }) {
     // -----
 
     return (
-        <Dialog TransitionComponent={Transition} open={!!event}>
+        <Dialog TransitionComponent={Transition} open={!!event || true}>
             <AppBar color='primary' position='sticky'>
                 <Toolbar variant='dense' disableGutters>
-                    <Typography variant='subtitle1' color='inherit'>
+                    <Typography variant='subtitle1' color='inherit' style={{ marginLeft: "16px" }}>
                         Add Dates
                     </Typography>
                 </Toolbar>
             </AppBar>
 
             <div>
+                <List dense>
+                    {dates.map((e, i) => <DateItem key={i} index={i} date={e} onDelete={() => deleteDate(i)} />)}
+                </List>
             </div>
 
             <div className={classes.submitContainer}>
+                <Button
+                    color='secondary'
+                    variant='contained'
+                    type='submit'>
+                    <AddIcon />
+                    Add Date
+                </Button>
                 <Button
                     color='primary'
                     variant='contained'

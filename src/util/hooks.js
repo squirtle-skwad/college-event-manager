@@ -29,9 +29,15 @@ function useDatesManager() {
         return dates.map(e => ({ ...e, event }))
     }
 
+    function deleteDate(i) {
+        setDates(dates.filter((e, index) => i !== index));
+    }
+
     return {
+        dates,
         addDateRange,
         datesWithEvent,
+        deleteDate,
     };
 }
 
