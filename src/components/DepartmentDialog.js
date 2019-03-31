@@ -90,7 +90,7 @@ function DepartmentDialog({ event }) {
         const formData = deptsWithEvent(event.id);
 
         client
-            .postMultipleDates(formData)
+            .postMultipleDepts(formData)
             .then(closeDialog)
             .catch(console.error);
     };

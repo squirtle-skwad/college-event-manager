@@ -21,6 +21,8 @@ export default {
         axios.get(`${ENDPOINT}/event-calendar/${year}-${month}-${day}`),
     postMultipleDates: (ls) =>
         axios.post(`${ENDPOINT}/dates-multiple/`, ls),
+    postMultipleDepts: (ls) =>
+        axios.post(`${ENDPOINT}/depts-multiple/`, ls),
 
     api: api,
     events: eventsCollection,

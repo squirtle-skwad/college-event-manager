@@ -9,13 +9,11 @@ import {
     Slide,
     TextField,
     Button,
-    MenuItem,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import { Close as CloseIcon } from "@material-ui/icons";
 
 import client from "../util/client";
-import { DEPARTMENTS } from "../util/constants";
 import { act, useDispatch, useMappedState } from "../store";
 import { useFormState } from "react-use-form-state";
 
@@ -54,9 +52,7 @@ function AddEventDialog() {
         useCallback((state) => state.slotEvent, [])
     );
 
-    const [formState, { text }] = useFormState({
-        department: "OTHER",
-    });
+    const [formState, { text }] = useFormState();
 
     const [event, setNewEvent] = useState(null);
 
@@ -121,26 +117,6 @@ function AddEventDialog() {
                         fullWidth
                         margin='normal'
                     />
-                    <TextField
-                        label='Department'
-                        select
-                        {...text({
-                            name: "department",
-                            validate: () => true,
-                        })}
-                        fullWidth
-                        
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                        helperText="Choose 'Other' if not organized by a specific department"
-                        margin='normal'>
-                        {DEPARTMENTS.map((option) => (
-                            <MenuItem key={option.value} value={option.value}>
-                                {option.label}
-                            </MenuItem>
-                        ))}
-                    </TextField>
                     <TextField
                         {...text("venue")}
                         label='Venue'
