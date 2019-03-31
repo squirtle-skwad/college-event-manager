@@ -5,7 +5,7 @@ import { useAuthToken } from "./hooks";
 class Collection{
     constructor(endpoint, name) {
         this.endpoint = endpoint + '/' + name + '/';
-        this.opts = {};
+        this.headers = {};
     }
 
     post = (data) => axios.post(this.endpoint, data, this.options());
@@ -13,18 +13,19 @@ class Collection{
     getOne = (id) => axios.get(this.endpoint + id, this.options());
     put = (id, data) => axios.put(this.endpoint + id, data, this.options());
     put = (id, data) => axios.patch(this.endpoint + id, data, this.options());
-    delete = (id) => axios.defaults(this.endpoint + id, this.options());
+    delete = (id) => axios.delete(this.endpoint + id, this.options());
 
     options = () => ({
-        ...this.opts,
-        Authentication: useAuthToken(),
+        headers: {
+            ...this.headers,
+            Authorization: `Token ${useAuthToken()}`,
+        }
     });
 
     header = (k, v) => {
-        this.opts = {
-            headers: {
-                [k]: v,
-            }
+        this.headers = {
+            ...this.headers,
+            [k]: v,
         };
     };
 }
