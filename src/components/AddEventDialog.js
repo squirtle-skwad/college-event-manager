@@ -20,6 +20,7 @@ import { act, useDispatch, useMappedState } from "../store";
 import { useFormState } from "react-use-form-state";
 
 import DatesDialog from './DatesDialog';
+import DepartmentDialog from './DepartmentDialog';
 
 // -----
 
@@ -76,6 +77,10 @@ function AddEventDialog() {
         if (event.keyCode === 27) closeDialog();
     }, []);
 
+    const nextStep = useCallback(() => 
+        dispatch(act.INCREMENT_EVENT_ADD_STEP())
+    , []);
+
     const handleSubmit = (e) => {
         e.preventDefault();
 
@@ -83,7 +88,9 @@ function AddEventDialog() {
 
         client.events
             .post(formData)
+            .then(r => r.data)
             .then(setNewEvent)
+            .then(nextStep)
             .catch(console.error);
     };
 
@@ -185,6 +192,7 @@ function AddEventDialog() {
             </div>
 
             <DatesDialog event={event} />
+            <DepartmentDialog event={event} />
         </Dialog>
     );
 }

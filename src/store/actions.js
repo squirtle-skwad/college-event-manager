@@ -24,6 +24,10 @@ const ACTIONS = {
         },
     }),
 
+    INCREMENT_EVENT_ADD_STEP: () => ({
+        type: "INCREMENT_EVENT_ADD_STEP",
+    }),
+
     CLOSE_DAY_DIALOG: () => ({
         type: "CLOSE_DAY_DIALOG",
     }),

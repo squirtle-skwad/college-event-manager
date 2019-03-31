@@ -9,6 +9,7 @@ const initialState = {
     fetchEvents: true,
 
     newEvent: null,
+    eventAddStep: 0,
 };
 
 /** Convert time to match college hours. */
@@ -37,6 +38,9 @@ function reducer(state = initialState, action) {
             return { ...state, ...action.payload };
         }
 
+        case 'INCREMENT_EVENT_ADD_STEP':
+            return { ...state, eventAddStep: state.eventAddStep + 1 };
+
         case "CLOSE_DAY_DIALOG":
             return {
                 ...state,
@@ -47,7 +51,7 @@ function reducer(state = initialState, action) {
         case "CLOSE_REPORT_DIALOG":
             return { ...state, reportEvent: null, fetchEvents: true };
         case "CLOSE_ADD_EVENT_DIALOG":
-            return { ...state, slotEvent: null, fetchEvents: true };
+            return { ...state, slotEvent: null, fetchEvents: true, eventAddStep: 0 };
         case "CLOSE_IMAGE_DIALOG":
             return {
                 ...state,

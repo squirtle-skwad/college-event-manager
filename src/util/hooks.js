@@ -33,10 +33,40 @@ function useDatesManager() {
     };
 }
 
+function useDepartmentManager() {
+    const [depts, setDepts] = useState([]);
+
+    function addDepartment(department) {
+        const obj = {
+            department,
+        };
+        setDepts([...depts, obj]);
+    }
+
+    function deptsWithEvent(event) {
+        return depts.map(e => ({ ...e, event }))
+    }
+
+    function deleteDept(i) {
+        setDepts(depts.filter((e, index) => i !== index));
+    }
+
+    return {
+        depts,
+        addDepartment,
+        deptsWithEvent,
+        deleteDept,
+    };
+}
+
+// -----
+
 function useAuthToken() {
     const token = localStorage.getItem("auth_token");
     return token;
 }
+
+// ------
 
 function useCalendarEvents() {
     const [events, setEvents] = useState([]);
@@ -105,4 +135,4 @@ function useDayEvents(date) {
     };
 }
 
-export { useCalendarEvents, useDayEvents, useAuthToken, useDatesManager };
+export { useCalendarEvents, useDayEvents, useAuthToken, useDatesManager, useDepartmentManager };

@@ -1,6 +1,6 @@
 /* eslint no-use-before-define: 0 */
 
-import React, { useEffect, useCallback, useState, } from "react";
+import React, { useCallback } from "react";
 
 import {
     AppBar,
@@ -13,15 +13,17 @@ import {
     ListItemText,
     ListItemSecondaryAction,
     IconButton,
+    TextField,
     Button,
+    MenuItem,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import { Add as AddIcon, Delete as DeleteIcon } from "@material-ui/icons";
 
-import { useBoolean } from "react-hanger";
-import DatePicker from "./DatePicker";
+import { useBoolean, useInput } from "react-hanger";
 import client from "../util/client";
-import { useDatesManager } from "../util/hooks";
+import { useDepartmentManager } from "../util/hooks";
+import { DEPARTMENTS } from "../util/constants";
 import { act, useDispatch, useMappedState } from "../store";
 
 // -----
@@ -49,11 +51,10 @@ const Transition = (props) => <Slide direction='up' {...props} />;
 
 // -----
 
-const DateItem = ({ date, index, onDelete }) => (
+const DepartmentItem = ({ dept, onDelete }) => (
     <ListItem>
         <ListItemText
-            primary={`Start at ${date.start.toLocaleString()}`}
-            secondary={`End at ${date.end.toLocaleString()}`}
+            primary={`Start at ${dept.department}`}
         />
         <ListItemSecondaryAction>
             <IconButton aria-label="Delete" onClick={onDelete}>
@@ -63,66 +64,58 @@ const DateItem = ({ date, index, onDelete }) => (
     </ListItem>
 );
 
-function DatesDialog({ event }) {
+function DepartmentDialog({ event }) {
     const classes = useStyles();
     const dispatch = useDispatch();
-    const { slotEvent, eventAddStep } = useMappedState(
+    const { eventAddStep } = useMappedState(
         useCallback((state) => ({
-            slotEvent: state.slotEvent,
             eventAddStep: state.eventAddStep,
         }), [])
     );
 
-    const { dates, addDateRange, datesWithEvent, deleteDate } = useDatesManager();
+    const { depts, deptsWithEvent, addDepartment, deleteDept } = useDepartmentManager();
+    const departmentInput = useInput('OTHER');
 
-    const newDate = useBoolean(false);
-    const [newStart, setStart] = useState('');
-    const [newEnd, setEnd] = useState('');
-
-    // -----
-
-    useEffect(() => {
-        if (!!slotEvent)
-            addDateRange(slotEvent.start, slotEvent.end);
-    }, [slotEvent]);
+    const newDepartment = useBoolean(false);
 
     // -----
 
-    const nextStep = useCallback(() => 
-        dispatch(act.INCREMENT_EVENT_ADD_STEP())
+    const closeDialog = useCallback(() => 
+        dispatch(act.CLOSE_ADD_EVENT_DIALOG())
     , []);
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        const formData = datesWithEvent(event.id);
+        const formData = deptsWithEvent(event.id);
 
         client
             .postMultipleDates(formData)
-            .then(nextStep)
+            .then(closeDialog)
             .catch(console.error);
     };
 
     // -----
 
-    const NewDate = () => (
-        <Dialog open={newDate.value}>
+    const NewDept = () => (
+        <Dialog open={newDepartment.value}>
             <div style={{ padding: '16px' }}>
-                <DatePicker
-                    label='Start Date & Time'
-                    value={newStart}
-                    onChange={(d) => {
-                        setStart(d);
-                        setEnd(d);
+                <TextField
+                    {...departmentInput}
+                    label='Department'
+                    select
+                    fullWidth
+                    InputLabelProps={{
+                        shrink: true,
                     }}
-                    fullWidth
-                />
-                <DatePicker
-                    value={newEnd}
-                    onChange={setEnd}
-                    label='End Date & Time'
-                    fullWidth
-                />
+                    helperText="Choose 'Other' if not organized by a specific department"
+                    margin='normal'>
+                    {DEPARTMENTS.map((option) => (
+                        <MenuItem key={option.value} value={option.value}>
+                            {option.label}
+                        </MenuItem>
+                    ))}
+                </TextField>
             </div>
 
             <div className={classes.submitContainer}>
@@ -132,7 +125,7 @@ function DatesDialog({ event }) {
                     style={{
                         marginRight: '8px'
                     }}
-                    onClick={() => newDate.toggle()}>
+                    onClick={() => newDepartment.toggle()}>
                     Cancel
                 </Button>
                 <Button
@@ -140,9 +133,9 @@ function DatesDialog({ event }) {
                     variant='contained'
                     type='submit'
                     onClick={() => {
-                        addDateRange(newStart, newEnd);
-                        newDate.setFalse();
-                        setStart(''); setEnd('');
+                        addDepartment(departmentInput.value);
+                        newDepartment.setFalse();
+                        departmentInput.setValue('OTHER');;
                     }}>
                     Add
                 </Button>
@@ -151,18 +144,18 @@ function DatesDialog({ event }) {
     );
 
     return (
-        <Dialog TransitionComponent={Transition} open={!!event && eventAddStep === 1}>
+        <Dialog TransitionComponent={Transition} open={!!event && eventAddStep === 2}>
             <AppBar color='primary' position='sticky'>
                 <Toolbar variant='dense' disableGutters>
                     <Typography variant='subtitle1' color='inherit' style={{ marginLeft: "16px" }}>
-                        Add Dates
+                        Add Departments
                     </Typography>
                 </Toolbar>
             </AppBar>
 
             <div>
                 <List dense>
-                    {dates.map((e, i) => <DateItem key={i} index={i} date={e} onDelete={() => deleteDate(i)} />)}
+                    {depts.map((e, i) => <DepartmentItem key={i} dept={e} onDelete={() => deleteDept(i)} />)}
                 </List>
             </div>
 
@@ -173,9 +166,9 @@ function DatesDialog({ event }) {
                     style={{
                         marginRight: '8px'
                     }}
-                    onClick={() => newDate.toggle()}>
+                    onClick={() => newDepartment.toggle()}>
                     <AddIcon />
-                    Add Date
+                    Add Department
                 </Button>
                 <Button
                     color='primary'
@@ -186,9 +179,9 @@ function DatesDialog({ event }) {
                 </Button>
             </div>
 
-            <NewDate />
+            <NewDept />
         </Dialog>
     );
 }
 
-export default DatesDialog;
+export default DepartmentDialog;
