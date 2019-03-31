@@ -1,29 +1,20 @@
 import { useEffect, useState, } from "react";
 
 import client from "../util/client";
-import { useArray } from "react-hanger";
-
-function useInput(defvalue) {
-    const [value, setValue] = useState(defvalue);
-
-    const onChange = (e) => setValue(e.target.value);
-
-    return {
-        value,
-        onChange,
-    };
-}
 
 function useDatesManager() {
-    const dates = useArray([]);
+    const [dates, setDates] = useState([]);
 
     function addDateRange(start, end) {
+        if(start.constructor !== Date) start = new Date(start);
+        if(end.constructor !== Date) end = new Date(end);
+
         const obj = {
             start,
             end,
             allDay: false,
         };
-        dates.add(obj);
+        setDates([...dates, obj]);
     }
 
     function datesWithEvent(event) {
@@ -31,7 +22,7 @@ function useDatesManager() {
     }
 
     function deleteDate(i) {
-        dates.removeIndex(i);
+        setDates(dates.filter((e, index) => i !== index));
     }
 
     return {
@@ -114,4 +105,4 @@ function useDayEvents(date) {
     };
 }
 
-export { useInput, useCalendarEvents, useDayEvents, useAuthToken, useDatesManager };
+export { useCalendarEvents, useDayEvents, useAuthToken, useDatesManager };

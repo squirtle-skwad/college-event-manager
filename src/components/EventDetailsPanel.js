@@ -40,8 +40,6 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const toTime = (d) => `${d.getUTCHours()}:${d.getUTCMinutes()}`;
-
 function EventDetails({ event }) {
     const classes = useStyles();
     const dispatch = useDispatch();

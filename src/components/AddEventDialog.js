@@ -71,6 +71,7 @@ function AddEventDialog() {
     const closeDialog = useCallback((event) =>
         dispatch(act.CLOSE_ADD_EVENT_DIALOG(event))
     , []);
+    
     const escListener = useCallback((event) => {
         if (event.keyCode === 27) closeDialog();
     }, []);
