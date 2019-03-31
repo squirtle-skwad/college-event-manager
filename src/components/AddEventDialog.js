@@ -20,6 +20,8 @@ import { DEPARTMENTS } from "../util/constants";
 import { act, useDispatch, useMappedState } from "../store";
 import { useFormState } from "react-use-form-state";
 
+import DatesDialog from './DatesDialog';
+
 // -----
 
 const useStyles = makeStyles((theme) => ({
@@ -48,28 +50,12 @@ const Transition = (props) => <Slide direction='up' {...props} />;
 function AddEventDialog() {
     const classes = useStyles();
     const dispatch = useDispatch();
-    const slotEvent = useMappedState(
-        useCallback((state) => state.slotEvent, [])
-    );
 
-    const [formState, { text }] = useFormState({
-        department: "OTHER",
-    });
+    const [formState, { text }] = useFormState();
 
-    const [startDate, setStartDate] = useState(null);
-    const [endDate, setEndDate] = useState(null);
+    const [event, setNewEvent] = useState(null);
 
     // -----
-
-    useEffect(() => {
-        if (!!slotEvent) {
-            setStartDate(slotEvent.start);
-            setEndDate(slotEvent.end);
-        } else {
-            setStartDate(null);
-            setEndDate(null);
-        }
-    }, [slotEvent]);
 
     useEffect(() => {
         document.addEventListener("keydown", escListener, false);
@@ -96,7 +82,7 @@ function AddEventDialog() {
 
         client.events
             .post(formData)
-            .then(closeDialog)
+            .then(setNewEvent)
             .catch(console.error);
     };
 
@@ -127,18 +113,6 @@ function AddEventDialog() {
                         fullWidth
                         margin='normal'
                     />
-                    <DatePicker
-                        label='Start Date & Time'
-                        value={startDate}
-                        onChange={setStartDate}
-                        fullWidth
-                    />
-                    <DatePicker
-                        value={endDate}
-                        onChange={setEndDate}
-                        label='End Date & Time'
-                        fullWidth
-                    />
                     <TextField
                         {...text("department")}
                         label='Department'
@@ -155,6 +129,15 @@ function AddEventDialog() {
                             </MenuItem>
                         ))}
                     </TextField>
+                    <TextField
+                        {...text("venue")}
+                        label='Venue'
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        fullWidth
+                        margin='normal'
+                    />
                     <TextField
                         {...text("description")}
                         label='Description'
@@ -195,6 +178,8 @@ function AddEventDialog() {
                     </div>
                 </form>
             </div>
+
+            <DatesDialog event={event} />
         </Dialog>
     );
 }

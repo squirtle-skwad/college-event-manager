@@ -8,11 +8,12 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 
 import client from "../util/client";
+import { useAuthToken } from "../util/hooks";
 import { Redirect, Link } from "react-router-dom";
 
 export default class Login extends React.Component {
     state = {
-        redirect: !!localStorage.getItem("auth_token"),
+        redirect: !!useAuthToken(),
     };
 
     handleChange = (event) => {
@@ -24,12 +25,13 @@ export default class Login extends React.Component {
         obj = this.state;
         client
             .login(obj)
+            .then(r => r.data)
             .then((data) => {
                 localStorage.setItem("auth_token", `${data.auth_token}`);
                 console.log(data.auth_token);
                 this.setState({ redirect: true });
             })
-            .catch(alert);
+            .catch(console.error);
     };
 
     render() {

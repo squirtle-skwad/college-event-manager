@@ -134,15 +134,6 @@ function AddReportDialog() {
                     margin='normal'
                 />
                 <TextField
-                    {...text("venue")}
-                    label='Venue'
-                    InputLabelProps={{
-                        shrink: true,
-                    }}
-                    fullWidth
-                    margin='normal'
-                />
-                <TextField
                     {...text("after_event_description")}
                     label='After Event Description'
                     InputLabelProps={{

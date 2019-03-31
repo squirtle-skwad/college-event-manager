@@ -3,7 +3,6 @@ import React, { useEffect, useState, useCallback } from "react";
 import {
     AppBar,
     Toolbar,
-    IconButton,
     Typography,
     Dialog,
     Slide,
@@ -45,19 +44,12 @@ const Transition = (props) => <Slide direction='up' {...props} />;
 
 // -----
 
-function AddEventDialog() {
+function DatesDialog({ event }) {
     const classes = useStyles();
     const dispatch = useDispatch();
     const slotEvent = useMappedState(
         useCallback((state) => state.slotEvent, [])
     );
-
-    const [formState, { text }] = useFormState({
-        department: "OTHER",
-    });
-
-    const [startDate, setStartDate] = useState(null);
-    const [endDate, setEndDate] = useState(null);
 
     // -----
 
@@ -73,117 +65,42 @@ function AddEventDialog() {
 
     // -----
 
-    const nextDialog = () => dispatch(act.CLOSE_DATES_DIALOG());
+    const closeDialog = () => dispatch(act.CLOSE_DATES_DIALOG());
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        const formData = {
-            ...formState.values,
-            start: startDate,
-            end: endDate,
-        };
-
-        client.events
+        client.dates
             .post(formData)
-            .then(nextDialog)
+            .then(closeDialog)
             .catch(console.error);
     };
 
     // -----
 
     return (
-        <Dialog TransitionComponent={Transition} open={!!slotEvent}>
+        <Dialog TransitionComponent={Transition} open={!!event}>
+            <AppBar color='primary' position='sticky'>
+                <Toolbar variant='dense' disableGutters>
+                    <Typography variant='subtitle1' color='inherit'>
+                        Add Dates
+                    </Typography>
+                </Toolbar>
+            </AppBar>
+
             <div>
-                <AppBar color='secondary' position='sticky'>
-                    <Toolbar variant='dense' disableGutters>
-                        <Typography variant='subtitle1' color='inherit'>
-                            New Event
-                        </Typography>
-                    </Toolbar>
-                </AppBar>
+            </div>
 
-                <form autoComplete='off' className={classes.eventForm} onSubmit={handleSubmit}>
-                    <TextField
-                        {...text("name")}
-                        label='Event Name'
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                        fullWidth
-                        margin='normal'
-                    />
-                    <DatePicker
-                        label='Start Date & Time'
-                        value={startDate}
-                        onChange={setStartDate}
-                        fullWidth
-                    />
-                    <DatePicker
-                        value={endDate}
-                        onChange={setEndDate}
-                        label='End Date & Time'
-                        fullWidth
-                    />
-                    <TextField
-                        {...text("department")}
-                        label='Department'
-                        select
-                        fullWidth
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                        helperText="Choose 'Other' if not organized by a specific department"
-                        margin='normal'>
-                        {DEPARTMENTS.map((option) => (
-                            <MenuItem key={option.value} value={option.value}>
-                                {option.label}
-                            </MenuItem>
-                        ))}
-                    </TextField>
-                    <TextField
-                        {...text("description")}
-                        label='Description'
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                        rowsMax='4'
-                        multiline
-                        fullWidth
-                        margin='normal'
-                    />
-                    <TextField
-                        {...text("organizer")}
-                        label='Organizer'
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                        fullWidth
-                        margin='normal'
-                    />
-                    <TextField
-                        {...text("expert_name")}
-                        label='Expert Name'
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                        fullWidth
-                        margin='normal'
-                    />
-
-                    <div className={classes.submitContainer}>
-                        <Button
-                            color='primary'
-                            variant='contained'
-                            type='submit'>
-                            <DoneIcon />
-                            Submit
-                        </Button>
-                    </div>
-                </form>
+            <div className={classes.submitContainer}>
+                <Button
+                    color='primary'
+                    variant='contained'
+                    type='submit'>
+                    Submit
+                </Button>
             </div>
         </Dialog>
     );
 }
 
-export default AddEventDialog;
+export default DatesDialog;

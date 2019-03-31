@@ -11,6 +11,7 @@ import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
 
 import client from "../util/client";
+import { useAuthToken } from "../util/hooks";
 import { Redirect, Link } from "react-router-dom";
 import { DEPARTMENTS } from "../util/constants";
 
@@ -18,7 +19,8 @@ import { DEPARTMENTS } from "../util/constants";
 
 export default class SignUp extends React.Component {
     state = {
-        redirect: false,
+        redirect: !!useAuthToken(),
+
         first_name: "",
         last_name: "",
         email: "",
@@ -39,10 +41,14 @@ export default class SignUp extends React.Component {
             return;
         }
 
-        client.signup(obj).then((data) => {
-            console.log(data);
-            this.setState({ redirect: true });
-        });
+        client
+            .signup(obj)
+            .then(r => r.data)
+            .then((data) => {
+                console.log(data);
+                this.setState({ redirect: true });
+            })
+            .catch(console.error);
     };
 
     render() {

@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState, } from "react";
 
 import client from "../util/client";
 
 function useInput(defvalue) {
-    const [value, setValue] = React.useState(defvalue);
+    const [value, setValue] = useState(defvalue);
 
     const onChange = (e) => setValue(e.target.value);
 
@@ -19,14 +19,15 @@ function useAuthToken() {
 }
 
 function useCalendarEvents() {
-    const [events, setEvents] = React.useState([]);
+    const [events, setEvents] = useState([]);
+    useEffect(fetchEvents, []);
 
-    const fetchEvents = () =>
+    function fetchEvents() {
         client.events
             .getAll()
-            .then((res) => {
-                let er = res.body();
-                er = er.map(e => e.data()).map((e) => {
+            .then(r => r.data)
+            .then((er) => 
+                er.map((e) => {
                     let start = new Date(e.start);
                     let end = new Date(e.end);
 
@@ -36,14 +37,11 @@ function useCalendarEvents() {
                         start,
                         end,
                     };
-                });
-
-                setEvents(er);
-            })
+                })
+            )
+            .then(setEvents)
             .catch(console.error);
-    useEffect(() => {
-        fetchEvents();
-    }, []);
+    }
 
     return {
         list: events,
@@ -52,9 +50,10 @@ function useCalendarEvents() {
 }
 
 function useDayEvents(date) {
-    const [events, setEvents] = React.useState([]);
+    const [events, setEvents] = useState([]);
+    useEffect(fetchEvents, [date]);
 
-    const fetchEvents = () => {
+    function fetchEvents() {
         if (!date) return;
 
         const year = date.start.getYear() + 1900;
@@ -63,21 +62,19 @@ function useDayEvents(date) {
 
         client
             .getDayEvents(year, month, day)
-            .then((res) => {
-                let er = res;
-                er = er.map((e) => ({
+            .then(r => r.data)
+            .then((er) => 
+                er.map((e) => ({
                     ...e,
                     title: e.name,
                     start: new Date(e.start.slice(0, 19)),
                     end: new Date(e.end.slice(0, 19)),
                     allDay: false,
-                }));
-                setEvents(er);
-            })
+                }))
+            )
+            .then(setEvents)
             .catch(console.error);
-    };
-
-    React.useEffect(fetchEvents, [date]);
+    }
 
     return {
         list: events,

@@ -33,9 +33,6 @@ const ACTIONS = {
     CLOSE_ADD_EVENT_DIALOG: () => ({
         type: "CLOSE_ADD_EVENT_DIALOG",
     }),
-    CLOSE_DATES_DIALOG: () => ({
-        type: "CLOSE_DATES_DIALOG",
-    }),
     CLOSE_IMAGE_DIALOG: () => ({
         type: "CLOSE_IMAGE_DIALOG",
     }),
