@@ -15,7 +15,6 @@ import { makeStyles } from "@material-ui/styles";
 import { Close as CloseIcon } from "@material-ui/icons";
 
 import client from "../util/client";
-import DatePicker from "./DatePicker";
 import { DEPARTMENTS } from "../util/constants";
 import { act, useDispatch, useMappedState } from "../store";
 import { useFormState } from "react-use-form-state";
@@ -50,8 +49,13 @@ const Transition = (props) => <Slide direction='up' {...props} />;
 function AddEventDialog() {
     const classes = useStyles();
     const dispatch = useDispatch();
+    const slotEvent = useMappedState(
+        useCallback((state) => state.slotEvent, [])
+    );
 
-    const [formState, { text }] = useFormState();
+    const [formState, { text }] = useFormState({
+        department: "OTHER",
+    });
 
     const [event, setNewEvent] = useState(null);
 
@@ -74,11 +78,7 @@ function AddEventDialog() {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        const formData = {
-            ...formState.values,
-            start: startDate,
-            end: endDate,
-        };
+        const formData = formState.values;
 
         client.events
             .post(formData)
@@ -114,10 +114,14 @@ function AddEventDialog() {
                         margin='normal'
                     />
                     <TextField
-                        {...text("department")}
                         label='Department'
                         select
+                        {...text({
+                            name: "department",
+                            validate: () => true,
+                        })}
                         fullWidth
+                        
                         InputLabelProps={{
                             shrink: true,
                         }}

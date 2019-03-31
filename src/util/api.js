@@ -4,7 +4,7 @@ import { useAuthToken } from "./hooks";
 
 class Collection{
     constructor(endpoint, name) {
-        this.endpont = endpoint + '/' + name + '/';
+        this.endpoint = endpoint + '/' + name + '/';
         this.opts = {};
     }
 
@@ -34,7 +34,7 @@ class Api{
         this.endpoint = endpoint;
     }
 
-    all(resource) {
+    all = (resource) => {
         return new Collection(this.endpoint, resource);
     }
 }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, } from "react";
+import { useEffect, useState, } from "react";
 
 import client from "../util/client";
 
@@ -13,6 +13,28 @@ function useInput(defvalue) {
     };
 }
 
+function useDatesManager() {
+    const [dates, setDates] = useState([]);
+
+    function addDateRange(start, end) {
+        const obj = {
+            start,
+            end,
+            allDay: false,
+        };
+        setDates([...dates, obj]);
+    }
+
+    function datesWithEvent(event) {
+        return dates.map(e => ({ ...e, event }))
+    }
+
+    return {
+        addDateRange,
+        datesWithEvent,
+    };
+}
+
 function useAuthToken() {
     const token = localStorage.getItem("auth_token");
     return token;
@@ -20,10 +42,7 @@ function useAuthToken() {
 
 function useCalendarEvents() {
     const [events, setEvents] = useState([]);
-    useEffect(fetchEvents, []);
-
-    function fetchEvents() {
-        client.events
+    const fetchEvents = () =>  client.events
             .getAll()
             .then(r => r.data)
             .then((er) => 
@@ -41,7 +60,10 @@ function useCalendarEvents() {
             )
             .then(setEvents)
             .catch(console.error);
-    }
+
+    useEffect(() => {
+        fetchEvents();
+    }, [])
 
     return {
         list: events,
@@ -51,16 +73,15 @@ function useCalendarEvents() {
 
 function useDayEvents(date) {
     const [events, setEvents] = useState([]);
-    useEffect(fetchEvents, [date]);
 
-    function fetchEvents() {
+    const fetchEvents = () => {
         if (!date) return;
 
         const year = date.start.getYear() + 1900;
         const month = date.start.getMonth() + 1;
         const day = date.start.getDate();
 
-        client
+        return client
             .getDayEvents(year, month, day)
             .then(r => r.data)
             .then((er) => 
@@ -76,10 +97,14 @@ function useDayEvents(date) {
             .catch(console.error);
     }
 
+    useEffect(() => {
+        fetchEvents();
+    }, [date])
+
     return {
         list: events,
         fetchEvents,
     };
 }
 
-export { useInput, useCalendarEvents, useDayEvents, useAuthToken };
+export { useInput, useCalendarEvents, useDayEvents, useAuthToken, useDatesManager };

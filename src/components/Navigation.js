@@ -1,13 +1,11 @@
 import React from "react";
 
-import { AppBar, Toolbar, IconButton, Typography } from "@material-ui/core";
-
+import { AppBar, Toolbar, IconButton, Typography, Menu, MenuItem } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
+import { CalendarToday as MenuIcon, AccountCircle } from "@material-ui/icons";
 
-import { CalendarToday as MenuIcon } from "@material-ui/icons";
-
-// import Login from "./Login";
-// import SignUp from "./SignUp";
+import { useAuthToken } from "../util/hooks";
+import { Link } from "react-router-dom";
 
 // -----
 
@@ -18,6 +16,9 @@ const useStyles = makeStyles({
     menuButton: {
         marginRight: 10,
     },
+    grow: {
+        flexGrow: 1,
+    },
     AppBar: {
         boxShadow: "0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)",
     },
@@ -25,9 +26,13 @@ const useStyles = makeStyles({
 
 function Navigation() {
     const classes = useStyles();
-    const [open, setOpen] = React.useState(false);
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    
+    const open = Boolean(anchorEl);
+    const handleMenu = (event) => setAnchorEl(event.currentTarget);
+    const handleClose = () => setAnchorEl(null);
 
-    const handleMenuClick = () => setOpen(!open);
+    const handleLogout = () => localStorage.removeItem('auth_token');
 
     return (
         <div className={classes.root}>
@@ -39,14 +44,43 @@ function Navigation() {
                     <IconButton
                         color='inherit'
                         aria-label='Open drawer'
-                        className={classes.menuButton}
-                        onClick={handleMenuClick}>
+                        className={classes.menuButton}>
                         <MenuIcon />
                     </IconButton>
 
-                    <Typography variant='h6' color='inherit'>
+                    <Typography variant='h6' color='inherit' className={classes.grow}>
                         College Events Management
                     </Typography>
+
+                    {
+                        !!useAuthToken() && 
+                        <div>
+                            <IconButton
+                                aria-owns={open ? 'menu-appbar' : undefined}
+                                aria-haspopup="true"
+                                onClick={handleMenu}
+                                color="inherit">
+                                <AccountCircle />
+                            </IconButton>
+                            <Menu
+                                id="menu-appbar"
+                                anchorEl={anchorEl}
+                                anchorOrigin={{
+                                vertical: 'top',
+                                horizontal: 'right',
+                                }}
+                                transformOrigin={{
+                                vertical: 'top',
+                                horizontal: 'right',
+                                }}
+                                open={open}
+                                onClose={handleClose}
+                            >
+                                <MenuItem onClick={handleClose}>Profile</MenuItem>
+                                <MenuItem component={Link} to='/login' onClick={handleLogout}>Logout</MenuItem>
+                            </Menu>
+                        </div>
+                    }
                 </Toolbar>
             </AppBar>
         </div>

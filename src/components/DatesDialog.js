@@ -1,3 +1,5 @@
+/* eslint no-use-before-define: 0 */
+
 import React, { useEffect, useState, useCallback } from "react";
 
 import {
@@ -11,13 +13,12 @@ import {
     MenuItem,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
-import { Done as DoneIcon } from "@material-ui/icons";
 
-import client from "../util/client";
 import DatePicker from "./DatePicker";
+import client from "../util/client";
 import { DEPARTMENTS } from "../util/constants";
+import { useDatesManager } from "../util/hooks";
 import { act, useDispatch, useMappedState } from "../store";
-import { useFormState } from "react-use-form-state";
 
 // -----
 
@@ -51,6 +52,9 @@ function DatesDialog({ event }) {
         useCallback((state) => state.slotEvent, [])
     );
 
+    const [start, setStartDate] = useState(null);
+    const [end, setEndDate] = useState(null);
+
     // -----
 
     useEffect(() => {
@@ -69,6 +73,8 @@ function DatesDialog({ event }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+
+        const formData = null;
 
         client.dates
             .post(formData)
