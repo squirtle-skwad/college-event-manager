@@ -75,7 +75,9 @@ function Calendar() {
 
     useEffect(() => {
         if (fetchEvents) {
-            events.fetchEvents().then(() => dispatch(act.STOP_FETCH_EVENTS()));
+            events
+            .fetchEvents()
+            .then(() => dispatch(act.STOP_FETCH_EVENTS()));
         }
     }, [fetchEvents]);
 

@@ -70,8 +70,9 @@ function useAuthToken() {
 
 function useCalendarEvents() {
     const [events, setEvents] = useState([]);
-    const fetchEvents = () =>  client.events
-            .getAll()
+    const fetchEvents = () => 
+        client
+            .getCalendarList()
             .then(r => r.data)
             .then((er) => 
                 er.map((e) => {
@@ -80,7 +81,6 @@ function useCalendarEvents() {
 
                     return {
                         ...e,
-                        title: e.name,
                         start,
                         end,
                     };
@@ -116,8 +116,8 @@ function useDayEvents(date) {
                 er.map((e) => ({
                     ...e,
                     title: e.name,
-                    start: new Date(e.start.slice(0, 19)),
-                    end: new Date(e.end.slice(0, 19)),
+                    start: new Date(e.start),
+                    end: new Date(e.end),
                     allDay: false,
                 }))
             )

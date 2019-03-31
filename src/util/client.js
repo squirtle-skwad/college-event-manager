@@ -15,6 +15,8 @@ export default {
     signup: (form) =>
         axios.post(`${ENDPOINT}/signup/`, form),
 
+    getCalendarList: () =>
+        axios.get(`${ENDPOINT}/event-calendar/`),
     getMonthEvents: (year, month) =>
         axios.get(`${ENDPOINT}/event-calendar/${year}/${month}/`),
     getDayEvents: (year, month, day) =>
