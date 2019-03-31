@@ -1,6 +1,7 @@
 import { useEffect, useState, } from "react";
 
 import client from "../util/client";
+import { useArray } from "react-hanger";
 
 function useInput(defvalue) {
     const [value, setValue] = useState(defvalue);
@@ -14,7 +15,7 @@ function useInput(defvalue) {
 }
 
 function useDatesManager() {
-    const [dates, setDates] = useState([]);
+    const dates = useArray([]);
 
     function addDateRange(start, end) {
         const obj = {
@@ -22,7 +23,7 @@ function useDatesManager() {
             end,
             allDay: false,
         };
-        setDates([...dates, obj]);
+        dates.add(obj);
     }
 
     function datesWithEvent(event) {
@@ -30,7 +31,7 @@ function useDatesManager() {
     }
 
     function deleteDate(i) {
-        setDates(dates.filter((e, index) => i !== index));
+        dates.removeIndex(i);
     }
 
     return {

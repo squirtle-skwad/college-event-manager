@@ -59,16 +59,8 @@ function EventDetails({ event }) {
             </ExpansionPanelSummary>
             <ExpansionPanelDetails style={{ flexDirection: "column" }}>
                 <TextField
-                    label='Start Time'
-                    value={toTime(event.start)}
-                    disabled
-                    margin='normal'
-                    variant='outlined'
-                    fullWidth
-                />
-                <TextField
-                    label='End Time'
-                    value={toTime(event.end)}
+                    label='Venue'
+                    value={event.venue}
                     disabled
                     margin='normal'
                     variant='outlined'
