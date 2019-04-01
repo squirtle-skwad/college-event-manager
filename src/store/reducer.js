@@ -49,12 +49,22 @@ function reducer(state = initialState, action) {
                 fetchEvents: true,
             };
         case "CLOSE_REPORT_DIALOG":
-            return { ...state, reportEvent: null, fetchEvents: true };
+            return { 
+                ...state, 
+                reportEvent: null, 
+                fetchEvents: true
+            };
         case "CLOSE_ADD_EVENT_DIALOG":
-            return { ...state, slotEvent: null, fetchEvents: true, eventAddStep: 0 };
+            return { 
+                ...state, 
+                slotEvent: null, 
+                fetchEvents: true, 
+                eventAddStep: 0 
+            };
         case "CLOSE_IMAGE_DIALOG":
             return {
                 ...state,
+                slotEvent: null,
                 clickEvent: null,
                 reportEvent: null,
                 fetchEvents: true,

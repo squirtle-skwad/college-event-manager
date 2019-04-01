@@ -15,6 +15,9 @@ export default {
     signup: (form) =>
         axios.post(`${ENDPOINT}/signup/`, form),
 
+
+    sendEmailToFaculty: (reportId) => 
+        axios.get(`${ENDPOINT}/send-pdf/${reportId}`),
     getCalendarList: () =>
         axios.get(`${ENDPOINT}/event-calendar/`),
     getMonthEvents: (year, month) =>

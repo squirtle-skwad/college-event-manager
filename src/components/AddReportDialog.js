@@ -68,6 +68,11 @@ function AddReportDialog() {
         return () => document.addEventListener("keydown", escListener, false);
     });
 
+    useEffect(() => {
+        if(!reportEvent)
+            setReport(null)
+    }, [reportEvent]);
+
     // -----
 
     const closeDialog = useCallback(() => dispatch(act.CLOSE_REPORT_DIALOG()));
@@ -80,6 +85,8 @@ function AddReportDialog() {
         
         const formData = new FormData();
         _.forIn(formState.values, (value, key) => formData.append(key, value));
+        formData.append('event', reportEvent.id)
+
         formData.append(
             "attendance",
             attendanceRef.current.files[0],
@@ -92,6 +99,7 @@ function AddReportDialog() {
                     "Content-Type": "multipart/form-data",		
                 },		
             })
+            .then(r => r.data)
             .then(setReport)
             .catch(console.error);
     };

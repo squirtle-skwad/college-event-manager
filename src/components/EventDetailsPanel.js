@@ -50,6 +50,13 @@ function EventDetails({ event }) {
             .then(() => dispatch(act.CLOSE_DAY_DIALOG()));
     };
 
+    const handleEmail = (e) => {
+        if(event.report) {
+            client.sendEmailToFaculty(event.report)
+            .then(() => alert("Email Sent!"));
+        }
+    };
+
     return (
         <ExpansionPanel defaultExpanded>
             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
@@ -106,12 +113,7 @@ function EventDetails({ event }) {
                                 color='secondary'
                                 variant='contained'
                                 type='submit'
-                                component='a'
-                                href={
-                                    event.report
-                                        ? `${ENDPOINT}/send_pdf/${event.report}`
-                                        : "#"
-                                }
+                                onClick={handleEmail}
                                 style={{
                                     marginRight: "1rem",
                                 }}>
@@ -122,7 +124,7 @@ function EventDetails({ event }) {
                                 variant='contained'
                                 type='submit'
                                 component='a'
-                                href={`${ENDPOINT}/report_pdf/${event.report}`}>
+                                href={`${ENDPOINT}/report_pdf_download/${event.report}`}>
                                 Download Report PDF
                             </Button>
                         </span>

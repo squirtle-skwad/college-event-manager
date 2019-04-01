@@ -80,8 +80,7 @@ function ImagesDialog(props) {
                     </IconButton>
 
                     <Typography variant='subtitle1' color='inherit'>
-                        Upload images for{" "}
-                        {props.report ? props.report.event.name : "NO EVENT"}
+                        Upload images
                     </Typography>
                 </Toolbar>
             </AppBar>
