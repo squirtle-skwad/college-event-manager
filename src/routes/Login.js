@@ -29,6 +29,13 @@ export default class Login extends React.Component {
             .then((data) => {
                 localStorage.setItem("auth_token", `${data.auth_token}`);
                 console.log(data.auth_token);
+                return data.auth_token;
+            })
+            .then((token) => client.userProfile(token))
+            .then(r => r.data)
+            .then((data) => {
+                localStorage.setItem("user_id", `${data.id}`);
+                console.log(data.id);
                 this.setState({ redirect: true });
             })
             .catch(console.error);

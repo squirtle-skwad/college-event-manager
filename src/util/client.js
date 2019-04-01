@@ -14,6 +14,12 @@ export default {
         axios.post(`${ENDPOINT}/auth/token/login`, form),
     signup: (form) =>
         axios.post(`${ENDPOINT}/signup/`, form),
+    userProfile: (token) =>
+        axios.get(`${ENDPOINT}/auth/me`, {
+            headers: {
+                Authorization: `Token ${token}`,
+            }
+        }),
 
 
     sendEmailToFaculty: (reportId) => 

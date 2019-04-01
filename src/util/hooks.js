@@ -66,6 +66,11 @@ function useAuthToken() {
     return token;
 }
 
+function useUserId() {
+    const id = localStorage.getItem("user_id");
+    return id;
+}
+
 // ------
 
 function useCalendarEvents() {
