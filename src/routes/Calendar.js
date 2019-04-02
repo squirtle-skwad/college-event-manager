@@ -34,7 +34,7 @@ const MonthlyReportFab = (props) => {
                 right: "auto",
             }}
             component='a'
-            href={`${ENDPOINT}/month/${month}/${year}`}>
+            href={`${ENDPOINT}/month-report/${month}/${year}`}>
             <CalendarIcon />
             Monthly CSV
         </Fab>

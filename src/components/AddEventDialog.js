@@ -9,6 +9,11 @@ import {
     Slide,
     TextField,
     Button,
+    FormGroup,
+    FormLabel,
+    FormControl,
+    FormControlLabel,
+    Checkbox
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import { Close as CloseIcon } from "@material-ui/icons";
@@ -16,6 +21,7 @@ import { Close as CloseIcon } from "@material-ui/icons";
 import client from "../util/client";
 import { act, useDispatch, useMappedState } from "../store";
 import { useFormState } from "react-use-form-state";
+import _ from "lodash";
 
 import DatesDialog from './DatesDialog';
 import DepartmentDialog from './DepartmentDialog';
@@ -52,7 +58,7 @@ function AddEventDialog() {
         useCallback((state) => state.slotEvent, [])
     );
 
-    const [formState, { text }] = useFormState();
+    const [formState, { text, checkbox }] = useFormState();
 
     const [event, setNewEvent] = useState(null);
 
@@ -89,6 +95,46 @@ function AddEventDialog() {
             .then(nextStep)
             .catch(console.error);
     };
+
+    // -----
+
+    const POForm = () => (
+        <FormControl component="fieldset" className={classes.formControl}>
+            <FormLabel component="legend">PO Table</FormLabel>
+            <FormGroup row>
+                { _.range(1, 13)
+                    .map(i => (
+                        <FormControlLabel
+                            key={`PO${i}`}
+                            control={
+                                <Checkbox color='primary' {...checkbox(`PO${i}`)} />
+                            }
+                            label={`PO${i}`}
+                        />
+                    ))
+                }
+            </FormGroup>
+        </FormControl>
+    );
+
+    const PSOForm = () => (
+        <FormControl component="fieldset" className={classes.formControl}>
+          <FormLabel component="legend">PSO Table</FormLabel>
+          <FormGroup row>
+            { _.range(1, 5)
+                .map(i => (
+                    <FormControlLabel
+                        key={`PSO${i}`}
+                        control={
+                            <Checkbox color='primary' {...checkbox(`PSO${i}`)} />
+                        }
+                    label={`PSO${i}`}
+                    />
+                ))
+            }
+          </FormGroup>
+        </FormControl>
+    );
 
     // -----
 
@@ -155,6 +201,9 @@ function AddEventDialog() {
                         fullWidth
                         margin='normal'
                     />
+
+                    <POForm />
+                    <PSOForm />
 
                     <div className={classes.submitContainer}>
                         <Button

@@ -20,6 +20,7 @@ import client from "../util/client";
 import { ENDPOINT } from "../util/constants";
 import { useUserId } from "../util/hooks";
 import { act, useDispatch } from "../store";
+import { useBoolean } from "react-hanger";
 
 // -----
 
@@ -47,6 +48,8 @@ function EventDetails({ event }) {
     const dispatch = useDispatch();
     const id = useUserId();
 
+    const sendingEmail = useBoolean(false);
+    
     const handleDelete = () => {
         client.reports
             .delete(event.report)
@@ -55,8 +58,10 @@ function EventDetails({ event }) {
 
     const handleEmail = (e) => {
         if(event.report) {
+            sendingEmail.setTrue();
             client.sendEmailToFaculty(event.report)
-            .then(() => alert("Email Sent!"));
+            .then(() => alert("Email Sent!"))
+            .finally(() => sendingEmail.setFalse());
         }
     };
 
@@ -123,7 +128,8 @@ function EventDetails({ event }) {
                 color='secondary'
                 variant='contained'
                 type='submit'
-                onClick={handleEmail}>
+                disabled={sendingEmail.value}
+                onClick={!sendingEmail.value ? handleEmail : undefined}>
                 <EmailIcon /> Email to Faculty
             </Button>
         </div>
@@ -161,6 +167,8 @@ function EventDetails({ event }) {
                     label='Description'
                     value={event.description}
                     readOnly
+                    rowsMax='4'
+                    multiline
                     margin='normal'
                     variant='outlined'
                     fullWidth
@@ -174,6 +182,8 @@ function EventDetails({ event }) {
                 label='After Event Description'
                 value={event.report_data.after_event_description || '<No after event description>'}
                 readOnly
+                rowsMax='4'
+                multiline
                 margin='normal'
                 variant='outlined'
                 fullWidth
