@@ -12,7 +12,7 @@ class Collection{
     getAll = () => axios.get(this.endpoint, this.options());
     getOne = (id) => axios.get(this.endpoint + id, this.options());
     put = (id, data) => axios.put(this.endpoint + id, data, this.options());
-    put = (id, data) => axios.patch(this.endpoint + id, data, this.options());
+    patch = (id, data) => axios.patch(this.endpoint + id, data, this.options());
     delete = (id) => axios.delete(this.endpoint + id, this.options());
 
     options = () => ({

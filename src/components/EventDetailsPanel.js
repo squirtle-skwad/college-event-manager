@@ -12,6 +12,7 @@ import {
     ExpandMore as ExpandMoreIcon,
     Email as EmailIcon,
     Delete as DeleteIcon,
+    Edit as EditIcon
 } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/styles";
 
@@ -79,7 +80,6 @@ function EventDetails({ event }) {
             <Button
                 color='secondary'
                 variant='contained'
-                type='submit'
                 component='a'
                 href={`${ENDPOINT}/report_pdf_preview/${event.report}`}
                 style={{
@@ -104,7 +104,15 @@ function EventDetails({ event }) {
             <Button
                 color='secondary'
                 variant='contained'
-                type='submit'
+                onClick={() => alert("To be implemented")}
+                style={{
+                    marginRight: "1rem",
+                }}>
+                <EditIcon /> Edit Report
+            </Button>
+            <Button
+                color='secondary'
+                variant='contained'
                 onClick={handleDelete}
                 style={{
                     marginRight: "1rem",
@@ -123,32 +131,12 @@ function EventDetails({ event }) {
 
     // -----
 
-    return (
-        <ExpansionPanel defaultExpanded>
-            <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography>{event.title}</Typography>
-            </ExpansionPanelSummary>
-            <ExpansionPanelDetails style={{ flexDirection: "column" }}>
-                <TextField
+    const EventFields = () => (
+        <React.Fragment>
+            <TextField
                     label='Venue'
                     value={event.venue}
-                    disabled
-                    margin='normal'
-                    variant='outlined'
-                    fullWidth
-                />
-                <TextField
-                    label='Description'
-                    value={event.description}
-                    disabled
-                    margin='normal'
-                    variant='outlined'
-                    fullWidth
-                />
-                <TextField
-                    label='Department'
-                    value={event.department}
-                    disabled
+                    readOnly
                     margin='normal'
                     variant='outlined'
                     fullWidth
@@ -156,11 +144,61 @@ function EventDetails({ event }) {
                 <TextField
                     label='Organizer'
                     value={event.organizer}
-                    disabled
+                    readOnly
                     margin='normal'
                     variant='outlined'
                     fullWidth
                 />
+                <TextField
+                    label='Expert Name'
+                    value={event.expert_name}
+                    readOnly
+                    margin='normal'
+                    variant='outlined'
+                    fullWidth
+                />
+                <TextField
+                    label='Description'
+                    value={event.description}
+                    readOnly
+                    margin='normal'
+                    variant='outlined'
+                    fullWidth
+                />
+        </React.Fragment>
+    );
+
+    const ReportFields = () => event.report && (
+        <React.Fragment>
+            <TextField
+                label='After Event Description'
+                value={event.report_data.after_event_description || '<No after event description>'}
+                readOnly
+                margin='normal'
+                variant='outlined'
+                fullWidth
+            />
+            <TextField
+                label='Number of Participants'
+                value={event.report_data.number_of_participants || '<No number of participants>'}
+                readOnly
+                margin='normal'
+                variant='outlined'
+                fullWidth
+            />
+        </React.Fragment>
+    );
+
+    // -----
+
+    return (
+        <ExpansionPanel defaultExpanded>
+            <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                <Typography>{event.title}</Typography>
+            </ExpansionPanelSummary>
+            <ExpansionPanelDetails style={{ flexDirection: "column" }}>
+                <EventFields />
+                <ReportFields />
 
                 <FillReportButton />
                 <ReportAvailableButtons />

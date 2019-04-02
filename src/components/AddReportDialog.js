@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import {
     AppBar,
@@ -58,7 +58,7 @@ function AddReportDialog() {
         department: "OTHER",
     });
 
-    const attendanceRef = useRef();
+    const [attendanceFile, setAttendanceFile] = useState();
     const [report, setReport] = useState(null);
 
     // -----
@@ -86,19 +86,10 @@ function AddReportDialog() {
         const formData = new FormData();
         _.forIn(formState.values, (value, key) => formData.append(key, value));
         formData.append('event', reportEvent.id)
-
-        formData.append(
-            "attendance",
-            attendanceRef.current.files[0],
-            attendanceRef.current.files[0].name
-        );
+        formData.append("attendance", attendanceFile);
 
         client.reports
-            .post(formData, {		
-                headers: {		
-                    "Content-Type": "multipart/form-data",		
-                },		
-            })
+            .post(formData)
             .then(r => r.data)
             .then(setReport)
             .catch(console.error);
@@ -158,10 +149,14 @@ function AddReportDialog() {
                         type='file'
                         name='attendance'
                         accept='image/*'
-                        ref={attendanceRef}
+                        onChange={(e) => {
+                            let files = e.target.files;
+                            setAttendanceFile(files[0]);
+                        }}
                         style={{ display: "none" }}
                     />
                 </Button>
+                <span>{ attendanceFile && attendanceFile.name }</span>
 
                 <div className={classes.submitContainer}>
                     <Button

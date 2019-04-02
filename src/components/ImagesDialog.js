@@ -18,8 +18,8 @@ import {
 } from "@material-ui/icons";
 
 import client from "../util/client";
-import { ENDPOINT } from "../util/constants";
 import Dropzone from "react-dropzone";
+import { useArray } from "react-hanger";
 import { act, useDispatch } from "../store";
 
 // -----
@@ -49,9 +49,12 @@ function ImagesDialog(props) {
     const classes = useStyles();
     const dispatch = useDispatch();
 
+    const fileNames = useArray([]);
+
     // -----
 
     const handleSubmit = (e) => dispatch(act.CLOSE_IMAGE_DIALOG());
+    const handleEmail = (e) => client.sendEmailToFaculty(props.report.id).then(() => alert("Email Sent!"));
 
     const onDrop = (files) => {
         files.forEach((f) => {
@@ -60,11 +63,8 @@ function ImagesDialog(props) {
             formData.append("image", f, f.name);
 
             client.images
-                .post(formData, {		
-                    headers: {		
-                        "Content-Type": "multipart/form-data",		
-                    },		
-                })
+                .post(formData)
+                .then(() => fileNames.add(f.name))
                 .catch(console.error);
         });
     };
@@ -105,17 +105,19 @@ function ImagesDialog(props) {
                 )}
             </Dropzone>
 
+            <div style={{
+                display: "flex",
+                flexDirection: "column",
+            }}>
+                { fileNames.value.map(e => <span>{e.name}</span>) }
+            </div>
+
             <div className={classes.submitContainer}>
                 <Button
                     color='secondary'
                     variant='contained'
                     type='submit'
-                    component='a'
-                    href={
-                        props.report
-                            ? `${ENDPOINT}/send_pdf/${props.report.id}`
-                            : "#"
-                    }>
+                    onClick={handleEmail}>
                     <EmailIcon /> Email to Faculty
                 </Button>
                 <Button
@@ -123,7 +125,7 @@ function ImagesDialog(props) {
                     variant='contained'
                     type='submit'
                     onClick={handleSubmit}>
-                    <DoneIcon /> Done
+                    <DoneIcon /> Finish Report
                 </Button>
             </div>
         </Dialog>
