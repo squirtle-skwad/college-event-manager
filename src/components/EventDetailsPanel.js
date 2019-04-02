@@ -17,6 +17,7 @@ import { makeStyles } from "@material-ui/styles";
 
 import client from "../util/client";
 import { ENDPOINT } from "../util/constants";
+import { useUserId } from "../util/hooks";
 import { act, useDispatch } from "../store";
 
 // -----
@@ -43,6 +44,7 @@ const useStyles = makeStyles((theme) => ({
 function EventDetails({ event }) {
     const classes = useStyles();
     const dispatch = useDispatch();
+    const id = useUserId();
 
     const handleDelete = () => {
         client.reports
@@ -56,6 +58,70 @@ function EventDetails({ event }) {
             .then(() => alert("Email Sent!"));
         }
     };
+
+    // -----
+
+    // If the report has to be filled.
+    const FillReportButton = () => id === event.creator && !event.report && (
+        <Button
+            color='primary'
+            variant='contained'
+            type='submit'
+            onClick={() =>
+                dispatch(act.START_ADD_REPORT(event))
+            }>
+            Fill Report
+        </Button>
+    );
+
+    const ReportAvailableButtons = () => event.report && (
+        <div className={classes.submitContainer}>
+            <Button
+                color='secondary'
+                variant='contained'
+                type='submit'
+                component='a'
+                href={`${ENDPOINT}/report_pdf_preview/${event.report}`}
+                style={{
+                    marginRight: "1rem",
+                }}>
+                Preview Report PDF
+            </Button>
+            <Button
+                color='secondary'
+                variant='contained'
+                type='submit'
+                component='a'
+                href={`${ENDPOINT}/report_pdf_download/${event.report}`}>
+                Download Report PDF
+            </Button>
+        </div>
+    );
+
+    // If the report has been filled.
+    const ControlButtons = () => event.report && id === event.creator && (
+        <div className={classes.submitContainer}>
+            <Button
+                color='secondary'
+                variant='contained'
+                type='submit'
+                onClick={handleDelete}
+                style={{
+                    marginRight: "1rem",
+                }}>
+                <DeleteIcon /> Delete Report
+            </Button>
+            <Button
+                color='secondary'
+                variant='contained'
+                type='submit'
+                onClick={handleEmail}>
+                <EmailIcon /> Email to Faculty
+            </Button>
+        </div>
+    );
+
+    // -----
 
     return (
         <ExpansionPanel defaultExpanded>
@@ -96,50 +162,9 @@ function EventDetails({ event }) {
                     fullWidth
                 />
 
-                <div className={classes.submitContainer}>
-                    {event.report ? (
-                        <span>
-                            <Button
-                                color='secondary'
-                                variant='contained'
-                                type='submit'
-                                onClick={handleDelete}
-                                style={{
-                                    marginRight: "1rem",
-                                }}>
-                                <DeleteIcon /> Delete Report
-                            </Button>
-                            <Button
-                                color='secondary'
-                                variant='contained'
-                                type='submit'
-                                onClick={handleEmail}
-                                style={{
-                                    marginRight: "1rem",
-                                }}>
-                                <EmailIcon /> Email to Faculty
-                            </Button>
-                            <Button
-                                color='secondary'
-                                variant='contained'
-                                type='submit'
-                                component='a'
-                                href={`${ENDPOINT}/report_pdf_download/${event.report}`}>
-                                Download Report PDF
-                            </Button>
-                        </span>
-                    ) : (
-                        <Button
-                            color='primary'
-                            variant='contained'
-                            type='submit'
-                            onClick={() =>
-                                dispatch(act.START_ADD_REPORT(event))
-                            }>
-                            Fill Report
-                        </Button>
-                    )}
-                </div>
+                <FillReportButton />
+                <ReportAvailableButtons />
+                <ControlButtons />
             </ExpansionPanelDetails>
         </ExpansionPanel>
     );

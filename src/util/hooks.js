@@ -68,7 +68,7 @@ function useAuthToken() {
 
 function useUserId() {
     const id = localStorage.getItem("user_id");
-    return id;
+    return Number(id);
 }
 
 // ------
@@ -140,4 +140,4 @@ function useDayEvents(date) {
     };
 }
 
-export { useCalendarEvents, useDayEvents, useAuthToken, useDatesManager, useDepartmentManager };
+export { useCalendarEvents, useDayEvents, useAuthToken, useUserId, useDatesManager, useDepartmentManager };

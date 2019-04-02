@@ -1,5 +1,6 @@
 import axios from "axios";
 import api, { ENDPOINT } from "./api";
+import { useAuthToken } from "./hooks";
 
 const eventsCollection = api.all('events');
 const reportsCollection = api.all('reports');
@@ -23,7 +24,11 @@ export default {
 
 
     sendEmailToFaculty: (reportId) => 
-        axios.get(`${ENDPOINT}/send-pdf/${reportId}`),
+        axios.get(`${ENDPOINT}/send-pdf/${reportId}`, {
+            headers: {
+                Authorization: `Token ${useAuthToken()}`,
+            }
+        }),
     getCalendarList: () =>
         axios.get(`${ENDPOINT}/event-calendar/`),
     getMonthEvents: (year, month) =>

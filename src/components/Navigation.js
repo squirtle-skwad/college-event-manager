@@ -32,7 +32,10 @@ function Navigation() {
     const handleMenu = (event) => setAnchorEl(event.currentTarget);
     const handleClose = () => setAnchorEl(null);
 
-    const handleLogout = () => localStorage.removeItem('auth_token');
+    const handleLogout = () => {
+        localStorage.removeItem('auth_token');
+        localStorage.removeItem('user_id');
+    };
 
     return (
         <div className={classes.root}>
