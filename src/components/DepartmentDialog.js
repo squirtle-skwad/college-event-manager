@@ -54,7 +54,7 @@ const Transition = (props) => <Slide direction='up' {...props} />;
 const DepartmentItem = ({ dept, onDelete }) => (
     <ListItem>
         <ListItemText
-            primary={`Start at ${dept.department}`}
+            primary={`${DEPARTMENTS.find(e => e.value === dept.department).label}`}
         />
         <ListItemSecondaryAction>
             <IconButton aria-label="Delete" onClick={onDelete}>

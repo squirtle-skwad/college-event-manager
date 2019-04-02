@@ -40,7 +40,9 @@ function useDepartmentManager() {
         const obj = {
             department,
         };
-        setDepts([...depts, obj]);
+        if (!depts.find(e => e.department === department)) {
+            setDepts([...depts, obj]);
+        }
     }
 
     function deptsWithEvent(event) {
