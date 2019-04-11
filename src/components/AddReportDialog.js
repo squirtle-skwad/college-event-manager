@@ -14,9 +14,11 @@ import { makeStyles } from "@material-ui/styles";
 import {
     Close as CloseIcon,
     CloudUpload as UploadIcon,
+    FileCopy as FileIcon,
 } from "@material-ui/icons";
 
 import client from "../util/client";
+import { useFileInput } from "../util/hooks";
 import { act, useDispatch, useMappedState } from "../store";
 import ImagesDialog from "./ImagesDialog";
 import { useFormState } from "react-use-form-state";
@@ -54,11 +56,13 @@ function AddReportDialog() {
         useCallback((state) => state.reportEvent, [])
     );
 
-    const [formState, { text }] = useFormState({
+    const [formState, { text, url }] = useFormState({
         department: "OTHER",
     });
 
-    const [attendanceFile, setAttendanceFile] = useState();
+    const attendanceFile = useFileInput();
+    const expertFile = useFileInput();
+    
     const [report, setReport] = useState(null);
 
     // -----
@@ -86,7 +90,8 @@ function AddReportDialog() {
         const formData = new FormData();
         _.forIn(formState.values, (value, key) => formData.append(key, value));
         formData.append('event', reportEvent.id)
-        formData.append("attendance", attendanceFile);
+        formData.append("attendance", attendanceFile.file);
+        formData.append("expert_resume", expertFile.file);
 
         client.reports
             .post(formData)
@@ -143,28 +148,50 @@ function AddReportDialog() {
                     fullWidth
                     margin='normal'
                 />
-                <Button component='label' color='primary' variant='contained'>
-                    <UploadIcon /> Upload Attendance
-                    <input
-                        type='file'
-                        name='attendance'
-                        accept='image/*'
-                        onChange={(e) => {
-                            let files = e.target.files;
-                            setAttendanceFile(files[0]);
-                        }}
-                        style={{ display: "none" }}
-                    />
-                </Button>
-                <span>{ attendanceFile && attendanceFile.name }</span>
+                <TextField
+                    {...url("feedback_url")}
+                    label='Feedback URL'
+                    InputLabelProps={{
+                        shrink: true,
+                    }}
+                    fullWidth
+                    margin='normal'
+                />
+
+                <div style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                }}>
+                    <Button component='label' color='primary' variant='contained'>
+                        <UploadIcon /> Upload Attendance
+                        <input
+                            { ...attendanceFile.props }
+                            name='attendance'
+                            accept='image/*'
+                            style={{ display: "none" }}
+                        />
+                    </Button>
+                    <span>{ attendanceFile.file ? attendanceFile.file.name : "NO FILE SELECTED" }</span>
+
+                    <Button component='label' color='primary' variant='contained'>
+                        <FileIcon /> Upload Expert Resume
+                        <input
+                            { ...expertFile.props }
+                            name='expert'
+                            accept='*'
+                            style={{ display: "none" }}
+                        />
+                    </Button>
+                    <span>{ expertFile.file ? expertFile.file.name : "NO FILE SELECTED" }</span>
+                </div>
 
                 <div className={classes.submitContainer}>
-                    <Button
-                        color='primary'
-                        variant='contained'
-                        type='submit'>
-                        Submit Report
-                    </Button>
+                        <Button
+                            color='primary'
+                            variant='contained'
+                            type='submit'>
+                            Submit Report
+                        </Button>
                 </div>
             </form>
 

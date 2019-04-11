@@ -2,6 +2,25 @@ import { useEffect, useState, } from "react";
 
 import client from "../util/client";
 
+// -----
+
+function useFileInput() {
+    const [file, setFile] = useState(null);
+
+    return {
+        file,
+        props: {
+            type: 'file',
+            onChange: (e) => {
+                let files = e.target.files;
+                setFile(files[0]);
+            },
+        }
+    }
+}
+
+// -----
+
 function useDatesManager() {
     const [dates, setDates] = useState([]);
 
@@ -142,4 +161,4 @@ function useDayEvents(date) {
     };
 }
 
-export { useCalendarEvents, useDayEvents, useAuthToken, useUserId, useDatesManager, useDepartmentManager };
+export { useCalendarEvents, useDayEvents, useAuthToken, useUserId, useDatesManager, useDepartmentManager, useFileInput };
