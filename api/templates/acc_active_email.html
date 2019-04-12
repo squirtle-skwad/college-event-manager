@@ -1,0 +1,5 @@
+{% autoescape off %}
+Hi {{ user.username }},
+Please click on the link to confirm your registration,
+http://127.0.0.1:8000{% url 'activate' uidb64=uidb64 token=token %}
+{% endautoescape %}

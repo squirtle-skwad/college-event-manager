@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+  <style>
+    @page {
+    size: A4 portrait;
+    margin-right: 3cm;
+    margin-left: 3cm;
+    margin-top: 1.5cm;
+    margin-bottom: 1.5cm;
+    }
+  </style>
+  <div class="container">
+    <img src= './api/templates/letterhead.png' alt="OOPS" style="width: 50%; display: block; margin-right: auto; margin-left: auto;">
+    <br>
+    <br>
+    <h1 style="text-align:center; font-size: 2em;">A report on " {{event_dict.name}} "</h1>
+    <hr>
+    <br>
+    <h2><b>Delivered by:</b>  {{event_dict.expert_name}} </h2>
+    <h2><b>Organized by:</b></h2>
+    <ul style="list-style-type:none;">
+        {% for item in event_dict.departments %}
+            <li><h3> {{item}} </h3></li>
+        {% endfor %}
+    </ul>
+    <h2><b>Date:</b>  {{event_dict.dates.start}}  to  {{event_dict.dates.end}} </h2>
+    <!-- <h4><b>Time:</b>  event_time </h4> -->
+    <h2><b>Venue:</b>  {{event_dict.venue}} </h2>
+    <h2><b>Submitted by:</b></h2>
+    <ul style="list-style-type:none;">
+        {% for item in report_dict.event_data.organizer %}
+            <li><h3> {{item}} </h3></li>
+        {% endfor %}
+    </ul>
+    <h2><b>No. of participants:</b>  {{report_dict.number_of_participants}} </h2>
+    <h2><b>Event Description:</b></h2>
+    <p class="text-justify"> {{event_dict.description}} </p>
+    <h2><b>After Event Description:</b></h2>
+    <p class="text-justify"> {{report_dict.after_event_description}} </p>
+    <h2><b>Feedback:</b>  {{report_dict.feedback_url}} </h2>
+    <br>
+    <br>
+    <div class="container">
+      <h3>Program Outcomes mapped:</h3>
+      <table style="border: 1px solid black;">
+        <tr>
+          <th align="center" style="vertical-align: middle;">PO1</th>
+          <th align="center" style="vertical-align: middle;">PO2</th>
+          <th align="center" style="vertical-align: middle;">PO3</th>
+          <th align="center" style="vertical-align: middle;">PO4</th>
+          <th align="center" style="vertical-align: middle;">PO5</th>
+          <th align="center" style="vertical-align: middle;">PO6</th>
+          <th align="center" style="vertical-align: middle;">PO7</th>
+          <th align="center" style="vertical-align: middle;">PO8</th>
+          <th align="center" style="vertical-align: middle;">PO9</th>
+          <th align="center" style="vertical-align: middle;">PO10</th>
+          <th align="center" style="vertical-align: middle;">PO11</th>
+          <th align="center" style="vertical-align: middle;">PO12</th>
+        </tr>
+        <tr>
+          {%if event_dict.PO1 == '1' %}
+          <td align="center" style="vertical-align: middle;">1</td>
+          {%elif event_dict.PO1 == '2' %}
+          <td align="center" style="vertical-align: middle;">2</td>
+          {% elif event_dict.PO1 == '3'%}
+          <td align="center" style="vertical-align: middle;">3</td>
+          {%else%}
+          <td align="center" style="vertical-align: middle;">-</td>
+          {%endif%}
+
+          {%if event_dict.PO2 == '1' %}
+          <td align="center" style="vertical-align: middle;">1</td>
+          {%elif event_dict.PO2 == '2'%}
+          <td align="center" style="vertical-align: middle;">2</td>
+          {% elif event_dict.PO2 == '3'%}
+          <td align="center" style="vertical-align: middle;">3</td>
+          {%else%}
+          <td align="center" style="vertical-align: middle;">-</td>
+          {%endif%}
+
+          {%if event_dict.PO3 == '1' %}
+          <td align="center" style="vertical-align: middle;">1</td>
+          {%elif event_dict.PO3 == '2'%}
+          <td align="center" style="vertical-align: middle;">2</td>
+          {% elif event_dict.PO3 == '3'%}
+          <td align="center" style="vertical-align: middle;">3</td>
+          {%else%}
+          <td align="center" style="vertical-align: middle;">-</td>
+          {%endif%}
+
+          {%if event_dict.PO4 == '1' %}
+          <td align="center" style="vertical-align: middle;">1</td>
+          {%elif event_dict.PO4 == '2'%}
+          <td align="center" style="vertical-align: middle;">2</td>
+          {% elif event_dict.PO4 == '3'%}
+          <td align="center" style="vertical-align: middle;">3</td>
+          {%else%}
+          <td align="center" style="vertical-align: middle;">-</td>
+          {%endif%}
+
+          {%if event_dict.PO5 == '1' %}
+          <td align="center" style="vertical-align: middle;">1</td>
+          {%elif event_dict.PO5 == '2'%}
+          <td align="center" style="vertical-align: middle;">2</td>
+          {% elif event_dict.PO5 == '3'%}
+          <td align="center" style="vertical-align: middle;">3</td>
+          {%else%}
+          <td align="center" style="vertical-align: middle;">-</td>
+          {%endif%}
+
+          {%if event_dict.PO6 == '1' %}
+          <td align="center" style="vertical-align: middle;">1</td>
+          {%elif event_dict.PO6 == '2'%}
+          <td align="center" style="vertical-align: middle;">2</td>
+          {% elif event_dict.PO6 == '3'%}
+          <td align="center" style="vertical-align: middle;">3</td>
+          {%else%}
+          <td align="center" style="vertical-align: middle;">-</td>
+          {%endif%}
+
+          {%if event_dict.PO7 == '1' %}
+          <td align="center" style="vertical-align: middle;">1</td>
+          {%elif event_dict.PO7 == '2'%}
+          <td align="center" style="vertical-align: middle;">2</td>
+          {% elif event_dict.PO7 == '3'%}
+          <td align="center" style="vertical-align: middle;">3</td>
+          {%else%}
+          <td align="center" style="vertical-align: middle;">-</td>
+          {%endif%}
+
+          {%if event_dict.PO8 == '1' %}
+          <td align="center" style="vertical-align: middle;">1</td>
+          {%elif event_dict.PO8 == '2'%}
+          <td align="center" style="vertical-align: middle;">2</td>
+          {% elif event_dict.PO8 == '3'%}
+          <td align="center" style="vertical-align: middle;">3</td>
+          {%else%}
+          <td align="center" style="vertical-align: middle;">-</td>
+          {%endif%}
+
+          {%if event_dict.PO9 == '1' %}
+          <td align="center" style="vertical-align: middle;">1</td>
+          {%elif event_dict.PO9 == '2'%}
+          <td align="center" style="vertical-align: middle;">2</td>
+          {% elif event_dict.PO9 == '3'%}
+          <td align="center" style="vertical-align: middle;">3</td>
+          {%else%}
+          <td align="center" style="vertical-align: middle;">-</td>
+          {%endif%}
+
+          {%if event_dict.PO10 == '1' %}
+          <td align="center" style="vertical-align: middle;">1</td>
+          {%elif event_dict.PO10 == '2'%}
+          <td align="center" style="vertical-align: middle;">2</td>
+          {% elif event_dict.PO10 == '3'%}
+          <td align="center" style="vertical-align: middle;">3</td>
+          {%else%}
+          <td align="center" style="vertical-align: middle;">-</td>
+          {%endif%}
+
+          {%if event_dict.PO11 == '1' %}
+          <td align="center" style="vertical-align: middle;">1</td>
+          {%elif event_dict.PO11 == '2'%}
+          <td align="center" style="vertical-align: middle;">2</td>
+          {% elif event_dict.PO11 == '3'%}
+          <td align="center" style="vertical-align: middle;">3</td>
+          {%else%}
+          <td align="center" style="vertical-align: middle;">-</td>
+          {%endif%}
+
+          {%if event_dict.PO12 == '1' %}
+          <td align="center" style="vertical-align: middle;">1</td>
+          {%elif event_dict.PO12 == '2'%}
+          <td align="center" style="vertical-align: middle;">2</td>
+          {% elif event_dict.PO12 == '3'%}
+          <td align="center" style="vertical-align: middle;">3</td>
+          {%else%}
+          <td align="center" style="vertical-align: middle;">-</td>
+          {%endif%}
+
+        </tr>
+      </table>
+      <br>
+      <h3>Program Specific Outcomes mapped:</h3>
+      <table style="border: 1px solid black;">
+        <tr>
+          <th align="center" style="vertical-align: text-bottom">PSO1</th>
+          <th align="center" style="vertical-align: middle;">PSO2</th>
+          <th align="center" style="vertical-align: middle;">PSO3</th>
+          <th align="center" style="vertical-align: middle;">PSO4</th>
+        </tr>
+        <tr>
+          {%if event_dict.PSO1 == '1' %}
+          <td align="center" style="vertical-align: middle;">1</td>
+          {%elif event_dict.PSO1 == '2'%}
+          <td align="center" style="vertical-align: middle;">2</td>
+          {% elif event_dict.PSO1 == '3'%}
+          <td align="center" style="vertical-align: middle;">3</td>
+          {%else%}
+          <td align="center" style="vertical-align: middle;">-</td>
+          {%endif%}
+
+          {%if event_dict.PSO2 == '1' %}
+          <td align="center" style="vertical-align: middle;">1</td>
+          {%elif event_dict.PSO2 == '2'%}
+          <td align="center" style="vertical-align: middle;">2</td>
+          {% elif event_dict.PSO2 == '3'%}
+          <td align="center" style="vertical-align: middle;">3</td>
+          {%else%}
+          <td align="center" style="vertical-align: middle;">-</td>
+          {%endif%}
+
+          {%if event_dict.PSO3 == '1' %}
+          <td align="center" style="vertical-align: middle;">1</td>
+          {%elif event_dict.PSO3 == '2'%}
+          <td align="center" style="vertical-align: middle;">2</td>
+          {% elif event_dict.PSO3 == '3'%}
+          <td align="center" style="vertical-align: middle;">3</td>
+          {%else%}
+          <td align="center" style="vertical-align: middle;">-</td>
+          {%endif%}
+
+          {%if event_dict.PSO4 == '1' %}
+          <td align="center" style="vertical-align: middle;">1</td>
+          {%elif event_dict.PSO4 == '2'%}
+          <td align="center" style="vertical-align: middle;">2</td>
+          {% elif event_dict.PSO4 == '3'%}
+          <td align="center" style="vertical-align: middle;">3</td>
+          {%else%}
+          <td align="center" style="vertical-align: middle;">-</td>
+          {%endif%}
+
+        </tr>
+      </table>
+    </div>
+    <br>
+    <br>
+    <br>
+
+    <!-- next page -->
+
+    <img src= './api/templates/letterhead.png' alt="OOPS" style="width: 50%; display: block; margin-right: auto; margin-left: auto;">
+    <br>
+    <br>
+    <h1 style="text-align:center; font-size: 1.5em;">Attendance Image</h1>
+    <hr>
+    <br>
+    <div class="container">
+      <center><img src = '{{report_dict.attendance}}' alt="OOPS"></center>
+    </div>
+    <br>
+    <br>
+    <br>
+    <ul style="list-style-type:none;">
+      {% for item in report_dict.event_data.departments %}
+        <li>
+          <h2>Signature: ______________________</h2>
+          <h2>HoD ({{ item.department }}): ____________________</h2>
+        </li>
+        <br>
+      {% endfor %}
+    </ul>
+    <br>
+
+    <!-- next page -->
+
+    <img src= './api/templates/letterhead.png' alt="OOPS" style="width: 50%; display: block; margin-right: auto; margin-left: auto;">
+    <br>
+    <br>
+    <h1 style="text-align:center; font-size: 1.5em;">Event Images</h1>
+    <hr>
+    <br>
+    <div class="container">
+      {% for item in report_dict.image %}
+        <center><img src = '{{item.image}}' alt="OOPS"></center>
+        <br>
+        <br>
+        <br>
+      {% endfor %}
+    </div>
+  </div>
+</body>
+</html>
