@@ -12,7 +12,8 @@ import {
     ExpandMore as ExpandMoreIcon,
     Email as EmailIcon,
     Delete as DeleteIcon,
-    Edit as EditIcon
+    Edit as EditIcon,
+    FileCopy as FileIcon,
 } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/styles";
 
@@ -196,6 +197,28 @@ function EventDetails({ event }) {
                 variant='outlined'
                 fullWidth
             />
+            <Button
+                    color='primary'
+                    variant='contained'
+                    style={{
+                        marginBottom: '8px'
+                    }}
+                    component='a'
+                    href={ENDPOINT + event.report_data.feedback_url}>
+                    <FileIcon />
+                    Feedback
+            </Button>
+            <Button
+                    color='primary'
+                    variant='contained'
+                    style={{
+                        marginBottom: '8px'
+                    }}
+                    component='a'
+                    href={ENDPOINT + event.report_data.expert_resume}>
+                    <FileIcon />
+                    Expert Details
+            </Button>
         </React.Fragment>
     );
 

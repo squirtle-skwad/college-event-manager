@@ -12,13 +12,12 @@ import {
     FormGroup,
     FormLabel,
     FormControl,
-    FormControlLabel,
-    Checkbox
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import { Close as CloseIcon } from "@material-ui/icons";
 
 import client from "../util/client";
+import { POS, PSOS } from "../util/constants";
 import { act, useDispatch, useMappedState } from "../store";
 import { useFormState } from "react-use-form-state";
 import _ from "lodash";
@@ -57,8 +56,17 @@ function AddEventDialog() {
     const slotEvent = useMappedState(
         useCallback((state) => state.slotEvent, [])
     );
+    const getInitialPos = useCallback(() => {
+        const x = {};
+        _.range(13).forEach(e => {
+            x[`PO${e}`] = 0;
+            if (e < 5)
+                x[`PSO${e}`] = 0;
+        });
+        return x;
+    }, []);
 
-    const [formState, { text, checkbox }] = useFormState();
+    const [formState, { text, number }] = useFormState({ ...getInitialPos() });
 
     const [event, setNewEvent] = useState(null);
 
@@ -102,15 +110,16 @@ function AddEventDialog() {
         <FormControl component="fieldset" className={classes.formControl}>
             <FormLabel component="legend">PO Table</FormLabel>
             <FormGroup row>
-                { _.range(1, 13)
-                    .map(i => (
-                        <FormControlLabel
-                            key={`PO${i}`}
-                            control={
-                                <Checkbox color='primary' {...checkbox(`PO${i}`)} />
-                            }
-                            label={`PO${i}`}
-                        />
+                {
+                    POS.map((e, i) => (
+                        <TextField
+                            {...number(`PO${i}`)}
+                            label={e.label}
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
+                            helperText={e.description}
+                            margin='normal'/>
                     ))
                 }
             </FormGroup>
@@ -119,20 +128,21 @@ function AddEventDialog() {
 
     const PSOForm = () => (
         <FormControl component="fieldset" className={classes.formControl}>
-          <FormLabel component="legend">PSO Table</FormLabel>
-          <FormGroup row>
-            { _.range(1, 5)
-                .map(i => (
-                    <FormControlLabel
-                        key={`PSO${i}`}
-                        control={
-                            <Checkbox color='primary' {...checkbox(`PSO${i}`)} />
-                        }
-                    label={`PSO${i}`}
-                    />
-                ))
-            }
-          </FormGroup>
+            <FormLabel component="legend">PSO Table</FormLabel>
+            <FormGroup row>
+                {
+                    PSOS.map((e, i) => (
+                        <TextField
+                            {...number(`PSO${i}`)}
+                            label={e.label}
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
+                            helperText={e.description}
+                            margin='normal'/>
+                    ))
+                }
+            </FormGroup>
         </FormControl>
     );
 
