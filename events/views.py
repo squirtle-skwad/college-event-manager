@@ -1,55 +1,48 @@
 from django.shortcuts import HttpResponse
+from rest_framework import viewsets, status, serializers
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.decorators import api_view
-from rest_framework import viewsets, status
 from rest_framework.response import Response
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from datetime import datetime, timedelta
-from rest_framework import serializers
+
 from authapp.models import User
 from .email import send_mail
 from .models import *
-from .serializers import *
+from .serializers import *  
 from .utility import month_dict, get_dates
-from .render import render_to_file
+
 import pandas as pd
+from .render import render_report_using_serializers
 
 
 class EventViewSet(viewsets.ModelViewSet):
     queryset = Event.objects.all()
     serializer_class = EventSerializer
-
-    @method_decorator(login_required)
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        event = serializer.save(creator=request.user)
-        headers = self.get_success_headers(serializer.data)
-        return Response(
-            serializer.data, status=status.HTTP_201_CREATED, headers=headers
-        )        
+    permission_classes = [IsAuthenticatedOrReadOnly, ]
+    
+    def perform_create(self, serializer):
+        serializer.save(creator=self.request.user)
 
 
 class ReportViewSet(viewsets.ModelViewSet):
     queryset = Report.objects.all()
     serializer_class = ReportWithEventSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly, ]
 
     @method_decorator(login_required)
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        print(serializer.validated_data)
-        if (
-            serializer.validated_data["event"].creator == request.user
-        ):  # to add .user.first_name
-            self.perform_create(serializer)
-            return Response(serializer.data)
 
-        else:
+        if (serializer.validated_data["event"].creator != request.user):
             raise serializers.ValidationError(
                 "You cannot create the report you are not the creator"
             )
-
+        
+        self.perform_create(serializer)
+        return Response(serializer.data)
 
 class ImageViewSet(viewsets.ModelViewSet):
     queryset = Image.objects.all()
@@ -62,39 +55,8 @@ class ImageViewSet(viewsets.ModelViewSet):
 
         report_id = serializer.data["report"]
         report = Report.objects.get(pk=report_id)
-        event = report.event
-        serializer_context = {"request": request}
-        report_json = ReportWithEventSerializer(report, context=serializer_context).data
-        event_json = EventSerializer(event).data
-        dates_len = len(event_json["dates"])
-        filename = event_json["name"] + "$" + event_json["dates"][0]["start"][0:10]
-        event_json["dates"] = {
-            "start": event_json["dates"][0]["start"][0:10],
-            "end": event_json["dates"][dates_len - 1]["end"][0:10],
-        }
-        for items in report_json["image"]:
-            items["image"] = items["image"][22::]
-        report_json["attendance"] = report_json["attendance"][22::]
-        dept_list = []
-        for items in event_json["departments"]:
-            dept_list.append(items["department"])
-        event_json["departments"] = dept_list
-        print(event_json["departments"])
+        render_report_using_serializers(report, request)
 
-        report_json["event_data"]["organizer"] = (
-            report_json["event_data"]["organizer"].split(",")
-            or report_json["event_data"]["organizer"].split(", ")
-            or report_json["event_data"]["organizer"].split("\r\n")
-        )
-        # print(report_json["event_data"])
-        print(report_json["feedback_url"])
-        params = {
-            "report_dict": report_json,
-            "event_dict": event_json,
-            "request": request,
-        }
-
-        render_to_file("pdf.html", params, filename)
         headers = self.get_success_headers(serializer.data)
         return Response(
             serializer.data, status=status.HTTP_201_CREATED, headers=headers

@@ -1,10 +1,47 @@
-from io import BytesIO
-from django.http import HttpResponse
 from django.template.loader import get_template
-import xhtml2pdf.pisa as pisa
-import os
-from urllib.request import urlopen
+from django.http import HttpResponse
 from django.conf import settings
+from io import BytesIO
+from urllib.request import urlopen
+import os
+import xhtml2pdf.pisa as pisa
+
+from .serializers import ReportWithEventSerializer, EventSerializer
+
+
+def render_report_using_serializers(report, request):
+    event = report.event
+    serializer_context = {"request": request}
+    report_json = ReportWithEventSerializer(report, context=serializer_context).data
+    event_json = EventSerializer(event).data
+    dates_len = len(event_json["dates"])
+    filename = event_json["name"] + "$" + event_json["dates"][0]["start"][0:10]
+    event_json["dates"] = {
+        "start": event_json["dates"][0]["start"][0:10],
+        "end": event_json["dates"][dates_len - 1]["end"][0:10],
+    }
+    for items in report_json["image"]:
+        items["image"] = items["image"][22::]
+    report_json["attendance"] = report_json["attendance"][22::]
+    dept_list = []
+    for items in event_json["departments"]:
+        dept_list.append(items["department"])
+    event_json["departments"] = dept_list
+    print(event_json["departments"])
+
+    report_json["event_data"]["organizer"] = (
+        report_json["event_data"]["organizer"].split(",")
+        or report_json["event_data"]["organizer"].split(", ")
+        or report_json["event_data"]["organizer"].split("\r\n")
+    )
+    # print(report_json["event_data"])
+    print(report_json["feedback_url"])
+    params = {
+        "report_dict": report_json,
+        "event_dict": event_json,
+        "request": request,
+    }
+    render_to_file("pdf.html", params, filename)
 
 
 def link_callback(uri, rel):
@@ -40,33 +77,3 @@ def render_to_file(path: str, params: dict, file):
     file_pdf = open(file_path, "wb")
     pisaStatus = pisa.CreatePDF(html, dest=file_pdf, link_callback=link_callback)
     file_pdf.close()
-
-
-# class Render:
-#
-#     @staticmethod
-#     def download(path: str, params: dict):
-#         template = get_template(path)
-#         html = template.render(params)
-#         response = BytesIO()
-#         pdf = pisa.pisaDocument(BytesIO(html.encode("UTF-8")), response)
-#         if not pdf.err:
-#             response =  HttpResponse(response.getvalue(), content_type='application/pdf')
-#             response["Content-Disposition"] = 'attachment; filename = "abc.pdf"'
-#             return response
-#         else:
-#             return HttpResponse("Error Rendering PDF", status=400)
-#
-#     @staticmethod
-#     def preview(path: str, params: dict):
-#         template = get_template(path)
-#         html = template.render(params)
-#         x = render_to_file(path, params)
-#
-#         response = BytesIO()
-#         pdf = pisa.pisaDocument(BytesIO(html.encode("UTF-8")), response)
-#         if not pdf.err:
-#             pdf_file =  HttpResponse(response.getvalue(), content_type='application/pdf')
-#             return pdf_file
-#         else:
-#             return HttpResponse("Error Rendering PDF", status=400)
