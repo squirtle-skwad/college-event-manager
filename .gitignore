@@ -89,5 +89,5 @@ venv
 .env
 db.sqlite3
 .vscode
-migrations/*
-!migrations/__init__.py
+**/migrations/*
+!**/migrations/__init__.py

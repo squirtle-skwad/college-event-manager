@@ -1,14 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
-from datetime import datetime
-from . import choices
-
-
-class User(AbstractUser):
-    department = models.CharField(
-        max_length=6, choices=choices.DEPARTMENT, default="COMPS"
-    )
-
+from authapp import choices, models as authmodels
 
 class Event(models.Model):
     name = models.CharField(max_length=128)
@@ -16,16 +7,16 @@ class Event(models.Model):
     expert_name = models.CharField(max_length=256, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
     organizer = models.TextField(null=True, blank=True)
-    creator = models.ForeignKey(User, on_delete=models.CASCADE)
-    PO1 = models.CharField(max_length=6, choices=choices.OPTIONS, default="0")
-    PO2 = models.CharField(max_length=6, choices=choices.OPTIONS, default="0")
-    PO3 = models.CharField(max_length=6, choices=choices.OPTIONS, default="0")
-    PO4 = models.CharField(max_length=6, choices=choices.OPTIONS, default="0")
-    PO5 = models.CharField(max_length=6, choices=choices.OPTIONS, default="0")
-    PO6 = models.CharField(max_length=6, choices=choices.OPTIONS, default="0")
-    PO7 = models.CharField(max_length=6, choices=choices.OPTIONS, default="0")
-    PO8 = models.CharField(max_length=6, choices=choices.OPTIONS, default="0")
-    PO9 = models.CharField(max_length=6, choices=choices.OPTIONS, default="0")
+    creator = models.ForeignKey(authmodels.User, on_delete=models.CASCADE)
+    PO1  = models.CharField(max_length=6, choices=choices.OPTIONS, default="0")
+    PO2  = models.CharField(max_length=6, choices=choices.OPTIONS, default="0")
+    PO3  = models.CharField(max_length=6, choices=choices.OPTIONS, default="0")
+    PO4  = models.CharField(max_length=6, choices=choices.OPTIONS, default="0")
+    PO5  = models.CharField(max_length=6, choices=choices.OPTIONS, default="0")
+    PO6  = models.CharField(max_length=6, choices=choices.OPTIONS, default="0")
+    PO7  = models.CharField(max_length=6, choices=choices.OPTIONS, default="0")
+    PO8  = models.CharField(max_length=6, choices=choices.OPTIONS, default="0")
+    PO9  = models.CharField(max_length=6, choices=choices.OPTIONS, default="0")
     PO10 = models.CharField(max_length=6, choices=choices.OPTIONS, default="0")
     PO11 = models.CharField(max_length=6, choices=choices.OPTIONS, default="0")
     PO12 = models.CharField(max_length=6, choices=choices.OPTIONS, default="0")
@@ -70,9 +61,3 @@ class Image(models.Model):
     image = models.ImageField()
     report = models.ForeignKey(Report, related_name="image", on_delete=models.CASCADE)
 
-
-# Connect model Event to Model User one event many users#
-# The Report part will take place in 3 steps
-# 1. User will enter all the fields of the report model and click submit
-# 2. User will then upload the images where the report model just created will be referenced from the frontend
-# 3. User will get the option to send the email of the report

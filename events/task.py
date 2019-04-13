@@ -4,15 +4,15 @@ from reportlab.platypus import Image
 from reportlab.lib.units import inch, cm
 import csv
 import pandas as pd
-from api.choices import department
+from authapp.choices import department_display
 
 data_file = "data.csv"
 
 
 def import_data(data_file):
     df = pd.read_csv(data_file)
-    event_department = df["department"][0]
-    event_department = department[event_department]
+    event_department = df["department_display"][0]
+    event_department = department_display[event_department]
     event_description = df["description"][0]
     event_date_end = df["end"][0]
     expert_name = df["expert_name"][0]

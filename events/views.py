@@ -1,54 +1,18 @@
-from django.shortcuts import render, HttpResponse
-from django.contrib.auth import authenticate, login, logout
-from rest_framework.decorators import api_view, action
+from django.shortcuts import HttpResponse
+from rest_framework.decorators import api_view
 from rest_framework import viewsets, status
-from rest_framework.generics import CreateAPIView
-from rest_framework.views import APIView
 from rest_framework.response import Response
-from .serializers import *
-from .models import *
-from .utility import generate_csv, month_dict, get_dates
-from .render import render_to_file
-from .utility import generate_csv, month_dict
-import json
-import pandas as pd
-import csv
-from django.http import FileResponse
-from wsgiref.util import FileWrapper
-import os
-from django.core.mail import EmailMessage
-from .Email import send_mail
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from datetime import datetime, timedelta
 from rest_framework import serializers
-from rest_framework.serializers import ValidationError
-
-
-"""
-User Data API
-"""
-
-
-@api_view(["GET"])
-def user_profile(request, username):
-    """
-    List all events according to month and year
-    """
-    if request.method == "GET":
-        user = User.objects.filter(username=username)
-        serializer = UserSerializer(user, many=True)
-        return Response(serializer.data)
-
-
-class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-
-
-"""
-Event Data API
-"""
+from authapp.models import User
+from .email import send_mail
+from .models import *
+from .serializers import *
+from .utility import month_dict, get_dates
+from .render import render_to_file
+import pandas as pd
 
 
 class EventViewSet(viewsets.ModelViewSet):
@@ -63,28 +27,7 @@ class EventViewSet(viewsets.ModelViewSet):
         headers = self.get_success_headers(serializer.data)
         return Response(
             serializer.data, status=status.HTTP_201_CREATED, headers=headers
-        )
-
-    # @method_decorator(login_required)
-    # def update(self, request, *args, **kwargs):
-    #     partial = kwargs.pop("partial", False)
-    #     instance = self.get_object()
-    #     serializer = self.get_serializer(instance, data=request.data, partial=partial)
-    #     serializer.is_valid(raise_exception=True)
-    #     print(serializer.validated_data)
-    #     if serializer.validated_data["creator"] == request.user:  # to add .user.first_name
-    #         self.perform_update(serializer)
-    #         return Response(serializer.data)
-
-    #     else:
-    #         raise serializers.ValidationError(
-    #             "You cannot edit the report you are not the creator"
-    #         )
-
-
-"""
-Report API DATA
-"""
+        )        
 
 
 class ReportViewSet(viewsets.ModelViewSet):
@@ -106,27 +49,6 @@ class ReportViewSet(viewsets.ModelViewSet):
             raise serializers.ValidationError(
                 "You cannot create the report you are not the creator"
             )
-
-    # @method_decorator(login_required)
-    # def update(self, request, *args, **kwargs):
-    #     partial = kwargs.pop("partial", False)
-    #     instance = self.get_object()
-    #     serializer = self.get_serializer(instance, data=request.data, partial=partial)
-    #     serializer.is_valid(raise_exception=True)
-    #     print(request.user)
-    #     if serializer.validated_data["event"].creator == request.user:  # to add .user.first_name
-    #         self.perform_update(serializer)
-    #         return Response(serializer.data)
-
-    #     else:
-    #         raise serializers.ValidationError(
-    #             "You cannot edit the report you are not the creator"
-    #         )
-
-
-"""
-Image API DATA
-"""
 
 
 class ImageViewSet(viewsets.ModelViewSet):
@@ -208,22 +130,6 @@ class DepartmentViewSet(viewsets.ModelViewSet):
                 "You cannot assign the department you are not the creator"
             )
 
-    # @method_decorator(login_required)
-    # def update(self, request, *args, **kwargs):
-    #     partial = kwargs.pop("partial", False)
-    #     instance = self.get_object()
-    #     serializer = self.get_serializer(instance, data=request.data, partial=partial)
-    #     serializer.is_valid(raise_exception=True)
-    #     print(serializer.validated_data)
-    #     print(request.user)
-    #     if serializer.validated_data["event"].creator == request.user:  # to add .user.first_name
-    #         self.perform_update(serializer)
-    #         return Response(serializer.data)
-
-    #     else:
-    #         raise serializers.ValidationError(
-    #             "You cannot edit the departments you are not the creator"
-    #         )
 
 
 class DatesViewSet(viewsets.ModelViewSet):
@@ -287,11 +193,6 @@ def depts_multiple(request):
     return HttpResponse("OK", status=200)
 
 
-"""
-Event data for calendar
-"""
-
-
 @api_view(["GET"])
 def event_list_calendar_all(request):
     """
@@ -303,32 +204,18 @@ def event_list_calendar_all(request):
         return Response(serializer.data)
 
 
-"""
-Event data by month
-"""
-
-
 @api_view(["GET"])
 def event_list_by_month(request, month, year):
-    """
-    List all events according to month and year
-    """
+    """ List all events according to month and year """
     if request.method == "GET":
         dates = Dates.objects.filter(start__month=month, start__year=year)
         serializer = CalendarDateSerializer(dates, many=True)
         return Response(serializer.data)
 
 
-"""
-Event data by date
-"""
-
-
 @api_view(["GET"])
 def event_list_by_date(request, date):
-    """
-    List all Events according to date
-    """
+    """ List all Events according to date """
     if request.method == "GET":
 
         start_date = datetime.strptime(date, "%Y-%m-%d") - timedelta(days=1)
@@ -397,54 +284,9 @@ def event_list_by_date(request, date):
         #         d4 = d4.strftime('%Y-%m-%d')
 
 
-"""
-Download PDF
-"""
-
-
-@api_view(["GET"])
-def report_pdf_download(request, pk):
-    if request.method == "GET":
-        report = Report.objects.get(id=pk)
-        event = report.event
-        event_serializer = EventSerializer(event).data
-        name = event_serializer["name"]
-        date = event_serializer["dates"][0]["start"][0:10]
-        response = HttpResponse(content_type="text/pdf")
-        filename = "media/pdf/{}${}.pdf".format(name, date)
-        download_name = "{}_Report.pdf".format(name)
-        dataset = open(filename, "rb")
-        response = HttpResponse(dataset, content_type="text/pdf")
-        response["Content-Disposition"] = 'attachment; filename="{}"'.format(
-            download_name
-        )
-        return response
-
-
-@api_view(["GET"])
-def report_pdf_preview(request, pk):
-    if request.method == "GET":
-        report = Report.objects.get(id=pk)
-        event = report.event
-        event_serializer = EventSerializer(event).data
-        name = event_serializer["name"]
-        date = event_serializer["dates"][0]["start"][0:10]
-        filename = "media/pdf/{}${}.pdf".format(name, date)
-        dataset = open(filename, "rb")
-        response = HttpResponse(dataset, content_type="application/pdf")
-        return response
-
-
-"""
-Generate Month Report
-"""
-
-
 @api_view(["GET"])
 def month_report(request, month, year):
-    """
-    List all events according to month and year
-    """
+    """ List all events according to month and year """
     if request.method == "GET":
         event = Event.objects.filter(dates__start__month=month, dates__start__year=year)
         serializer = EventSerializer(event, many=True)
@@ -493,10 +335,50 @@ def month_report(request, month, year):
         return response
 
 
-"""
-Email PDF
-"""
+@api_view(["GET"])
+@login_required()
+def get_event_list(request):
+    """ For user """
+    if request.method == "GET":
+        user = User.objects.filter(id=request.user.id)
+        event = Event.objects.filter(creator=user[0].id)
+        serializer = EventSerializer(event, many=True)
+        return Response(serializer.data)
 
+
+@api_view(["GET"])
+def report_pdf_download(request, pk):
+    """ Download PDF """
+    if request.method == "GET":
+        report = Report.objects.get(id=pk)
+        event = report.event
+        event_serializer = EventSerializer(event).data
+        name = event_serializer["name"]
+        date = event_serializer["dates"][0]["start"][0:10]
+        response = HttpResponse(content_type="text/pdf")
+        filename = "media/pdf/{}${}.pdf".format(name, date)
+        download_name = "{}_Report.pdf".format(name)
+        dataset = open(filename, "rb")
+        response = HttpResponse(dataset, content_type="text/pdf")
+        response["Content-Disposition"] = 'attachment; filename="{}"'.format(
+            download_name
+        )
+        return response
+
+
+@api_view(["GET"])
+def report_pdf_preview(request, pk):
+    """ Preview PDF """
+    if request.method == "GET":
+        report = Report.objects.get(id=pk)
+        event = report.event
+        event_serializer = EventSerializer(event).data
+        name = event_serializer["name"]
+        date = event_serializer["dates"][0]["start"][0:10]
+        filename = "media/pdf/{}${}.pdf".format(name, date)
+        dataset = open(filename, "rb")
+        response = HttpResponse(dataset, content_type="application/pdf")
+        return response
 
 @api_view(["GET"])
 @login_required()
@@ -511,47 +393,3 @@ def send_pdf(request, pk):
         teacher_name = request.user.first_name + " " + request.user.last_name
         send_mail(filename, teacher_name, event_obj)
         return response
-
-
-"""
-User Signup
-"""
-
-
-class SignUp(CreateAPIView):
-    queryset = User.objects.all()
-    serializer_class = SignUpSerializer
-
-
-"""
-User Activation
-"""
-
-
-def activate(request, uidb64, token):
-    try:
-        user = User.objects.get(pk=uidb64)
-    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
-        user = None
-    if user is not None and account_activation_token.check_token(user, token):
-        user.is_active = True
-        user.save()
-        return HttpResponse("User Verification Successful")
-
-    else:
-        return HttpResponse("User verification failed")
-
-
-# Model signal on_save -> PDF
-# /report/pdf/1 -> Retrieve from MEDIA_URL
-# /report/pdf/1/send_email -> Definitely send the Emails
-
-
-@api_view(["GET"])
-@login_required()
-def get_event_list(request):
-    if request.method == "GET":
-        user = User.objects.filter(id=request.user.id)
-        event = Event.objects.filter(creator=user[0].id)
-        serializer = EventSerializer(event, many=True)
-        return Response(serializer.data)

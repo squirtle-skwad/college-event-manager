@@ -36,11 +36,12 @@ SECRET_KEY = "wu^txkli_c4y-*$)ar20fyvzzu7a84r1axp8si3yt2ba911l2%"  # env('SECRET
 DEBUG = True  # env('DEBUG')
 
 ALLOWED_HOSTS = []
+
 # Application definition
 
-
 INSTALLED_APPS = [
-    "api",
+    "authapp",
+    "events",
     "corsheaders",
     "django.contrib.admin",
     "django.contrib.auth",
@@ -71,7 +72,7 @@ CORS_ALLOW_CREDENTIALS = True
 ROOT_URLCONF = "project-vp.urls"
 APPEND_SLASH = True
 
-AUTH_USER_MODEL = "api.User"
+AUTH_USER_MODEL = "authapp.User"
 
 TEMPLATES = [
     {

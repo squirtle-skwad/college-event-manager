@@ -9,15 +9,25 @@
 <body>
   <style>
     @page {
-    size: A4 portrait;
-    margin-right: 3cm;
-    margin-left: 3cm;
-    margin-top: 1.5cm;
-    margin-bottom: 1.5cm;
+      size: A4 portrait;
+      margin-right: 3cm;
+      margin-left: 3cm;
+      margin-top: 1.5cm;
+      margin-bottom: 1.5cm;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    #letterhead {
+      width: 50%; 
+      display: block; 
+      margin-right: auto; 
+      margin-left: auto;
     }
   </style>
   <div class="container">
-    <img src= './api/templates/letterhead.png' alt="OOPS" style="width: 50%; display: block; margin-right: auto; margin-left: auto;">
+    <img src= './events/templates/letterhead.png' alt="OOPS" id="letterhead">
     <br>
     <br>
     <h1 style="text-align:center; font-size: 2em;">A report on " {{event_dict.name}} "</h1>
@@ -246,7 +256,6 @@
 
     <!-- next page -->
 
-    <img src= './api/templates/letterhead.png' alt="OOPS" style="width: 50%; display: block; margin-right: auto; margin-left: auto;">
     <br>
     <br>
     <h1 style="text-align:center; font-size: 1.5em;">Attendance Image</h1>
@@ -271,7 +280,6 @@
 
     <!-- next page -->
 
-    <img src= './api/templates/letterhead.png' alt="OOPS" style="width: 50%; display: block; margin-right: auto; margin-left: auto;">
     <br>
     <br>
     <h1 style="text-align:center; font-size: 1.5em;">Event Images</h1>

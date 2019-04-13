@@ -13,7 +13,6 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
 from django.urls import path, include
 
 from rest_framework import routers
@@ -44,21 +43,10 @@ urlpatterns = [
         views.report_pdf_preview,
         name="report_pdf_preview",
     ),
-    path("profile/<str:username>", views.user_profile, name="user_profile"),
+    
     path("profile/event-list", views.get_event_list, name="event_list"),
     path("send-pdf/<int:pk>", views.send_pdf, name="send_pdf"),
-    path("admin/", admin.site.urls),
-    path("signup/", views.SignUp.as_view(), name="signup"),
-    path("activate/<str:uidb64>/<str:token>", views.activate, name="activate"),
     path("event-calendar/", views.event_list_calendar_all, name="date_request"),
     path("event-calendar/<str:date>", views.event_list_by_date, name="date_request"),
-    path(
-        "event-calendar/<int:month>/<int:year>",
-        views.event_list_by_month,
-        name="month_request",
-    ),
+    path("event-calendar/<int:month>/<int:year>", views.event_list_by_month, name="month_request"),
 ]
-
-# Dhairya Check these urls
-# Login Url:http://127.0.0.1:8000/auth/token/login This will give u a token --
-# Logout Url:http://127.0.0.1:8000/auth/token/logout

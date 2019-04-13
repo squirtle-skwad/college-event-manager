@@ -3,7 +3,7 @@ import json
 import pandas as pd
 from .task import import_data
 import json
-from .choices import RECIPIENTS
+from authapp.choices import RECIPIENTS
 from .models import *
 
 month_dict = [

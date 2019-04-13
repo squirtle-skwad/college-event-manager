@@ -12,7 +12,7 @@ DEPARTMENT = (
     ("OTHER", "Other/ No department"),
 )
 
-department = {
+department_display = {
     "EXTC": "Electronics & Telecommunication Engineering Department, D.J. Sanghvi COE",
     "MECH": "Mechanical Engineering Department, D.J. Sanghvi COE",
     "COMPS": "Computer Engineering Department, D.J. Sanghvi COE",
