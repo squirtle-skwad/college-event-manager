@@ -16,6 +16,10 @@ from .permissions import IsOwnerOfEvent, IsOwnerOfReport
 import pandas as pd
 from .render import render_report_using_serializers
 
+
+# <-- Viewsets -->
+
+
 class EventViewSet(viewsets.ModelViewSet):
     queryset = Event.objects.all()
     serializer_class = EventSerializer
@@ -56,6 +60,8 @@ class DatesViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticatedOrReadOnly, IsOwnerOfEvent ]
 
 
+# <-- !ViewSets -->
+
 # <--x-->
 def multiple_thunk(serializer):
     """ Factory for taking an array of objects
@@ -76,6 +82,8 @@ def multiple_thunk(serializer):
 dates_multiple = multiple_thunk(DateSerializer)
 depts_multiple = multiple_thunk(DepartmentSerializer)
 # <--x-->
+
+# <-- EventQueryEndpoints -->
 
 @api_view(["GET"])
 def event_list_calendar_all(request):
@@ -167,6 +175,20 @@ def event_list_by_date(request, date):
 
 
 @api_view(["GET"])
+@login_required()
+def get_event_list(request):
+    """ For user """
+    if request.method == "GET":
+        user = User.objects.filter(id=request.user.id)
+        event = Event.objects.filter(creator=user[0].id)
+        serializer = EventSerializer(event, many=True)
+        return Response(serializer.data)
+
+
+# <-- !EventQueryEndpoints -->
+
+
+@api_view(["GET"])
 def month_report(request, month, year):
     """ List all events according to month and year """
     if request.method == "GET":
@@ -217,16 +239,7 @@ def month_report(request, month, year):
         return response
 
 
-@api_view(["GET"])
-@login_required()
-def get_event_list(request):
-    """ For user """
-    if request.method == "GET":
-        user = User.objects.filter(id=request.user.id)
-        event = Event.objects.filter(creator=user[0].id)
-        serializer = EventSerializer(event, many=True)
-        return Response(serializer.data)
-
+# <-- PDF -->
 
 @api_view(["GET"])
 def report_pdf_download(request, pk):
@@ -275,3 +288,6 @@ def send_pdf(request, pk):
         teacher_name = request.user.first_name + " " + request.user.last_name
         send_mail(filename, teacher_name, event_obj)
         return response
+
+
+# <-- !PDF -->
