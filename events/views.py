@@ -1,9 +1,8 @@
-from django.shortcuts import HttpResponse
+from django.shortcuts import HttpResponse, get_object_or_404
 from rest_framework import viewsets, status, serializers
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from datetime import datetime, timedelta
 
@@ -31,103 +30,61 @@ class ReportViewSet(viewsets.ModelViewSet):
     serializer_class = ReportWithEventSerializer
     permission_classes = [IsAuthenticatedOrReadOnly, ]
 
-    @method_decorator(login_required)
     def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-
-        if (serializer.validated_data["event"].creator != request.user):
+        event = get_object_or_404(Event, pk=request.data['event'])
+        if (event.creator != request.user):
             raise serializers.ValidationError(
                 "You cannot create the report you are not the creator"
             )
-        
-        self.perform_create(serializer)
-        return Response(serializer.data)
+        return super(ReportViewSet, self).create(request, *args, **kwargs)
 
 class ImageViewSet(viewsets.ModelViewSet):
     queryset = Image.objects.all()
     serializer_class = ImageSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly, ]
 
     def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
+        report = get_object_or_404(Report, pk=request.data['report'])
+        if (report.event.creator != request.user):
+            raise serializers.ValidationError(
+                "You cannot add images, you are not the creator"
+            )
+        return super(ImageViewSet, self).create(request, *args, **kwargs)
+
+    def perform_create(self, serializer):
+        serializer.save()
 
         report_id = serializer.data["report"]
         report = Report.objects.get(pk=report_id)
-
-        render_report_using_serializers(report, request) # <-- LOGIC FOR RENDERING TEMPLATE HERE
-
-        headers = self.get_success_headers(serializer.data)
-        return Response(
-            serializer.data, status=status.HTTP_201_CREATED, headers=headers
-        )
-
-
-# Here as soon as an image is added the json data of the report generated is taken for pdf generation
-# All the function for pdf generation will be called in this create method
-# Any update or new image addition will also override the previous csv or pdf generated
-
-"""
-Department API data
-"""
+        render_report_using_serializers(report, self.request) # <-- LOGIC FOR RENDERING TEMPLATE HERE
 
 
 class DepartmentViewSet(viewsets.ModelViewSet):
     queryset = Department.objects.all()
     serializer_class = DepartmentSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly, ]
 
-    @method_decorator(login_required)
     def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        print(serializer.validated_data)
-        if (
-            serializer.validated_data["event"].creator == request.user
-        ):  # to add .user.first_name
-            self.perform_create(serializer)
-            return Response(serializer.data)
-
-        else:
+        event = get_object_or_404(Event, pk=request.data['event'])
+        if (event.creator != request.user):
             raise serializers.ValidationError(
-                "You cannot assign the department you are not the creator"
+                "You cannot add departments, you are not the creator"
             )
-
+        return super(DepartmentViewSet, self).create(request, *args, **kwargs)
 
 
 class DatesViewSet(viewsets.ModelViewSet):
     queryset = Dates.objects.all()
     serializer_class = DateSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly, ]
 
-    @method_decorator(login_required)
     def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        print(serializer.validated_data)
-        if (
-            serializer.validated_data["event"].creator == request.user
-        ):  # to add .user.first_name
-            self.perform_create(serializer)
-            return Response(serializer.data)
-        else:
+        event = get_object_or_404(Event, pk=request.data['event'])
+        if (event.creator != request.user):
             raise serializers.ValidationError(
-                "You cannot assign the dates you are not the creator"
+                "You cannot add dates, you are not the creator"
             )
-
-    # @method_decorator(login_required)
-    # def update(self, request, *args, **kwargs):
-    #     partial = kwargs.pop("partial", False)
-    #     instance = self.get_object()
-    #     serializer = self.get_serializer(instance, data=request.data, partial=partial)
-    #     serializer.is_valid(raise_exception=True)
-    #     print(request.user)
-    #     if serializer.validated_data["event"].creator_name == request.user:  # to add .user.first_name
-    #         self.perform_update(serializer)
-    #         return Response(serializer.data)
-    #     else:
-    #         raise serializers.ValidationError(
-    #             "You cannot edit the dates you are not the creator"
-    #         )
+        return super(DatesViewSet, self).create(request, *args, **kwargs)
 
 
 # <--x-->
