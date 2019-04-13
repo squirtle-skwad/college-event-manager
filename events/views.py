@@ -55,7 +55,8 @@ class ImageViewSet(viewsets.ModelViewSet):
 
         report_id = serializer.data["report"]
         report = Report.objects.get(pk=report_id)
-        render_report_using_serializers(report, request)
+
+        render_report_using_serializers(report, request) # <-- LOGIC FOR RENDERING TEMPLATE HERE
 
         headers = self.get_success_headers(serializer.data)
         return Response(
@@ -129,37 +130,30 @@ class DatesViewSet(viewsets.ModelViewSet):
     #         )
 
 
-@api_view(["POST"])
-def dates_multiple(request):
-    list_dates = request.data
-    for date in list_dates:
-        print(date)
-        x = DateSerializer(data=date)
-        if x.is_valid():
-            x.save()
-        else:
-            return HttpResponse(status=400)
-    return HttpResponse("OK", status=200)
+# <--x-->
+def multiple_thunk(serializer):
+    """ Factory for taking an array of objects
+        and deserialising them. """
+    @api_view(["POST"])
+    def api_func(request):
+        ls = request.data
+        for item in ls:
+            obj = serializer(data=item)
+            if obj.is_valid():
+                obj.save()
+            else:
+                return HttpResponse(status=400)
+        return HttpResponse("OK", status=200)
 
+    return api_func
 
-@api_view(["POST"])
-def depts_multiple(request):
-    list_depts = request.data
-    for dept in list_depts:
-        print(dept)
-        x = DepartmentSerializer(data=dept)
-        if x.is_valid():
-            x.save()
-        else:
-            return HttpResponse(status=400)
-    return HttpResponse("OK", status=200)
-
+dates_multiple = multiple_thunk(DateSerializer)
+depts_multiple = multiple_thunk(DepartmentSerializer)
+# <--x-->
 
 @api_view(["GET"])
 def event_list_calendar_all(request):
-    """
-    List all events
-    """
+    """ List all events for calendar """
     if request.method == "GET":
         dates = Dates.objects.all()
         serializer = CalendarDateSerializer(dates, many=True)
