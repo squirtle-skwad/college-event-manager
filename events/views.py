@@ -10,15 +10,13 @@ from authapp.models import User
 from .email import send_mail
 from .models import *
 from .serializers import *
-from .utility import month_dict, get_dates
+from .utility import get_date
 from .permissions import IsOwnerOfEvent, IsOwnerOfReport
 
-import pandas as pd
-from .render import render_report_using_serializers
+from .doc_gen import render_report, generate_month_csv
 
 
 # <-- Viewsets -->
-
 
 class EventViewSet(viewsets.ModelViewSet):
     queryset = Event.objects.all()
@@ -45,9 +43,7 @@ class ImageViewSet(viewsets.ModelViewSet):
 
         report_id = serializer.data["report"]
         report = Report.objects.get(pk=report_id)
-        render_report_using_serializers(
-            report, self.request
-        )  # <-- LOGIC FOR RENDERING TEMPLATE HERE
+        render_report(report)  # <-- LOGIC FOR RENDERING TEMPLATE HERE
 
 
 class DepartmentViewSet(viewsets.ModelViewSet):
@@ -60,7 +56,6 @@ class DatesViewSet(viewsets.ModelViewSet):
     queryset = Dates.objects.all()
     serializer_class = DateSerializer
     permission_classes = [IsAuthenticatedOrReadOnly, IsOwnerOfEvent]
-
 
 # <-- !ViewSets -->
 
@@ -192,60 +187,19 @@ def get_event_list(request):
 
 # <-- !EventQueryEndpoints -->
 
-
 @api_view(["GET"])
 def month_report(request, month, year):
     """ List all events according to month and year """
     if request.method == "GET":
-        event = Event.objects.filter(dates__start__month=month, dates__start__year=year)
-        serializer = EventSerializer(event, many=True)
-        serializer = list(serializer.data)
-        li = []
-        for item in serializer:
-            print(item["id"])
-            if item["id"] in li:
-                serializer.remove(item)
-            else:
-                li.append(item["id"])
-                item["dates"] = {
-                    "start": item["dates"][0]["start"],
-                    "end": item["dates"][len(item["dates"]) - 1]["end"],
-                }
-                dept_list = []
-                for dept in item["departments"]:
-                    dept = dept["department"]
-                    dept_list.append(dept)
-                item["departments"] = dept_list
-                item["start"] = item["dates"]["start"][0:10]
-                item["end"] = item["dates"]["end"][0:10]
-                item.pop("dates")
-        month_name = month_dict[month]
-        filename = "media/csv_month/{}.csv".format(month_name)
-
-        # start_date = "2019-{}-01".format(month)
-        # end_date = "2019-{}-31".format(month)
-        start_date = datetime.strptime("2019-{}-01".format(month), "%Y-%m-%d")
-        end_date = datetime.strptime("2019-{}-30".format(month), "%Y-%m-%d")
-        dates = pd.date_range(start_date, end_date)
-        zf = pd.DataFrame(index=dates)
-        df = pd.DataFrame.from_dict(serializer)
-        df.to_csv(filename)
-        nf = pd.read_csv(
-            filename, index_col="start", parse_dates=True, na_values=["nan", "NaN"]
-        )
-        nf = nf.drop(columns=[nf.columns[0], nf.columns[1]])
-        zf = zf.join(nf, how="inner")
-        zf.to_csv(filename)
-        dataset = open(filename, "r")
+        filename, month_name = generate_month_csv(month, year)
+        dataset = open(filename, "rb")
         response = HttpResponse(dataset, content_type="text/csv")
         response["Content-Disposition"] = 'attachment; filename="{}_Report.csv"'.format(
             month_name
         )
         return response
 
-
 # <-- PDF -->
-
 
 @api_view(["GET"])
 def report_pdf_download(request, pk):
@@ -289,12 +243,11 @@ def send_pdf(request, pk):
         report = Report.objects.get(id=pk)
         event_obj = report.event
         name = report.event.name
-        date = get_dates(event_obj)
+        date = get_date(event_obj)
         filename = "{}${}.pdf".format(name, date)
         response = HttpResponse(content_type="text/pdf")
         teacher_name = request.user.first_name + " " + request.user.last_name
         send_mail(filename, teacher_name, event_obj)
         return response
-
 
 # <-- !PDF -->

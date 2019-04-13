@@ -43,7 +43,6 @@ class Dates(models.Model):
     event = models.ForeignKey(Event, related_name="dates", on_delete=models.CASCADE)
     start = models.DateTimeField()
     end = models.DateTimeField()
-    allDay = models.BooleanField(default=False)
 
 
 class Report(models.Model):

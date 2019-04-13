@@ -38,6 +38,7 @@ class DateSerializer(serializers.ModelSerializer):
 class CalendarDateSerializer(serializers.ModelSerializer):
     event = serializers.PrimaryKeyRelatedField(read_only=True)
     title = serializers.CharField(read_only=True, source="event.name")
+    allDay = serializers.BooleanField(read_only=True, default=True)
 
     class Meta:
         model = Dates

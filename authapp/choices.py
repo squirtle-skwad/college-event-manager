@@ -23,10 +23,3 @@ department_display = {
     "PROD": "Production Engineering Department, D.J. Sanghvi COE",
     "OTHER": "Other/ No department",
 }
-
-# add vice principal and any other email id's you wish to append
-RECIPIENTS = [
-    "rashmilp833@gmail.com",
-    "damonsalvatore833@gmail.com",
-    "vikrantgajria@gmail.com",
-]

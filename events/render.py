@@ -9,7 +9,7 @@ import xhtml2pdf.pisa as pisa
 from .serializers import ReportWithEventSerializer, EventSerializer
 
 
-def render_report_using_serializers(report, request):
+def render_report(report, request):
     event = report.event
     serializer_context = {"request": request}
     report_json = ReportWithEventSerializer(report, context=serializer_context).data
