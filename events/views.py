@@ -9,7 +9,7 @@ from datetime import datetime, timedelta
 from authapp.models import User
 from .email import send_mail
 from .models import *
-from .serializers import *  
+from .serializers import *
 from .utility import month_dict, get_dates
 from .permissions import IsOwnerOfEvent, IsOwnerOfReport
 
@@ -23,8 +23,8 @@ from .render import render_report_using_serializers
 class EventViewSet(viewsets.ModelViewSet):
     queryset = Event.objects.all()
     serializer_class = EventSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly, ]
-    
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
     def perform_create(self, serializer):
         serializer.save(creator=self.request.user)
 
@@ -32,32 +32,34 @@ class EventViewSet(viewsets.ModelViewSet):
 class ReportViewSet(viewsets.ModelViewSet):
     queryset = Report.objects.all()
     serializer_class = ReportWithEventSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly, IsOwnerOfEvent, ]
+    permission_classes = [IsAuthenticatedOrReadOnly, IsOwnerOfEvent]
 
 
 class ImageViewSet(viewsets.ModelViewSet):
     queryset = Image.objects.all()
     serializer_class = ImageSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly, IsOwnerOfReport, ]
+    permission_classes = [IsAuthenticatedOrReadOnly, IsOwnerOfReport]
 
     def perform_create(self, serializer):
         serializer.save()
 
         report_id = serializer.data["report"]
         report = Report.objects.get(pk=report_id)
-        render_report_using_serializers(report, self.request) # <-- LOGIC FOR RENDERING TEMPLATE HERE
+        render_report_using_serializers(
+            report, self.request
+        )  # <-- LOGIC FOR RENDERING TEMPLATE HERE
 
 
 class DepartmentViewSet(viewsets.ModelViewSet):
     queryset = Department.objects.all()
     serializer_class = DepartmentSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly, IsOwnerOfEvent ]
+    permission_classes = [IsAuthenticatedOrReadOnly, IsOwnerOfEvent]
 
 
 class DatesViewSet(viewsets.ModelViewSet):
     queryset = Dates.objects.all()
     serializer_class = DateSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly, IsOwnerOfEvent ]
+    permission_classes = [IsAuthenticatedOrReadOnly, IsOwnerOfEvent]
 
 
 # <-- !ViewSets -->
@@ -66,6 +68,7 @@ class DatesViewSet(viewsets.ModelViewSet):
 def multiple_thunk(serializer):
     """ Factory for taking an array of objects
         and deserialising them. """
+
     @api_view(["POST"])
     def api_func(request):
         ls = request.data
@@ -79,11 +82,13 @@ def multiple_thunk(serializer):
 
     return api_func
 
+
 dates_multiple = multiple_thunk(DateSerializer)
 depts_multiple = multiple_thunk(DepartmentSerializer)
 # <--x-->
 
 # <-- EventQueryEndpoints -->
+
 
 @api_view(["GET"])
 def event_list_calendar_all(request):
@@ -241,6 +246,7 @@ def month_report(request, month, year):
 
 # <-- PDF -->
 
+
 @api_view(["GET"])
 def report_pdf_download(request, pk):
     """ Download PDF """
@@ -274,6 +280,7 @@ def report_pdf_preview(request, pk):
         dataset = open(filename, "rb")
         response = HttpResponse(dataset, content_type="application/pdf")
         return response
+
 
 @api_view(["GET"])
 @login_required()

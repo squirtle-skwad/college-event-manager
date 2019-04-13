@@ -2,6 +2,7 @@ from rest_framework import serializers
 from datetime import datetime
 from .models import Event, Report, Image, Department, Dates
 
+
 class DepartmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Department
@@ -67,15 +68,15 @@ class EventSerializer(serializers.ModelSerializer):
             "expert_name",
             "description",
             "organizer",
-            "PO1" ,
-            "PO2" ,
-            "PO3" ,
-            "PO4" ,
-            "PO5" ,
-            "PO6" ,
-            "PO7" ,
-            "PO8" ,
-            "PO9" ,
+            "PO1",
+            "PO2",
+            "PO3",
+            "PO4",
+            "PO5",
+            "PO6",
+            "PO7",
+            "PO8",
+            "PO9",
             "PO10",
             "PO11",
             "PO12",

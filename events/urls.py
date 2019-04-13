@@ -43,10 +43,13 @@ urlpatterns = [
         views.report_pdf_preview,
         name="report_pdf_preview",
     ),
-    
     path("profile/event-list", views.get_event_list, name="event_list"),
     path("send-pdf/<int:pk>", views.send_pdf, name="send_pdf"),
     path("event-calendar/", views.event_list_calendar_all, name="date_request"),
     path("event-calendar/<str:date>", views.event_list_by_date, name="date_request"),
-    path("event-calendar/<int:month>/<int:year>", views.event_list_by_month, name="month_request"),
+    path(
+        "event-calendar/<int:month>/<int:year>",
+        views.event_list_by_month,
+        name="month_request",
+    ),
 ]

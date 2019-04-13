@@ -36,11 +36,7 @@ def render_report_using_serializers(report, request):
     )
     # print(report_json["event_data"])
     print(report_json["feedback_url"])
-    params = {
-        "report_dict": report_json,
-        "event_dict": event_json,
-        "request": request,
-    }
+    params = {"report_dict": report_json, "event_dict": event_json, "request": request}
     render_to_file("pdf.html", params, filename)
 
 

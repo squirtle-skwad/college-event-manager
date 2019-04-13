@@ -1,6 +1,7 @@
 from django.db import models
 from authapp import choices, models as authmodels
 
+
 class Event(models.Model):
     name = models.CharField(max_length=128)
     venue = models.CharField(max_length=256)
@@ -8,15 +9,15 @@ class Event(models.Model):
     description = models.TextField(null=True, blank=True)
     organizer = models.TextField(null=True, blank=True)
     creator = models.ForeignKey(authmodels.User, on_delete=models.CASCADE)
-    PO1  = models.CharField(max_length=6, choices=choices.OPTIONS, default="0")
-    PO2  = models.CharField(max_length=6, choices=choices.OPTIONS, default="0")
-    PO3  = models.CharField(max_length=6, choices=choices.OPTIONS, default="0")
-    PO4  = models.CharField(max_length=6, choices=choices.OPTIONS, default="0")
-    PO5  = models.CharField(max_length=6, choices=choices.OPTIONS, default="0")
-    PO6  = models.CharField(max_length=6, choices=choices.OPTIONS, default="0")
-    PO7  = models.CharField(max_length=6, choices=choices.OPTIONS, default="0")
-    PO8  = models.CharField(max_length=6, choices=choices.OPTIONS, default="0")
-    PO9  = models.CharField(max_length=6, choices=choices.OPTIONS, default="0")
+    PO1 = models.CharField(max_length=6, choices=choices.OPTIONS, default="0")
+    PO2 = models.CharField(max_length=6, choices=choices.OPTIONS, default="0")
+    PO3 = models.CharField(max_length=6, choices=choices.OPTIONS, default="0")
+    PO4 = models.CharField(max_length=6, choices=choices.OPTIONS, default="0")
+    PO5 = models.CharField(max_length=6, choices=choices.OPTIONS, default="0")
+    PO6 = models.CharField(max_length=6, choices=choices.OPTIONS, default="0")
+    PO7 = models.CharField(max_length=6, choices=choices.OPTIONS, default="0")
+    PO8 = models.CharField(max_length=6, choices=choices.OPTIONS, default="0")
+    PO9 = models.CharField(max_length=6, choices=choices.OPTIONS, default="0")
     PO10 = models.CharField(max_length=6, choices=choices.OPTIONS, default="0")
     PO11 = models.CharField(max_length=6, choices=choices.OPTIONS, default="0")
     PO12 = models.CharField(max_length=6, choices=choices.OPTIONS, default="0")
@@ -60,4 +61,3 @@ class Report(models.Model):
 class Image(models.Model):
     image = models.ImageField()
     report = models.ForeignKey(Report, related_name="image", on_delete=models.CASCADE)
-

@@ -1,6 +1,7 @@
 from rest_framework import permissions
 from .models import Event, Report
 
+
 class IsOwnerOfEvent(permissions.BasePermission):
     message = "You are not the owner of this event!"
 
@@ -9,7 +10,7 @@ class IsOwnerOfEvent(permissions.BasePermission):
             return True
 
         if request.data:
-            event = Event.objects.get(pk=request.data['event'])
+            event = Event.objects.get(pk=request.data["event"])
             if event:
                 return event.creator == request.user
 
@@ -21,6 +22,7 @@ class IsOwnerOfEvent(permissions.BasePermission):
 
         return obj.event.creator == request.user
 
+
 class IsOwnerOfReport(permissions.BasePermission):
     message = "You are not the owner of this report!"
 
@@ -29,7 +31,7 @@ class IsOwnerOfReport(permissions.BasePermission):
             return True
 
         if request.data:
-            report = Report.objects.get(pk=request.data['report'])
+            report = Report.objects.get(pk=request.data["report"])
             if report:
                 return report.event.creator == request.user
 
