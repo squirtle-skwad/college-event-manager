@@ -2,9 +2,13 @@ from django.core.mail import EmailMessage
 from .utility import get_recipients
 
 
-def create_mail(
-    EventName, EventStartDate, teacher_name, event_obj
-):  # EventName --> event_name , EventDate --> event_date , name --> organizer
+def create_mail(EventName, EventStartDate, teacher_name, event_obj):
+    """
+        ARGUMENGS:
+        EventName -> event_name
+        EventDate --> event_date
+        Name --> organizer
+    """
     # put the subject here
     subject = "Event report for {} event. Report by {}".format(EventName, teacher_name)
     body = "Here is the report for the event {} which was held on {}".format(

@@ -25,6 +25,7 @@ router.register("reports", views.ReportViewSet)
 router.register("images", views.ImageViewSet)
 router.register("departments", views.DepartmentViewSet)
 router.register("dates", views.DatesViewSet)
+router.register("event-calendar", views.CalendarViewSet)
 
 urlpatterns = [
     path("", include(router.urls)),
@@ -45,7 +46,6 @@ urlpatterns = [
     ),
     path("profile/event-list", views.get_event_list, name="event_list"),
     path("send-pdf/<int:pk>", views.send_pdf, name="send_pdf"),
-    path("event-calendar/", views.event_list_calendar_all, name="date_request"),
     path("event-calendar/<str:date>", views.event_list_by_date, name="date_request"),
     path(
         "event-calendar/<int:month>/<int:year>",

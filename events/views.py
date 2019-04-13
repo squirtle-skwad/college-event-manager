@@ -34,6 +34,10 @@ class ReportViewSet(viewsets.ModelViewSet):
 
 
 class ImageViewSet(viewsets.ModelViewSet):
+    """ Adds Images to Report of an event. 
+        PDF is generated only after we add an image.
+        ! Deprecated in the next release.
+    """
     queryset = Image.objects.all()
     serializer_class = ImageSerializer
     permission_classes = [IsAuthenticatedOrReadOnly, IsOwnerOfReport]
@@ -47,12 +51,16 @@ class ImageViewSet(viewsets.ModelViewSet):
 
 
 class DepartmentViewSet(viewsets.ModelViewSet):
+    """ An event can be organised by multiple departments.
+        Use this endpoint to add departments to events. """
     queryset = Department.objects.all()
     serializer_class = DepartmentSerializer
     permission_classes = [IsAuthenticatedOrReadOnly, IsOwnerOfEvent]
 
 
 class DatesViewSet(viewsets.ModelViewSet):
+    """ An event can be held on multiple, non-contigious dates.
+        Use this endpoint to add departments to events. """
     queryset = Dates.objects.all()
     serializer_class = DateSerializer
     permission_classes = [IsAuthenticatedOrReadOnly, IsOwnerOfEvent]
@@ -84,14 +92,12 @@ depts_multiple = multiple_thunk(DepartmentSerializer)
 
 # <-- EventQueryEndpoints -->
 
-
-@api_view(["GET"])
-def event_list_calendar_all(request):
-    """ List all events for calendar """
-    if request.method == "GET":
-        dates = Dates.objects.all()
-        serializer = CalendarDateSerializer(dates, many=True)
-        return Response(serializer.data)
+class CalendarViewSet(viewsets.ReadOnlyModelViewSet):
+    """ This serializer is used by React Big Calendar 
+        to display data. The JSON is in a particular
+        format. """
+    queryset = Dates.objects.all()
+    serializer_class = CalendarDateSerializer
 
 
 @api_view(["GET"])

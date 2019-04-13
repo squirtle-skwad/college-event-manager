@@ -4,12 +4,18 @@ from .models import Event, Report, Image, Department, Dates
 
 
 class DepartmentSerializer(serializers.ModelSerializer):
+    """ An event can be organised by multiple departments.
+        Use this serializer to add departments to events. """
+
     class Meta:
         model = Department
         fields = "__all__"
 
 
 class DateSerializer(serializers.ModelSerializer):
+    """ An event can be held on multiple, non-contigious dates.
+        Use this serializer to add departments to events. """
+
     class Meta:
         model = Dates
         fields = "__all__"
@@ -36,6 +42,7 @@ class DateSerializer(serializers.ModelSerializer):
 
 
 class CalendarDateSerializer(serializers.ModelSerializer):
+    """  """
     event = serializers.PrimaryKeyRelatedField(read_only=True)
     title = serializers.CharField(read_only=True, source="event.name")
     allDay = serializers.BooleanField(read_only=True, default=True)
