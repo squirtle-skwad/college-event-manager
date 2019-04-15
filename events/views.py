@@ -139,11 +139,11 @@ def month_report(request, month, year):
     """ List all events according to month and year """
     if request.method == "GET":
         filename, month_name = generate_month_csv(month, year)
-        dataset = open(filename, "rb")
-        response = HttpResponse(dataset, content_type="text/csv")
-        response["Content-Disposition"] = 'attachment; filename="{}_Report.csv"'.format(
-            month_name
-        )
+        with open(filename, "rb") as dataset:
+            response = HttpResponse(dataset, content_type="text/csv")
+            response["Content-Disposition"] = 'attachment; filename="{}_Report.csv"'.format(
+                month_name
+            )
         return response
 
 # <-- PDF -->
@@ -160,11 +160,11 @@ def report_pdf_download(request, pk):
         response = HttpResponse(content_type="text/pdf")
         filename = "media/pdf/{}${}.pdf".format(name, date)
         download_name = "{}_Report.pdf".format(name)
-        dataset = open(filename, "rb")
-        response = HttpResponse(dataset, content_type="text/pdf")
-        response["Content-Disposition"] = 'attachment; filename="{}"'.format(
-            download_name
-        )
+        with open(filename, "rb") as dataset:
+            response = HttpResponse(dataset, content_type="text/pdf")
+            response["Content-Disposition"] = 'attachment; filename="{}"'.format(
+                download_name
+            )
         return response
 
 
@@ -178,8 +178,8 @@ def report_pdf_preview(request, pk):
         name = event_serializer["name"]
         date = event_serializer["dates"][0]["start"][0:10]
         filename = "media/pdf/{}${}.pdf".format(name, date)
-        dataset = open(filename, "rb")
-        response = HttpResponse(dataset, content_type="application/pdf")
+        with open(filename, "rb") as dataset:
+            response = HttpResponse(dataset, content_type="application/pdf")
         return response
 
 

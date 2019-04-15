@@ -70,6 +70,5 @@ def render_to_file(path: str, params: dict, file):
     html = template.render(params)
     file_name = "{}.pdf".format(file)
     file_path = os.path.join("media/pdf", file_name)
-    file_pdf = open(file_path, "wb")
-    pisaStatus = pisa.CreatePDF(html, dest=file_pdf, link_callback=link_callback)
-    file_pdf.close()
+    with file_pdf open(file_path, "wb") as file_pdf:
+        pisaStatus = pisa.CreatePDF(html, dest=file_pdf, link_callback=link_callback)
