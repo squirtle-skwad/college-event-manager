@@ -34,7 +34,7 @@ export default {
     getMonthEvents: (year, month) =>
         axios.get(`${ENDPOINT}/event-calendar/${year}/${month}/`),
     getDayEvents: (year, month, day) =>
-        axios.get(`${ENDPOINT}/event-calendar/${year}-${month}-${day}`),
+        axios.get(`${ENDPOINT}/event-calendar/${year}/${month}/${day}`),
     postMultipleDates: (ls) =>
         axios.post(`${ENDPOINT}/dates-multiple/`, ls),
     postMultipleDepts: (ls) =>
