@@ -1,8 +1,24 @@
+"""
+    This module contains permissions used by ViewSets in views.py
+    This promotes DRY code, as we do not need to overwrite
+    create() or perform_create() funcitons in most cases by
+    using these permission classes.
+
+    Author:
+        Vikrant Gajria
+"""
+
 from rest_framework import permissions
 from .models import Event, Report
 
 
 class IsOwnerOfEvent(permissions.BasePermission):
+    """ This permission class checks whether the user
+        is owner of event which is getting called.
+        However it depends on the fact that the
+        request data has an "event" model field relation,
+        such as ForeignKey or OneToOneField. """
+    
     message = "You are not the owner of this event!"
 
     def has_permission(self, request, view):
@@ -24,6 +40,13 @@ class IsOwnerOfEvent(permissions.BasePermission):
 
 
 class IsOwnerOfReport(permissions.BasePermission):
+    """ This permission class checks whether the user
+        is owner of report which is getting called.
+        However it depends on the fact that the
+        request data has a "report" model field relation,
+        such as ForeignKey or OneToOneField. 
+        NOTE: May be deprecated if Image model is removed! """
+    
     message = "You are not the owner of this report!"
 
     def has_permission(self, request, view):

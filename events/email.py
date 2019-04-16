@@ -1,5 +1,7 @@
 from django.core.mail import EmailMessage
-from .utility import get_recipients
+
+from authapp.models import User
+from .models import Department
 
 
 def create_mail(EventName, EventStartDate, teacher_name, event_obj):
@@ -33,3 +35,20 @@ def send_mail(filename, teacher_name, event_obj):
     # attach the file to the email
     email.attach_file(file_path)
     email.send()
+
+# --> Utility <--
+
+def get_recipients(event_obj):
+    departments = Department.objects.filter(event=event_obj)
+    recipients = list()
+    for d in departments:
+        users = User.objects.filter(department=d.department)
+        recipients.extend([u.email for u in users])    
+    recipients.extend(RECIPIENTS)
+    return recipients
+
+# add vice principal and any other email id's you wish to append
+RECIPIENTS = [
+    "vikrantgajria@gmail.com",
+]
+

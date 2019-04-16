@@ -1,16 +1,16 @@
-from django.shortcuts import HttpResponse, get_object_or_404
-from rest_framework import viewsets, status, serializers
+from datetime import datetime
+
+from django.shortcuts import HttpResponse
+from django.contrib.auth.decorators import login_required
+from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from django.contrib.auth.decorators import login_required
-from datetime import datetime, timedelta
 
 from authapp.models import User
 from .email import send_mail
 from .models import *
 from .serializers import *
-from .utility import get_date
 from .permissions import IsOwnerOfEvent, IsOwnerOfReport
 
 from .doc_gen import render_report, generate_month_csv
@@ -19,6 +19,7 @@ from .doc_gen import render_report, generate_month_csv
 # <-- Viewsets -->
 
 class EventViewSet(viewsets.ModelViewSet):
+    """ This viewset is for the, well, focus of the product. """
     queryset = Event.objects.all()
     serializer_class = EventSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
@@ -28,6 +29,8 @@ class EventViewSet(viewsets.ModelViewSet):
 
 
 class ReportViewSet(viewsets.ModelViewSet):
+    """ An event can have only 1 report.
+        The report can be added only by the poster. """
     queryset = Report.objects.all()
     serializer_class = ReportWithEventSerializer
     permission_classes = [IsAuthenticatedOrReadOnly, IsOwnerOfEvent]
@@ -36,8 +39,7 @@ class ReportViewSet(viewsets.ModelViewSet):
 class ImageViewSet(viewsets.ModelViewSet):
     """ Adds Images to Report of an event. 
         PDF is generated only after we add an image.
-        ! Deprecated in the next release.
-    """
+        ! Deprecated in the next release. """
     queryset = Image.objects.all()
     serializer_class = ImageSerializer
     permission_classes = [IsAuthenticatedOrReadOnly, IsOwnerOfReport]
@@ -190,7 +192,8 @@ def send_pdf(request, pk):
         report = Report.objects.get(id=pk)
         event_obj = report.event
         name = report.event.name
-        date = get_date(event_obj)
+        start_date = str(min(map(lambda e: e.start, event_obj.dates.all())))
+        date = start_date[:10]
         filename = "{}${}.pdf".format(name, date)
         response = HttpResponse(content_type="text/pdf")
         teacher_name = request.user.first_name + " " + request.user.last_name
