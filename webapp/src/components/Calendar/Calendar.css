@@ -1,0 +1,111 @@
+
+/* VARIABLES */
+
+:root {
+    --theme-purple: rgb(0, 49, 113);
+    --theme-purple-light: rgba(0, 49, 113, 0.7);
+    --theme-purple-lighter: rgba(0, 49, 113, 0.5);
+    --theme-purple-lightest: rgba(0, 49, 113, 0.2);
+    --theme-orange: rgba(245, 90, 42, 0.3);
+    --theme-green: rgb(67,160,71);
+    --theme-dark-green: rgb(46,125,50);
+}
+
+/* CONTAINER */
+
+.calendar-container {
+    height: inherit;
+    width: inherit;
+
+    display: flex;
+    flex-direction: column;
+
+    padding: 8px;
+    padding-bottom: -16px;
+}
+
+/* TOOLBAR */
+
+.rbc-row.rbc-time-header-cell {
+    height: 3rem;
+}
+
+@media (min-width: 320px) and (max-width: 480px) {
+    .rbc-toolbar {
+        flex-direction: column;
+    }    
+}
+
+.rbc-btn-group > button {
+    background: none;
+    border: 1.2px solid var(--theme-purple);
+    color: var(--theme-purple);
+    font-weight: bold;
+}
+
+.rbc-btn-group > button:hover {
+    background: none;
+    border: 1.2px solid var(--theme-purple-light);
+    color: var(--theme-purple-light);
+}
+
+.rbc-btn-group > button:focus {
+    background: var(--theme-purple);
+    border: none;
+    color: white;
+}
+
+.rbc-btn-group > button.rbc-active,
+.rbc-btn-group > button.rbc-active:focus {
+    background: var(--theme-purple);
+    border: none;
+    color: white;
+}
+
+.rbc-btn-group > button.rbc-active:hover {
+    background: var(--theme-purple-light);
+    border: none;
+    color: white;
+}
+
+.rbc-toolbar-label {
+    color: var(--theme-purple);
+    font-weight: bolder;
+    font-size: 1.6rem;
+}
+
+/* TABLE */
+
+.rbc-header {
+    font-weight: normal;
+    color: rgba(0, 0, 0, 0.9);
+}
+
+.rbc-date-cell {
+    font-size: 1rem;
+}
+
+.rbc-off-range {
+    color: rgba(0, 0, 0, 0.6);
+}
+
+.rbc-off-range-bg {
+    background: var(--theme-purple-lightest);
+}
+.rbc-off-range-bg.rbc-selected-cell {
+    background: var(--theme-purple-lighter);
+}
+
+.rbc-today {
+    background: var(--theme-orange);
+}
+
+/* EVENTS */
+
+.rbc-event {
+    background: var(--theme-green);
+}
+
+.rbc-event.rbc-selected {
+    background: var(--theme-dark-green);
+}
