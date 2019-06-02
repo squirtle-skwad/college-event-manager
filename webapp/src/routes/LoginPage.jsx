@@ -15,7 +15,13 @@ import {
 
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { makeStyles } from '@material-ui/core/styles';
+import { Redirect } from 'react-router-dom';
+import { useFormState } from 'react-use-form-state';
+
+import lsHelpers from 'util/storage-helpers';
+import client from 'util/client';
 import CoverImage from 'img/coverImage.jpg';
+import Axios from 'axios';
 
 function MadeWithLove() {
   return (
@@ -53,16 +59,35 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function SignInSide() {
+function SignInSide() {
   const classes = useStyles();
+  const [isLoggedIn, setLoggedIn] = React.useState(lsHelpers.useAuthToken());
+
+  const [formState, formInputs] = useFormState({
+    rememberMe: lsHelpers.getRememberMe(),
+  });
+
+  const onSubmit = React.useCallback((e) => {
+    e.preventDefault();
+    const { username, password, rememberMe } = formState.values;
+
+    client.login(username, password)
+      .then(() => setLoggedIn(true))
+      .catch(console.error);
+    lsHelpers.setRememberMe(rememberMe);
+  });
+
+  if (isLoggedIn) {
+    return <Redirect to="/" />;
+  }
 
   return (
     <Grid container component="main" className={classes.root}>
       <Grid
         item
         xs={false}
-        sm={4} 
-        md={7} 
+        sm={4}
+        md={7}
         style={{
           display: 'flex',
         }}
@@ -80,17 +105,18 @@ export default function SignInSide() {
           <Typography component="h1" variant="h6">
             Sign in
           </Typography>
-          <form className={classes.form} noValidate>
+          <form className={classes.form} noValidate onSubmit={onSubmit}>
             <TextField
               variant="outlined"
               margin="normal"
               required
               fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
+              id="username"
+              label="Username"
+              name="username"
+              autoComplete="username"
               autoFocus
+              {...formInputs.text('username')}
             />
             <TextField
               variant="outlined"
@@ -102,9 +128,10 @@ export default function SignInSide() {
               type="password"
               id="password"
               autoComplete="current-password"
+              {...formInputs.password('password')}
             />
             <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
+              control={<Checkbox {...formInputs.checkbox('rememberMe')} value="remember" color="primary" />}
               label="Remember me"
             />
             <Button
@@ -122,6 +149,11 @@ export default function SignInSide() {
                   Forgot password?
                 </Link>
               </Grid>
+              <Grid item>
+                <Link href="#" variant="body2">
+                  {"Don't have an account? Sign Up"}
+                </Link>
+              </Grid>
             </Grid>
             <Box mt={5}>
               <MadeWithLove />
@@ -132,3 +164,5 @@ export default function SignInSide() {
     </Grid>
   );
 }
+
+export default SignInSide;
