@@ -5,7 +5,7 @@ import lsHelpers from 'util/storage-helpers';
 
 const BASE_URL = 'http://127.0.0.1:8000';
 
-class Client {
+class TokenManagerClient {
   constructor(baseUrl) {
     this.baseUrl = baseUrl;
     this.endpoint = url => BASE_URL + url;
@@ -25,11 +25,8 @@ class Client {
   put = (url, data, options = {}) => axios.put(this.endpoint(url), data, { ...this.defaultOptions(), ...options });
   delete = (url, options = {}) => axios.delete(this.endpoint(url), { ...this.defaultOptions(), ...options });
 
-  login = async (username, password) => {
-    let r = await axios.post(this.endpoint`/auth/token/login`, {
-      username,
-      password,
-    });
+  login = async (loginForm) => {
+    let r = await axios.post(this.endpoint`/auth/token/login`, loginForm);
     const { auth_token } = r.data;
     lsHelpers.setAuthToken(auth_token);
     this.auth_token = auth_token;
@@ -40,6 +37,15 @@ class Client {
 
     return id || null;
   }
+
+  signup = async (signupForm) => {
+    let r = await axios.post(this.endpoint`/signup`, signupForm);
+    
+  }
 }
 
-export default new Client(BASE_URL);
+export default new TokenManagerClient(BASE_URL);
+export {
+  BASE_URL,
+  TokenManagerClient,
+};

@@ -9,12 +9,14 @@ import MomentUtils from '@date-io/moment';
 
 import HomePage from 'routes/HomePage';
 import LoginPage from 'routes/LoginPage';
+import SignupPage from 'routes/SignupPage';
 
 function AppContent() {
   return (
     <main className="App">
-      <Route path="/" exact component={HomePage} />
-      <Route path="/login" exact component={LoginPage} />
+      <Route exact path="/" component={HomePage} />
+      <Route exact path="/login" component={LoginPage} />
+      <Route exact path="/signup" component={SignupPage} />
     </main>
   );
 }

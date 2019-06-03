@@ -6,22 +6,20 @@ import {
   TextField,
   FormControlLabel,
   Checkbox,
-  Link,
+  Link as StyledLink,
   Paper,
   Box,
   Grid,
   Typography,
 } from '@material-ui/core';
-
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { makeStyles } from '@material-ui/core/styles';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import { useFormState } from 'react-use-form-state';
 
 import lsHelpers from 'util/storage-helpers';
 import client from 'util/client';
 import CoverImage from 'img/coverImage.jpg';
-import Axios from 'axios';
 
 function MadeWithLove() {
   return (
@@ -114,7 +112,6 @@ function SignInSide() {
               id="username"
               label="Username"
               name="username"
-              autoComplete="username"
               autoFocus
               {...formInputs.text('username')}
             />
@@ -127,7 +124,6 @@ function SignInSide() {
               label="Password"
               type="password"
               id="password"
-              autoComplete="current-password"
               {...formInputs.password('password')}
             />
             <FormControlLabel
@@ -145,14 +141,14 @@ function SignInSide() {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="#" variant="body2">
+                <StyledLink component={Link} to="/login" variant="body2">
                   Forgot password?
-                </Link>
+                </StyledLink>
               </Grid>
               <Grid item>
-                <Link href="#" variant="body2">
+                <StyledLink component={Link} to="/signup" variant="body2">
                   {"Don't have an account? Sign Up"}
-                </Link>
+                </StyledLink>
               </Grid>
             </Grid>
             <Box mt={5}>

@@ -13,6 +13,7 @@
     "lodash": "^4.17.11",
     "material-ui-pickers": "^2.2.4",
     "moment": "^2.24.0",
+    "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-big-calendar": "^0.21.0",
     "react-dom": "^16.8.6",
@@ -21,6 +22,7 @@
     "react-scripts": "3.0.1",
     "react-use-form-state": "^0.10.2",
     "redux": "^4.0.1",
+    "redux-logger": "^3.0.6",
     "redux-react-hook": "^3.3.2"
   },
   "scripts": {
