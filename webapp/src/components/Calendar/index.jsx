@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 
 import BigCalendar from 'react-big-calendar';
 import moment from 'moment';

@@ -40,7 +40,6 @@ class TokenManagerClient {
 
   signup = async (signupForm) => {
     let r = await axios.post(this.endpoint`/signup`, signupForm);
-    
   }
 }
 

@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { makeStyles } from '@material-ui/core/styles';
 
 import Calendar from 'components/Calendar';
