@@ -18,6 +18,7 @@
     "react-big-calendar": "^0.21.0",
     "react-dom": "^16.8.6",
     "react-dropzone": "^10.1.5",
+    "react-hanger": "^2.0.0",
     "react-router-dom": "^5.0.0",
     "react-scripts": "3.0.1",
     "react-use-form-state": "^0.10.2",

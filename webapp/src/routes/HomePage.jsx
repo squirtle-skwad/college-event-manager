@@ -2,6 +2,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
 import Calendar from 'components/Calendar';
+import EventsDrawer from 'components/EventDrawer';
 
 const useStyles = makeStyles({
   homeContainer: {
@@ -18,6 +19,7 @@ function HomePage() {
   return (
     <main className={classes.homeContainer}>
       <Calendar />
+      <EventsDrawer />
     </main>
   );
 }

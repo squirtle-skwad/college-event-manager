@@ -8407,6 +8407,11 @@ react-event-listener@^0.6.6:
     prop-types "^15.6.0"
     warning "^4.0.1"
 
+react-hanger@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/react-hanger/-/react-hanger-2.0.0.tgz#c0d3e71f09995d5c9434ca85e743b0fa38058c33"
+  integrity sha512-lJsnEgZl+01N9WLPjbv2HZllKIyfNDh4TKZ3tudEVY8VpRmO2gtDp3fWUKuUmp05uwQL/4xf+q10yzPK3/dQ0g==
+
 react-is@^16.3.2, react-is@^16.6.0, react-is@^16.7.0, react-is@^16.8.0, react-is@^16.8.1, react-is@^16.8.4:
   version "16.8.6"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.8.6.tgz#5bbc1e2d29141c9fbdfed456343fe2bc430a6a16"
