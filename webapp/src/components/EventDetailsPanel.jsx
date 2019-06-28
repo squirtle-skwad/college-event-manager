@@ -3,10 +3,9 @@ import React from 'react';
 import {
   Button,
   TextField,
-  Typography,
-  ExpansionPanel,
-  ExpansionPanelSummary,
-  ExpansionPanelDetails,
+  ListItem,
+  ListItemText,
+  ListItemIcon,
 } from '@material-ui/core';
 import {
   ExpandMore as ExpandMoreIcon,
@@ -14,8 +13,10 @@ import {
   Delete as DeleteIcon,
   Edit as EditIcon,
   FileCopy as FileIcon,
+  Done as DoneIcon,
 } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
+import { Link } from 'react-router-dom';
 import { useBoolean } from 'react-hanger';
 
 import client, { BASE_URL as ENDPOINT } from 'util/client';
@@ -233,19 +234,12 @@ function EventDetails({ event }) {
   // -----
 
   return (
-    <ExpansionPanel defaultExpanded>
-      <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-        <Typography>{event.title}</Typography>
-      </ExpansionPanelSummary>
-      <ExpansionPanelDetails style={{ flexDirection: 'column' }}>
-        <EventFields />
-        <ReportFields />
-
-        <FillReportButton />
-        <ReportAvailableButtons />
-        <ControlButtons />
-      </ExpansionPanelDetails>
-    </ExpansionPanel>
+    <ListItem component={Link} to="/event">
+      <ListItemIcon>
+        {event.report ? <DoneIcon /> : <FileIcon />}
+      </ListItemIcon>
+      <ListItemText primary={event.title} secondary={event.organizer} />
+    </ListItem>
   );
 }
 

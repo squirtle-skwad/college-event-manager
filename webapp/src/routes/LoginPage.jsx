@@ -68,8 +68,11 @@ function SignInSide() {
   const onSubmit = React.useCallback((e) => {
     e.preventDefault();
     const { username, password, rememberMe } = formState.values;
+    const form = new FormData();
+    form.set('username', username);
+    form.set('password', password);
 
-    client.login(username, password)
+    client.login(form)
       .then(() => setLoggedIn(true))
       .catch(console.error);
     lsHelpers.setRememberMe(rememberMe);

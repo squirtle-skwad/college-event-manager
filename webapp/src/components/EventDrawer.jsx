@@ -4,6 +4,7 @@ import {
   Fab,
   Drawer,
   List,
+  Typography,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Add as AddIcon } from '@material-ui/icons';
@@ -17,6 +18,19 @@ import { act, useDispatch, useMappedState } from 'store';
 const useStyles = makeStyles({
   closeButton: {
     marginRight: 8,
+  },
+
+  drawer: {
+    overflow: 'auto',
+    display: 'flex',
+    flexDirection: 'column',
+    padding: '1rem',
+    justifyItems: 'center',
+  },
+
+  drawerContent: {
+    minWidth: '40vw',
+    marginTop: '4rem',
   },
 
   fab: {
@@ -45,7 +59,7 @@ function DayDrawer(props) {
   const dispatch = useDispatch();
 
   const addFabOnClick = useCallback(
-    () => dispatch(act.ADD_EVENT_FROM_DAY_Drawer()),
+    () => dispatch(act.ADD_EVENT_FROM_DAY_DIALOG()),
     [],
   );
   const closeDrawerCallback = useCallback(
@@ -60,8 +74,8 @@ function DayDrawer(props) {
   }, []);
 
   useEffect(() => {
-    document.addEventListener("keydown", escListener, false);
-    return () => document.addEventListener("keydown", escListener, false);
+    document.addEventListener('keydown', escListener, false);
+    return () => document.addEventListener('keydown', escListener, false);
   });
 
   // -----
@@ -74,12 +88,14 @@ function DayDrawer(props) {
 
   return (
     <Drawer open={!!clickEvent}>
-      <List style={{
-        width: '100px',
-      }}
-      >
-        {eventPanels}
-      </List>
+      <section className={classes.drawerContent}>
+        <Typography component="h1" variant="h4">
+          {heading}
+        </Typography>
+        <List>
+          {eventPanels}
+        </List>
+      </section>
 
       <AddFab
         className={classes.fab}

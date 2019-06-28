@@ -18,7 +18,11 @@ from django.urls import path, include
 from django.conf.urls.static import static
 from . import settings
 
+from .schema import schema
+from graphene_django.views import GraphQLView
+
 urlpatterns = [
+    path("graphql", GraphQLView.as_view(graphiql=True, schema=schema)),
     path("", include("authapp.urls")),
     path("", include("events.urls")),
     path("auth/", include("djoser.urls")),
