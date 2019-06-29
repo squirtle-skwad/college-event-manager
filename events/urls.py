@@ -14,23 +14,9 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path, include
-
-from rest_framework import routers
-
 from . import views
 
-router = routers.DefaultRouter()
-router.register("events", views.EventViewSet)
-router.register("reports", views.ReportViewSet)
-router.register("images", views.ImageViewSet)
-router.register("departments", views.DepartmentViewSet)
-router.register("dates", views.DatesViewSet)
-router.register("event-calendar", views.CalendarViewSet)
-
 urlpatterns = [
-    path("", include(router.urls)),
-    path("dates-multiple/", views.dates_multiple, name="dates_multiple"),
-    path("depts-multiple/", views.depts_multiple, name="depts_multiple"),
     path(
         "month-report/<int:month>/<int:year>", views.month_report, name="month_report"
     ),
@@ -44,16 +30,5 @@ urlpatterns = [
         views.report_pdf_preview,
         name="report_pdf_preview",
     ),
-    path("profile/event-list", views.get_event_list, name="event_list"),
     path("send-pdf/<int:pk>", views.send_pdf, name="send_pdf"),
-    path(
-        "event-calendar/<int:year>/<int:month>/<int:date>", 
-        views.event_list_by_date, 
-        name="date_request",
-    ),
-    path(
-        "event-calendar/<int:year>/<int:month>",
-        views.event_list_by_month,
-        name="month_request",
-    ),
 ]

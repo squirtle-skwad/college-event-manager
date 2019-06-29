@@ -2,8 +2,8 @@ import graphene
 from graphene_django.types import DjangoObjectType, Field
 from graphene_django.rest_framework.mutation import SerializerMutation
 
-from events.models import Event, Department, Dates, Report, Image
-from events.serializers import *
+from events.models import Event, Department, Date, Report, Image
+from events.serializers import EventSerializer, ImageSerializer 
 
 
 #############
@@ -26,7 +26,7 @@ class DateType(DjangoObjectType):
     all_day = Field(graphene.Boolean, default_value=True)
 
     class Meta:
-        model = Dates
+        model = Date
 
 class DepartmentType(DjangoObjectType):
     class Meta:
@@ -63,22 +63,35 @@ class Query(graphene.ObjectType):
         return Report.objects.get(event=event_id)
 
     def resolve_all_dates(self, info, **kwargs):
-        return Dates.objects.all()
+        return Date.objects.all()
 
     def resolve_date(self, info, event_id):
-        return Dates.objects.get_all(event=event_id)
+        return Date.objects.get_all(event=event_id)
 
 
 #############
 # Mutations #
 #############
 
-# class Mutation(graphene.ObjectType): pass
-    # mutate_event = EventMutation.Field()
+class EventMutation(SerializerMutation):
+    class Meta:
+        serializer_class = EventSerializer 
+        model_operations = ['create', 'update']
+        lookup_field = 'id'
+
+class ImageMutation(SerializerMutation):
+    class Meta:
+        serializer_class = ImageSerializer 
+        model_operations = ['create', 'update']
+        lookup_field = 'id'
+
+class Mutation(graphene.ObjectType):
+    mutate_event = EventMutation.Field()
+    mutate_image = ImageMutation.Field()
 
 
 ##########
 # Schema #
 ##########
 
-schema = graphene.Schema(query=Query)
+schema = graphene.Schema(query=Query, mutation=Mutation)

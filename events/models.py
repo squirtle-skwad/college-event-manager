@@ -8,7 +8,7 @@ class Event(models.Model):
     expert_name = models.CharField(max_length=256, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
     organizer = models.TextField(null=True, blank=True)
-    creator = models.ForeignKey(authmodels.User, on_delete=models.CASCADE)
+    creator = models.ForeignKey(authmodels.User, on_delete=models.CASCADE, null=True)
     PO1 = models.CharField(max_length=6, choices=choices.OPTIONS, default="0")
     PO2 = models.CharField(max_length=6, choices=choices.OPTIONS, default="0")
     PO3 = models.CharField(max_length=6, choices=choices.OPTIONS, default="0")
@@ -39,7 +39,7 @@ class Department(models.Model):
     )
 
 
-class Dates(models.Model):
+class Date(models.Model):
     event = models.ForeignKey(Event, related_name="dates", on_delete=models.CASCADE)
     start = models.DateTimeField()
     end = models.DateTimeField()
